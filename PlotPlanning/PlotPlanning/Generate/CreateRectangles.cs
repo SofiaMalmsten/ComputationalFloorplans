@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning
 {
-    public class ProjectPoints : GH_Component
+    public class CreateRectangles : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,7 +20,7 @@ namespace PlotPlanning
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public ProjectPoints()
+        public CreateRectangles()
           : base("PlotPlanning", "Generate2DLayout",
               "Description",
               "SitePlanning", "Generate")
@@ -32,7 +32,9 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("pt", "pt", "this is a point", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("baseRectangle", "rec", "rectangle that should be places on lines", GH_ParamAccess.item);
+            pManager.AddPointParameter("position", "pos", "base positipon for the rectangles", GH_ParamAccess.list);
+            pManager.AddVectorParameter("tanVector", "tan", "tangent vector for the line", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -40,7 +42,7 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("pt", "pt", "this is a point", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("rectangles", "rec", "placed rectangles", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -50,11 +52,54 @@ namespace PlotPlanning
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Point3d pt2 = new Point3d();
-            if (!DA.GetData(0, ref pt2))
+            //Create class instances
+            Rectangle3d baseRectangle = new Rectangle3d();
+            List<Point3d> Points = new List<Point3d>();
+            List<Vector3d> tan = new List<Vector3d>();
+
+            if (!DA.GetData(0, ref baseRectangle))
             return;
 
-            DA.SetData(0, pt2);
+            if (!DA.GetDataList(1, Points))
+                return;
+
+            if (!DA.GetDataList(2, tan))
+                return;
+
+            //Calculate
+            double wDim = baseRectangle.Width;
+            double hDim = baseRectangle.Height;
+            Vector3d unitZ = new Vector3d(0, 0, 1);
+
+            List<Point3d> movedPts = new List<Point3d>();
+            List<Polyline> pLines = new List<Polyline>();
+
+            //======================================================
+            //Create Polyline
+            //======================================================
+            for (int i = 0; i < Points.Count; i++)
+            {
+                //create points
+                Point3d pt0 = Points[i];
+                Point3d pt1 = pt0 + tan[i] * hDim;
+                Point3d pt2 = pt1 + Vector3d.CrossProduct(tan[i], unitZ) * (wDim);
+                Point3d pt3 = pt2 - tan[i] * hDim;
+                Point3d pt4 = pt0;
+
+                //add points
+                movedPts.Add(pt0);
+                movedPts.Add(pt1);
+                movedPts.Add(pt2);
+                movedPts.Add(pt3);
+                movedPts.Add(pt4);
+
+                Polyline pLine = new Polyline(movedPts);
+                pLines.Add(pLine);
+            }
+
+
+            //Set data for the outputs
+            DA.SetDataList(0, pLines);
         }
 
         /// <summary>
@@ -66,10 +111,12 @@ namespace PlotPlanning
             get
             {
                 // You can add image files to your project resources and access them like this:
-                //return Resources.IconForThisComponent;
+               // return Resources.IconForThisComponent;
                 return null;
             }
         }
+
+
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 

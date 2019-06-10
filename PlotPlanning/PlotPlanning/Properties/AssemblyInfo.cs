@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PlotPlanning")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This tool places module houses on a site. It is based on a generative design approach")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Architude")]
 [assembly: AssemblyProduct("PlotPlanning")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
