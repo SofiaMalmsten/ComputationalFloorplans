@@ -56,10 +56,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProjectPoints.cs" />
-    <Compile Include="Generate2dLayout.cs" />
+    <Compile Include="Generate\ProjectPoints.cs" />
+    <Compile Include="Generate\Generate2dLayout.cs" />
     <Compile Include="PlotPlanningInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Evaluate\" />
+    <Folder Include="Evolve\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

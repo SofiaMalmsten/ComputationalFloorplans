@@ -50,6 +50,11 @@ namespace PlotPlanning
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            Point3d pt2 = new Point3d();
+            if (!DA.GetData(0, ref pt2))
+            return;
+
+            DA.SetData(0, pt2);
         }
 
         /// <summary>
