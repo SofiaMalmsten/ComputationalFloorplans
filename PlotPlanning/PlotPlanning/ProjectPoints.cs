@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning
 {
-    public class PlotPlanningComponent : GH_Component
+    public class ProjectPoints : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,10 +20,10 @@ namespace PlotPlanning
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public PlotPlanningComponent()
-          : base("PlotPlanning", "Nickname",
+        public ProjectPoints()
+          : base("PlotPlanning", "Generate2DLayout",
               "Description",
-              "Category", "Generate")
+              "SitePlanning", "Generate")
         {
         }
 
@@ -32,6 +32,7 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddPointParameter("pt", "pt", "this is a point", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -39,6 +40,7 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddPointParameter("pt", "pt", "this is a point", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -71,7 +73,9 @@ namespace PlotPlanning
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff1"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff2"); }
         }
     }
+
+
 }
