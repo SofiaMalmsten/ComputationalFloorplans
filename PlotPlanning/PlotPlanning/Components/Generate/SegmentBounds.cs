@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public SegmentBounds()
           : base("SegmentBounds", "bounds",
               "Creates lines to place houses on",
-              "SitePlanningTool", "Generate")
+              "PlotPlanningTool", "Generate")
         {
         }
 

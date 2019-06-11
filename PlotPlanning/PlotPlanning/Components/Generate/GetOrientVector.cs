@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public GetOrientVector()
           : base("PlotPlanning", "GetOrientVectors",
               "Creates accesspoints on a line",
-              "SitePlanningTool", "Generate")
+              "PlotPlanningTool", "Generate")
         {
         }
 

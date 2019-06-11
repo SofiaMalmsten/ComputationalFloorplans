@@ -25,7 +25,7 @@ namespace PlotPlanning.Components
         public GenerateNewBoundaries()
           : base("ConvexHull", "cHull",
               "Chull",
-              "SitePlanningTool", "Generate")
+              "PlotPlanningTool", "Generate")
         {
         }
 
