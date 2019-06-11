@@ -3,15 +3,17 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using PlotPlanning.Methods;
+using GeometryBase;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace PlotPlanning
+namespace PlotPlanning.Components
 {
-    public class SegmentBounds : GH_Component
+    public class GenerateNewBoundaries : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,9 +22,9 @@ namespace PlotPlanning
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public SegmentBounds()
-          : base("SegmentBounds", "bounds",
-              "Creates lines to place houses on",
+        public GenerateNewBoundaries()
+          : base("ConvexHull", "cHull",
+              "Chull",
               "SitePlanningTool", "Generate")
         {
         }
@@ -32,10 +34,7 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("bounds", "bounds", "siteBoundaries", GH_ParamAccess.item);
-            pManager.AddRectangleParameter("rectangle", "rec", "rectanlge to place on the site", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("seed", "seed", "change seed in order to change plot layout", GH_ParamAccess.item);
-            pManager.AddNumberParameter("cornerRadius", "cornerRad", "define a radius in order to avoid creating houses in corners", GH_ParamAccess.item);
+            pManager.AddPointParameter("pt", "pt", "pt", GH_ParamAccess.list);
 
         }
 
@@ -44,8 +43,7 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("allLines", "allLines", "all possible lines", GH_ParamAccess.list);
-            pManager.AddLineParameter("currentLine", "currLine", "current line to place houses on", GH_ParamAccess.item);
+            pManager.AddCurveParameter("hull", "hull", "all possible lines", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -56,55 +54,18 @@ namespace PlotPlanning
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 
-
-
             //define instances
-            Curve pline = new PolylineCurve();
+            List<Point3d> ptList = new List<Point3d>();
            
-            Rectangle3d rectangle = new Rectangle3d();
-            int seed = 0;
-            double cornerRadius=0;
-
-
             //Get data
-            if (!DA.GetData(0, ref pline))
-                return;
-
-            if (!DA.GetData(1, ref rectangle))
-                return;
-
-            if (!DA.GetData(2, ref seed))
-                return;
-
-            if (!DA.GetData(3, ref cornerRadius))
+            if (!DA.GetDataList(0, ptList))
                 return;
 
             //Calculate
+            Polyline hull = Calculate.ConvexHull(ptList);
 
-            PolylineCurve siteBound2 = pline as PolylineCurve;
-            Polyline siteBound = siteBound2.ToPolyline();
-
-            List<double> lengths = new List<double>();
-                List<Line> segments = new List<Line>();
-
-                double segmentWidth = rectangle.Width;
-                double segmentHeight = rectangle.Height;
-
-                double shortestSegm = Math.Min(segmentWidth, segmentHeight);
-
-                foreach (var segm in siteBound.GetSegments())
-                {
-
-                    segm.Extend(cornerRadius * -1, cornerRadius * -1);
-                    if (segm.Length > shortestSegm)
-                    {
-                        segments.Add(segm);
-                    }
-
-                }
-
-            DA.SetDataList(0, segments);
-            DA.SetData(1, segments[seed]);
+            //Set data
+            DA.SetData(0, hull);
 
         }
 
@@ -128,7 +89,7 @@ namespace PlotPlanning
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff1"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff5"); }
         }
     }
 

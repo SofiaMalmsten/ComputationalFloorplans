@@ -9,7 +9,7 @@ using Rhino.Geometry;
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace PlotPlanning
+namespace PlotPlanning.Components
 {
     public class CreateAccesspoints : GH_Component
     {

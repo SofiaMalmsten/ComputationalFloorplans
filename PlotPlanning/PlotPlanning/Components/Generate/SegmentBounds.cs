@@ -9,9 +9,9 @@ using Rhino.Geometry;
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace PlotPlanning
+namespace PlotPlanning.Components
 {
-    public class GetOrientVector : GH_Component
+    public class SegmentBounds : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,9 +20,9 @@ namespace PlotPlanning
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public GetOrientVector()
-          : base("PlotPlanning", "GetOrientVectors",
-              "Creates accesspoints on a line",
+        public SegmentBounds()
+          : base("SegmentBounds", "bounds",
+              "Creates lines to place houses on",
               "SitePlanningTool", "Generate")
         {
         }
@@ -32,8 +32,11 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("point", "pt", "points to evaluate", GH_ParamAccess.list);
-            pManager.AddLineParameter("line", "ln", "line points are on", GH_ParamAccess.item);
+            pManager.AddCurveParameter("bounds", "bounds", "siteBoundaries", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("rectangle", "rec", "rectanlge to place on the site", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("seed", "seed", "change seed in order to change plot layout", GH_ParamAccess.item);
+            pManager.AddNumberParameter("cornerRadius", "cornerRad", "define a radius in order to avoid creating houses in corners", GH_ParamAccess.item);
+
         }
 
         /// <summary>
@@ -41,8 +44,8 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddVectorParameter("tanVec", "tanVec", "tanVector", GH_ParamAccess.list);
-            pManager.AddVectorParameter("normVec", "normVec", "normVector", GH_ParamAccess.list);
+            pManager.AddLineParameter("allLines", "allLines", "all possible lines", GH_ParamAccess.list);
+            pManager.AddLineParameter("currentLine", "currLine", "current line to place houses on", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -52,38 +55,57 @@ namespace PlotPlanning
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            //Create class instances
-            List<Point3d> Points = new List<Point3d>();
-            Line line = new Line();
 
-            if (!DA.GetDataList(0, Points))
+
+
+            //define instances
+            Curve pline = new PolylineCurve();
+           
+            Rectangle3d rectangle = new Rectangle3d();
+            int seed = 0;
+            double cornerRadius=0;
+
+
+            //Get data
+            if (!DA.GetData(0, ref pline))
                 return;
 
-            if (!DA.GetData(1, ref line))
+            if (!DA.GetData(1, ref rectangle))
                 return;
 
+            if (!DA.GetData(2, ref seed))
+                return;
+
+            if (!DA.GetData(3, ref cornerRadius))
+                return;
 
             //Calculate
 
-            Vector3d unitZ = new Vector3d(0, 0, 1);
-            List<Vector3d> tanList = new List<Vector3d>();
-            List<Vector3d> normList = new List<Vector3d>();
+            PolylineCurve siteBound2 = pline as PolylineCurve;
+            Polyline siteBound = siteBound2.ToPolyline();
 
-            //======================================================
-            //Curve closest point
-            //======================================================
-            for (int i = 0; i < Points.Count; i++)
-            {
-                Vector3d tan = line.UnitTangent;
-                tanList.Add(tan);
+            List<double> lengths = new List<double>();
+                List<Line> segments = new List<Line>();
 
-                Vector3d norm = Vector3d.CrossProduct(tan, unitZ);
-                normList.Add(norm);
-            }
+                double segmentWidth = rectangle.Width;
+                double segmentHeight = rectangle.Height;
 
-            //Set data for the outputs
-            DA.SetDataList(0, tanList);
-            DA.SetDataList(1, normList);
+                double shortestSegm = Math.Min(segmentWidth, segmentHeight);
+
+                foreach (var segm in siteBound.GetSegments())
+                {
+
+                    segm.Extend(cornerRadius * -1, cornerRadius * -1);
+                    if (segm.Length > shortestSegm)
+                    {
+                        segments.Add(segm);
+                    }
+
+                }
+
+            DA.SetDataList(0, segments);
+            DA.SetData(1, segments[seed]);
+
         }
 
         /// <summary>
@@ -95,12 +117,9 @@ namespace PlotPlanning
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
-                //return null;
+                return Properties.Resources.Generate;
             }
         }
-
-
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
@@ -109,7 +128,7 @@ namespace PlotPlanning
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff4"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff1"); }
         }
     }
 
