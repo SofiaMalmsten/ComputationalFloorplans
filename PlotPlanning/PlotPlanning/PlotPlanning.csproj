@@ -60,9 +60,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definitions\ConvexHull.cs" />
     <Compile Include="Generate\GetOrientVector.cs" />
     <Compile Include="Generate\CreateAccesspoints.cs" />
     <Compile Include="Generate\CreateRectangles.cs" />
+    <Compile Include="Generate\ConvexHull2D.cs" />
     <Compile Include="Generate\SegmentBounds.cs" />
     <Compile Include="PlotPlanningInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,7 +75,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Definitions\" />
     <Folder Include="Evaluate\" />
     <Folder Include="Evolve\" />
   </ItemGroup>
