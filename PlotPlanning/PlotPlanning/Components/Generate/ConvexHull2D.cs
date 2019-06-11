@@ -62,7 +62,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            Polyline hull = Calculate.ConvexHull(ptList);
+            Polyline hull = PlotPlanning.Methods.Calculate.ConvexHull(ptList);
 
             //Set data
             DA.SetData(0, hull);
