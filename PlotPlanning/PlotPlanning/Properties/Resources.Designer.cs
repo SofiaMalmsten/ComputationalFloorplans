@@ -63,9 +63,29 @@ namespace PlotPlanning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Evaluate {
+            get {
+                object obj = ResourceManager.GetObject("Evaluate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Generate {
             get {
                 object obj = ResourceManager.GetObject("Generate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Houses {
+            get {
+                object obj = ResourceManager.GetObject("Houses", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

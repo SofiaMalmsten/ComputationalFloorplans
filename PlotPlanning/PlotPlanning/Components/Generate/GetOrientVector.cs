@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public GetOrientVector()
-          : base("PlotPlanning", "GetOrientVectors",
+          : base("OrientVector", "GetOrientVectors",
               "Creates accesspoints on a line",
               "PlotPlanningTool", "Generate")
         {
@@ -95,7 +95,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
+                return Properties.Resources.Generate;
                 //return null;
             }
         }

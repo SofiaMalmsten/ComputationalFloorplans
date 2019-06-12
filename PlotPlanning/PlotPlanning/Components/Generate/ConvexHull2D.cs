@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Methods;
-using GeometryBase;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -78,7 +77,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Generate;
+                return Properties.Resources.Evaluate;
             }
         }
 

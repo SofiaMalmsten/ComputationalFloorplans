@@ -22,7 +22,7 @@ namespace PlotPlanning.Components
         /// 
         /// </summary>
         public HouseFootprint()
-          : base("PlotPlanning", "CreateRectangles",
+          : base("HOuseFootprint", "CreateRectangles",
               "Description",
               "PlotPlanningTool", "Generate")
         {
@@ -83,7 +83,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
+                return Properties.Resources.Houses;
                 //return null;
             }
         }

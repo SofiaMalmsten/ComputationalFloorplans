@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Accesspoints()
-          : base("PlotPlanning", "CreateAccesspoints",
+          : base("AccessPoints", "CreateAccesspoints",
               "Creates accesspoints on a line",
               "PlotPlanningTool", "Generate")
         {
@@ -89,7 +89,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
+                return Properties.Resources.Houses;
                 //return null;
             }
         }

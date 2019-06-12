@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotPlanning", "PlotPlanning\PlotPlanning.csproj", "{5E13A49B-9817-4A0E-B5F4-54F612FD1F15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryBase", "GeometryBase\GeometryBase.csproj", "{E92B494C-DA05-4B26-BB3E-883425470905}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{5E13A49B-9817-4A0E-B5F4-54F612FD1F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E13A49B-9817-4A0E-B5F4-54F612FD1F15}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E13A49B-9817-4A0E-B5F4-54F612FD1F15}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{E92B494C-DA05-4B26-BB3E-883425470905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E92B494C-DA05-4B26-BB3E-883425470905}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E92B494C-DA05-4B26-BB3E-883425470905}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{E92B494C-DA05-4B26-BB3E-883425470905}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
