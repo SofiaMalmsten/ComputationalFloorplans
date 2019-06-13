@@ -34,8 +34,8 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddRectangleParameter("baseRectangle", "rec", "rectangle that should be places on lines", GH_ParamAccess.item);
-            pManager.AddPointParameter("position", "pos", "base positipon for the rectangles", GH_ParamAccess.list);
-            pManager.AddVectorParameter("tanVector", "tan", "tangent vector for the line", GH_ParamAccess.list);
+            pManager.AddPointParameter("position", "pos", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddVectorParameter("tanVector", "tan", "tangent vector for the line", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddRectangleParameter("rectangles", "rec", "placed rectangles", GH_ParamAccess.list);
+            pManager.AddRectangleParameter("rectangles", "rec", "placed rectangles", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,23 +55,23 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             Rectangle3d baseRectangle = new Rectangle3d();
-            List<Point3d> Points = new List<Point3d>();
-            List<Vector3d> tan = new List<Vector3d>();
+            Point3d Points = new Point3d();
+            Vector3d tan = new Vector3d();
 
             if (!DA.GetData(0, ref baseRectangle))
             return;
 
-            if (!DA.GetDataList(1, Points))
+            if (!DA.GetData(1, ref Points))
                 return;
 
-            if (!DA.GetDataList(2, tan))
+            if (!DA.GetData(2, ref tan))
                 return;
 
             //Calculate
-            List<Polyline> pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, Points, tan);
+            Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, Points, tan);
 
             //Set data for the outputs
-            DA.SetDataList(0, pLines);
+            DA.SetData(0, pLines);
         }
 
         /// <summary>
