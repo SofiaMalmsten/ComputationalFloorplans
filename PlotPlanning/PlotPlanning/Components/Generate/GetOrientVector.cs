@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using PlotPlanning.Definitions;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace PlotPlanning
+namespace PlotPlanning.Components
 {
-    public class GenerateNewBoundaries : GH_Component
+    public class GetOrientVector : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,10 +20,10 @@ namespace PlotPlanning
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public GenerateNewBoundaries()
-          : base("ConvexHull", "cHull",
-              "Chull",
-              "SitePlanningTool", "Generate")
+        public GetOrientVector()
+          : base("OrientVector", "GetOrientVectors",
+              "Creates accesspoints on a line",
+              "PlotPlanningTool", "Generate")
         {
         }
 
@@ -33,8 +32,8 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("pt", "pt", "pt", GH_ParamAccess.list);
-
+            pManager.AddPointParameter("point", "pt", "points to evaluate", GH_ParamAccess.list);
+            pManager.AddLineParameter("line", "ln", "line points are on", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,7 +41,8 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("hull", "hull", "all possible lines", GH_ParamAccess.item);
+            pManager.AddVectorParameter("tanVec", "tanVec", "tanVector", GH_ParamAccess.list);
+            pManager.AddVectorParameter("normVec", "normVec", "normVector", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -52,20 +52,38 @@ namespace PlotPlanning
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //Create class instances
+            List<Point3d> Points = new List<Point3d>();
+            Line line = new Line();
 
-            //define instances
-            List<Point3d> ptList = new List<Point3d>();
-           
-            //Get data
-            if (!DA.GetDataList(0, ptList))
+            if (!DA.GetDataList(0, Points))
                 return;
 
+            if (!DA.GetData(1, ref line))
+                return;
+
+
             //Calculate
-            Polyline hull = Compute.ConvexHull(ptList);
 
-            //Set data
-            DA.SetData(0, hull);
+            Vector3d unitZ = new Vector3d(0, 0, 1);
+            List<Vector3d> tanList = new List<Vector3d>();
+            List<Vector3d> normList = new List<Vector3d>();
 
+            //======================================================
+            //Curve closest point
+            //======================================================
+            for (int i = 0; i < Points.Count; i++)
+            {
+                Vector3d tan = line.UnitTangent;
+                tanList.Add(tan);
+
+                Vector3d norm = Vector3d.CrossProduct(tan, unitZ);
+                normList.Add(norm);
+            }
+
+            //Set data for the outputs
+            DA.SetDataList(0, tanList);
+            DA.SetDataList(1, normList);
         }
 
         /// <summary>
@@ -78,8 +96,11 @@ namespace PlotPlanning
             {
                 // You can add image files to your project resources and access them like this:
                 return Properties.Resources.Generate;
+                //return null;
             }
         }
+
+
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
@@ -88,7 +109,7 @@ namespace PlotPlanning
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff5"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff4"); }
         }
     }
 

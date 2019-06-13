@@ -9,9 +9,9 @@ using Rhino.Geometry;
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace PlotPlanning
+namespace PlotPlanning.Components
 {
-    public class GetOrientVector : GH_Component
+    public class HouseFootprint : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -19,11 +19,12 @@ namespace PlotPlanning
         /// Category represents the Tab in which the component will appear, 
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
+        /// 
         /// </summary>
-        public GetOrientVector()
-          : base("PlotPlanning", "GetOrientVectors",
-              "Creates accesspoints on a line",
-              "SitePlanningTool", "Generate")
+        public HouseFootprint()
+          : base("HOuseFootprint", "CreateRectangles",
+              "Description",
+              "PlotPlanningTool", "Generate")
         {
         }
 
@@ -32,8 +33,9 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("point", "pt", "points to evaluate", GH_ParamAccess.list);
-            pManager.AddLineParameter("line", "ln", "line points are on", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("baseRectangle", "rec", "rectangle that should be places on lines", GH_ParamAccess.item);
+            pManager.AddPointParameter("position", "pos", "base positipon for the rectangles", GH_ParamAccess.list);
+            pManager.AddVectorParameter("tanVector", "tan", "tangent vector for the line", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -41,8 +43,7 @@ namespace PlotPlanning
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddVectorParameter("tanVec", "tanVec", "tanVector", GH_ParamAccess.list);
-            pManager.AddVectorParameter("normVec", "normVec", "normVector", GH_ParamAccess.list);
+            pManager.AddRectangleParameter("rectangles", "rec", "placed rectangles", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -53,37 +54,24 @@ namespace PlotPlanning
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
+            Rectangle3d baseRectangle = new Rectangle3d();
             List<Point3d> Points = new List<Point3d>();
-            Line line = new Line();
+            List<Vector3d> tan = new List<Vector3d>();
 
-            if (!DA.GetDataList(0, Points))
+            if (!DA.GetData(0, ref baseRectangle))
+            return;
+
+            if (!DA.GetDataList(1, Points))
                 return;
 
-            if (!DA.GetData(1, ref line))
+            if (!DA.GetDataList(2, tan))
                 return;
-
 
             //Calculate
-
-            Vector3d unitZ = new Vector3d(0, 0, 1);
-            List<Vector3d> tanList = new List<Vector3d>();
-            List<Vector3d> normList = new List<Vector3d>();
-
-            //======================================================
-            //Curve closest point
-            //======================================================
-            for (int i = 0; i < Points.Count; i++)
-            {
-                Vector3d tan = line.UnitTangent;
-                tanList.Add(tan);
-
-                Vector3d norm = Vector3d.CrossProduct(tan, unitZ);
-                normList.Add(norm);
-            }
+            List<Polyline> pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, Points, tan);
 
             //Set data for the outputs
-            DA.SetDataList(0, tanList);
-            DA.SetDataList(1, normList);
+            DA.SetDataList(0, pLines);
         }
 
         /// <summary>
@@ -95,7 +83,7 @@ namespace PlotPlanning
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
+                return Properties.Resources.Houses;
                 //return null;
             }
         }
@@ -109,7 +97,7 @@ namespace PlotPlanning
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff4"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff2"); }
         }
     }
 

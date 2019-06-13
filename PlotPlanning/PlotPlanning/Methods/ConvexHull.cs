@@ -5,9 +5,9 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 
-namespace PlotPlanning.Definitions
+namespace PlotPlanning.Methods
 {
-    class Compute
+    public static partial class Calculate
     {
         //TODO: Only works for points in the XY plane - add plane as input?
         public static Polyline ConvexHull(List<Point3d> points)

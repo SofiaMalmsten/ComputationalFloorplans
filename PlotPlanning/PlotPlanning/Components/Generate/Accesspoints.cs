@@ -9,9 +9,9 @@ using Rhino.Geometry;
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace PlotPlanning
+namespace PlotPlanning.Components
 {
-    public class CreateAccesspoints : GH_Component
+    public class Accesspoints : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,10 +20,10 @@ namespace PlotPlanning
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public CreateAccesspoints()
-          : base("PlotPlanning", "CreateAccesspoints",
+        public Accesspoints()
+          : base("AccessPoints", "CreateAccesspoints",
               "Creates accesspoints on a line",
-              "SitePlanningTool", "Generate")
+              "PlotPlanningTool", "Generate")
         {
         }
 
@@ -56,83 +56,27 @@ namespace PlotPlanning
         {
             //Create class instances
             Line line = new Line();
+            Rectangle3d rectangle = new Rectangle3d();
             double minAmount = 1;
             double maxAmount = 1;
-            Rectangle3d rectangle = new Rectangle3d();
             double spaceDist = 0;
 
+            //Get Data
             if (!DA.GetData(0, ref line))
             return;
-
             if (!DA.GetData(1, ref minAmount))
                 return;
-
             if (!DA.GetData(2, ref maxAmount))
                 return;
-
             if (!DA.GetData(3, ref rectangle))
                 return;
             if (!DA.GetData(4, ref spaceDist))
                 return;
 
             //Calculate
-
-            //========================================================
-            //Declaration - fixed values
-            //========================================================
-            double lineLength = line.Length;
-                Point3d startPt = line.From;
-                Vector3d vec = (line.Direction) / lineLength;
-
-                double segmentWidth = rectangle.Width;
-                double segmentHeight = rectangle.Height;
-
-                double segmentLength = Math.Min(segmentWidth, segmentHeight);
-
-                Vector3d husVec = vec * segmentLength;
-                Vector3d spaceVec = vec * (spaceDist + segmentLength);
-
-                //========================================================
-                //Declaration - lists and new objects
-                //========================================================
-                Line currLine = new Line();
-                Point3d currPt = new Point3d();
-                List<Point3d> pointPos = new List<Point3d>();
-                List<Vector3d> vectList = new List<Vector3d>();
-                List<Line> lineCombination = new List<Line>();
-
-                currPt = startPt;
-                double currLength = segmentLength;
-                int i = 0;
-                while (currLength < lineLength)
-                {
-                    currLine = new Line(currPt, husVec);
-                    currPt = currLine.To;
-                    pointPos.Add(currPt);
-                    lineCombination.Add(currLine);
-                    currLength = currLength + segmentLength;
-                    i = i + 1;
-
-                    //if i = max amunt: add spaceDist and reset counter.
-                    // Todo: add a new branch
-                    if (i == maxAmount)
-                    {
-                        currLine = new Line(currPt, spaceVec);
-                        currPt = currLine.To;
-                        currLength = currLength + spaceDist + segmentLength;
-                        i = 0;
-                    }
-                }
-
-                //========================================================
-                // Remove lines that are too short. minAmount * segmentLength
-                //========================================================
-                if (i < minAmount)
-                {
-                    lineCombination.RemoveRange(lineCombination.Count - i, i);
-                }
-
-            //Set data for the outputs
+            List<Point3d> pointPos = PlotPlanning.Methods.Generate.AccessPoints(line, minAmount, maxAmount, rectangle, spaceDist);
+           
+            //Set data
             DA.SetDataList(0, pointPos);
         }
 
@@ -145,12 +89,10 @@ namespace PlotPlanning
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
+                return Properties.Resources.Houses;
                 //return null;
             }
         }
-
-
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
