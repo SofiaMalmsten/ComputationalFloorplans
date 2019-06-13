@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using System.Linq;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -84,27 +85,11 @@ namespace PlotPlanning.Components
             PolylineCurve siteBound2 = pline as PolylineCurve;
             Polyline siteBound = siteBound2.ToPolyline();
 
-            List<double> lengths = new List<double>();
-                List<Line> segments = new List<Line>();
+            List<Line> segments = PlotPlanning.Methods.Generate.SegmentBounds(siteBound, rectangle, cornerRadius);
+            IEnumerable<Line> shuffledSegments = PlotPlanning.Methods.Generate.Shuffle(segments, new Random(seed));
 
-                double segmentWidth = rectangle.Width;
-                double segmentHeight = rectangle.Height;
-
-                double shortestSegm = Math.Min(segmentWidth, segmentHeight);
-
-                foreach (var segm in siteBound.GetSegments())
-                {
-
-                    segm.Extend(cornerRadius * -1, cornerRadius * -1);
-                    if (segm.Length > shortestSegm)
-                    {
-                        segments.Add(segm);
-                    }
-
-                }
-
-            DA.SetDataList(0, segments);
-            DA.SetData(1, segments[seed]);
+            DA.SetDataList(0, shuffledSegments);
+            DA.SetData(1, shuffledSegments.ToList()[0]);
 
         }
 

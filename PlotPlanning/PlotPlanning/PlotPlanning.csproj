@@ -67,6 +67,8 @@
     <Compile Include="Components\Generate\Accesspoints.cs" />
     <Compile Include="Components\Generate\HouseFootprint.cs" />
     <Compile Include="Components\Generate\SegmentBounds.cs" />
+    <Compile Include="Methods\Shuffle.cs" />
+    <Compile Include="Methods\SegmentBounds.cs" />
     <Compile Include="Methods\ConvexHull.cs" />
     <Compile Include="Methods\HouseFootprint.cs" />
     <Compile Include="Methods\AccessPoints.cs" />
