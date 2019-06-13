@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>%25appdata%25\Grasshopper\Libraries\PlotPlanningTool\</OutputPath>
+    <OutputPath>..\..\..\..\..\AppData\Roaming\Grasshopper\Libraries\PlotPlanningTool\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
