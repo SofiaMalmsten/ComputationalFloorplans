@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Accesspoints : GH_Component
+    public class IsClockwise : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,9 +20,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Accesspoints()
-          : base("AccessPoints", "CreateAccesspoints",
-              "Creates accesspoints on a line",
+        public IsClockwise()
+          : base("IsClockwise", "IsClockwise",
+              "Detemine whether a polyline is clockwise or not",
               "PlotPlanningTool", "Generate")
         {
         }
@@ -32,11 +32,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddLineParameter("line", "line", "line to place accesspoints on", GH_ParamAccess.item);
-            pManager.AddNumberParameter("minAmount", "minAmount", "min amount of houses in a row", GH_ParamAccess.item);
-            pManager.AddNumberParameter("maxAmount", "maxAmount", "max amount of houses in a row", GH_ParamAccess.item);
-            pManager.AddRectangleParameter("rectangle", "rectangle", "rectangle to place", GH_ParamAccess.item);
-            pManager.AddNumberParameter("spcaceDist", "spaceDist", "distance between two house segments", GH_ParamAccess.item);
+            pManager.AddCurveParameter("polyine", "pLine", "polyline to evaluaten", GH_ParamAccess.item);
+            pManager.AddNumberParameter("vector", "vector", "reference vector", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,7 +41,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("accessPts", "accessPts", "placed rectangles", GH_ParamAccess.list);
+            pManager.AddBooleanParameter("B", "B", "true or false", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,29 +52,20 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Line line = new Line();
-            Rectangle3d rectangle = new Rectangle3d();
-            double minAmount = 1;
-            double maxAmount = 1;
-            double spaceDist = 0;
+            Polyline pLine = new Polyline();
+            Vector3d vec = new Vector3d();
 
             //Get Data
-            if (!DA.GetData(0, ref line))
+            if (!DA.GetData(0, ref pLine))
             return;
-            if (!DA.GetData(1, ref minAmount))
-                return;
-            if (!DA.GetData(2, ref maxAmount))
-                return;
-            if (!DA.GetData(3, ref rectangle))
-                return;
-            if (!DA.GetData(4, ref spaceDist))
+            if (!DA.GetData(1, ref vec))
                 return;
 
             //Calculate
-            List<Point3d> pointPos = PlotPlanning.Methods.Generate.AccessPoints(line, minAmount, maxAmount, rectangle, spaceDist);
+            bool isClockwise = PlotPlanning.Methods.Calculate.IsClockwise(pLine, vec, 0.001);
            
             //Set data
-            DA.SetDataList(0, pointPos);
+            DA.SetData(0, isClockwise);
         }
 
         /// <summary>
@@ -101,7 +89,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff9"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff3"); }
         }
     }
 
