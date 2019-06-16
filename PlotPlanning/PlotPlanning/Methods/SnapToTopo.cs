@@ -11,7 +11,7 @@ namespace PlotPlanning.Methods
     public static partial class Calculate
     {
         //TODO: Only works for points in the XY plane - add plane as input?
-        public static List<Point3d> SnapToTopo(List<Point3d> planePts, List<Point3d> topoPts, List<double> possibleValues, ref object A)
+        public static List<Point3d> SnapToTopo(List<Point3d> planePts, List<Point3d> topoPts, List<double> possibleValues)
         {
                 double displ;
                 double valueToCheck;
