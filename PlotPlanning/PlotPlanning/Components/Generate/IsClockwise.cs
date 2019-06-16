@@ -33,7 +33,7 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("polyine", "pLine", "polyline to evaluaten", GH_ParamAccess.item);
-            pManager.AddNumberParameter("vector", "vector", "reference vector", GH_ParamAccess.item);
+            pManager.AddVectorParameter("vector", "vector", "reference vector", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -52,16 +52,17 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Polyline pLine = new Polyline();
+            Curve pCurve = new PolylineCurve();
             Vector3d vec = new Vector3d();
 
             //Get Data
-            if (!DA.GetData(0, ref pLine))
+            if (!DA.GetData(0, ref pCurve))
             return;
             if (!DA.GetData(1, ref vec))
                 return;
 
             //Calculate
+            Polyline pLine = PlotPlanning.Methods.Calculate.ConvertToPolyline(pCurve as PolylineCurve);
             bool isClockwise = PlotPlanning.Methods.Calculate.IsClockwise(pLine, vec, 0.001);
            
             //Set data
@@ -89,7 +90,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff3"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff9"); }
         }
     }
 

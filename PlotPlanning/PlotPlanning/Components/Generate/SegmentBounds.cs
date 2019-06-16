@@ -36,7 +36,6 @@ namespace PlotPlanning.Components
             pManager.AddCurveParameter("bounds", "bounds", "siteBoundaries", GH_ParamAccess.item);
             pManager.AddRectangleParameter("rectangle", "rec", "rectanlge to place on the site", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "change seed in order to change plot layout", GH_ParamAccess.item);
-            pManager.AddNumberParameter("cornerRadius", "cornerRad", "define a radius in order to avoid creating houses in corners", GH_ParamAccess.item);
 
         }
 
@@ -64,7 +63,6 @@ namespace PlotPlanning.Components
            
             Rectangle3d rectangle = new Rectangle3d();
             int seed = 0;
-            double cornerRadius=0;
 
 
             //Get data
@@ -77,19 +75,19 @@ namespace PlotPlanning.Components
             if (!DA.GetData(2, ref seed))
                 return;
 
-            if (!DA.GetData(3, ref cornerRadius))
-                return;
-
             //Calculate
 
             PolylineCurve siteBound2 = pline as PolylineCurve;
             Polyline siteBound = siteBound2.ToPolyline();
 
-            List<Line> segments = PlotPlanning.Methods.Generate.SegmentBounds(siteBound, rectangle, cornerRadius);
-            IEnumerable<Line> shuffledSegments = PlotPlanning.Methods.Generate.Shuffle(segments, new Random(seed));
+            List<Line> segments = PlotPlanning.Methods.Generate.SegmentBounds(siteBound, rectangle, seed);
 
-            DA.SetDataList(0, shuffledSegments);
-            DA.SetData(1, shuffledSegments.ToList()[0]);
+            if (segments.Count != 0)
+            {
+                DA.SetDataList(0, segments);
+                DA.SetData(1, segments[0]);
+            }
+            
 
         }
 

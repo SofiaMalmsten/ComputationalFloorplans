@@ -10,7 +10,7 @@ namespace PlotPlanning.Methods
 {
     public static partial class Calculate
     {
-        public static bool IsClockwise(this Polyline polyline, Vector3d normal, double tolerance = 0.001)
+        public static bool IsClockwise(this Polyline polyline, Vector3d viewVector, double tolerance = 0.001)
         {
             if (!polyline.IsClosed)
                 throw new Exception("The polyline is not closed. IsClockwise method is relevant only to closed curves.");
@@ -23,7 +23,7 @@ namespace PlotPlanning.Methods
             for (int i = 1; i < cc.Count; i++)
             {
                 dir2 = (cc[i] - cc[i - 1]).Normalise();
-                double signedAngle = dir1.SignedAngle(dir2, normal);
+                double signedAngle = dir1.SignedAngle(dir2, viewVector);
                 dir1 = dir2.Clone();
 
                 if (Math.PI - Math.Abs(signedAngle) <= 0.1)
@@ -147,6 +147,20 @@ namespace PlotPlanning.Methods
             double dy = a.Y - b.Y;
             double dz = a.Z - b.Z;
             return dx * dx + dy * dy + dz * dz;
+        }
+
+        /***************************************************/
+
+        public static Polyline ConvertToPolyline(this PolylineCurve pCurve)
+        {
+ 
+            int point_count = pCurve.PointCount;
+            Polyline pLine = new Polyline(point_count);
+            for (int i = 0; i < pCurve.PointCount; ++i)
+            {
+                pLine.Add(pCurve.Point(i));
+            }
+            return pLine;
         }
 
         /***************************************************/
