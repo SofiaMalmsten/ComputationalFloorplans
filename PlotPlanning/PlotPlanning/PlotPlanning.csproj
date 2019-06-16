@@ -68,6 +68,7 @@
     <Compile Include="Components\Generate\Accesspoints.cs" />
     <Compile Include="Components\Generate\HouseFootprint.cs" />
     <Compile Include="Components\Generate\SegmentBounds.cs" />
+    <Compile Include="Methods\SnapToTopo.cs" />
     <Compile Include="Methods\GetTanVector.cs" />
     <Compile Include="Methods\IsClockwise.cs" />
     <Compile Include="Methods\CullSmallAreas.cs" />
