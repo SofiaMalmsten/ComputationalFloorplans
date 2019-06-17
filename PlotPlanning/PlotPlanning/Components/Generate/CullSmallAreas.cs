@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class GetOrientVector : GH_Component
+    public class CullSmallAreas : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -19,11 +19,12 @@ namespace PlotPlanning.Components
         /// Category represents the Tab in which the component will appear, 
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
+        /// 
         /// </summary>
-        public GetOrientVector()
-          : base("OrientVector", "GetOrientVectors",
-              "Creates accesspoints on a line",
-              "PlotPlanningTool", "Generate")
+        public CullSmallAreas()
+          : base("CullSmallAreas", "CullSmallAreas",
+              "Description",
+              "PlotPlanningTool", "Test")
         {
         }
 
@@ -32,8 +33,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("point", "pt", "points to evaluate", GH_ParamAccess.list);
-            pManager.AddLineParameter("line", "ln", "line points are on", GH_ParamAccess.item);
+            pManager.AddCurveParameter("A", "A", "rectangle that should be places on lines", GH_ParamAccess.list);
+            pManager.AddCurveParameter("B", "B", "base positipon for the rectangles", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -41,8 +42,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddVectorParameter("tanVec", "tanVec", "tanVector", GH_ParamAccess.list);
-            pManager.AddVectorParameter("normVec", "normVec", "normVector", GH_ParamAccess.list);
+            pManager.AddCurveParameter("R", "region", "placed rectangles", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -53,37 +53,21 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            List<Point3d> Points = new List<Point3d>();
-            Line line = new Line();
+            List<Curve> A = new List<Curve>();
+            Curve B = new PolylineCurve();
 
-            if (!DA.GetDataList(0, Points))
-                return;
+            if (!DA.GetDataList(0, A))
+            return;
 
-            if (!DA.GetData(1, ref line))
+            if (!DA.GetData(1, ref B))
                 return;
 
 
             //Calculate
-
-            Vector3d unitZ = new Vector3d(0, 0, 1);
-            List<Vector3d> tanList = new List<Vector3d>();
-            List<Vector3d> normList = new List<Vector3d>();
-
-            //======================================================
-            //Curve closest point
-            //======================================================
-            for (int i = 0; i < Points.Count; i++)
-            {
-                Vector3d tan = line.UnitTangent;
-                tanList.Add(tan);
-
-                Vector3d norm = Vector3d.CrossProduct(tan, unitZ);
-                normList.Add(norm);
-            }
+            List<Curve> R = PlotPlanning.Methods.Generate.CullSmallAreas(A,B);
 
             //Set data for the outputs
-            DA.SetDataList(0, tanList);
-            DA.SetDataList(1, normList);
+            DA.SetDataList(0, R);
         }
 
         /// <summary>
@@ -95,8 +79,8 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Generate;
-                //return null;
+                //return Properties.Resources.Houses;
+                return null;
             }
         }
 

@@ -49,10 +49,13 @@ namespace PlotPlanning.Methods
                 //if i = max amunt: add spaceDist and reset counter. // Todo: add a new branch
                 if (i == maxAmount)
                 {
-                    currLine = new Line(currPt, spaceVec);
+                    i = 0;
+                    break;
+
+                   /*currLine = new Line(currPt, spaceVec);
                     currPt = currLine.To;
                     currLength = currLength + spaceDist + segmentLength;
-                    i = 0;
+                    i = 0;*/
                 }
             }
 

@@ -45,6 +45,7 @@ namespace PlotPlanning.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddPointParameter("accessPts", "accessPts", "placed rectangles", GH_ParamAccess.list);
+            pManager.AddVectorParameter("tanVect", "tanVec", "tnagentVector", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -75,9 +76,11 @@ namespace PlotPlanning.Components
 
             //Calculate
             List<Point3d> pointPos = PlotPlanning.Methods.Generate.AccessPoints(line, minAmount, maxAmount, rectangle, spaceDist);
+            List<Vector3d> tanList = PlotPlanning.Methods.Generate.GetTanVect(pointPos, line);
            
             //Set data
             DA.SetDataList(0, pointPos);
+            DA.SetDataList(1, tanList);
         }
 
         /// <summary>

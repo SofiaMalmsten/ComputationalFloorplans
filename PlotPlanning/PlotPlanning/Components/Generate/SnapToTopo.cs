@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -12,7 +11,7 @@ using System.Linq;
 
 namespace PlotPlanning.Components
 {
-    public class SegmentBounds : GH_Component
+    public class SnapToTopo : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,9 +20,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public SegmentBounds()
-          : base("SegmentBounds", "bounds",
-              "Creates lines to place houses on",
+        public SnapToTopo()
+          : base("SnapToTopo", "SnapToTopo",
+              "projects points on a line",
               "PlotPlanningTool", "Generate")
         {
         }
@@ -33,10 +32,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("bounds", "bounds", "siteBoundaries", GH_ParamAccess.item);
-            pManager.AddRectangleParameter("rectangle", "rec", "rectanlge to place on the site", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("seed", "seed", "change seed in order to change plot layout", GH_ParamAccess.item);
-
+            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -44,8 +42,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("allLines", "allLines", "all possible lines", GH_ParamAccess.list);
-            pManager.AddLineParameter("currentLine", "currLine", "current line to place houses on", GH_ParamAccess.item);
+            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -55,40 +52,24 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //Create class instances
+            List<Point3d> topoPts = new List<Point3d>();
+            List<Point3d> planePts = new List<Point3d>();
+            List<double> possibleValues = new List<double>();
 
-
-
-            //define instances
-            Curve pline = new PolylineCurve();
-           
-            Rectangle3d rectangle = new Rectangle3d();
-            int seed = 0;
-
-
-            //Get data
-            if (!DA.GetData(0, ref pline))
+            //Get Data
+            if (!DA.GetDataList(0, planePts))
                 return;
-
-            if (!DA.GetData(1, ref rectangle))
+            if (!DA.GetDataList(1, topoPts))
                 return;
-
-            if (!DA.GetData(2, ref seed))
+            if (!DA.GetDataList(2, possibleValues))
                 return;
 
             //Calculate
-
-            PolylineCurve siteBound2 = pline as PolylineCurve;
-            Polyline siteBound = siteBound2.ToPolyline();
-
-            List<Line> segments = PlotPlanning.Methods.Generate.SegmentBounds(siteBound, rectangle, seed);
-
-            if (segments.Count != 0)
-            {
-                DA.SetDataList(0, segments);
-                DA.SetData(1, segments[0]);
-            }
-            
-
+            List<Point3d> projectedPts = PlotPlanning.Methods.Calculate.SnapToTopo(planePts, topoPts, possibleValues);
+           
+            //Set data
+            DA.SetDataList(0, projectedPts);
         }
 
         /// <summary>
@@ -100,7 +81,8 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
+                return Properties.Resources.Houses;
+                //return null;
             }
         }
 
@@ -111,7 +93,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff1"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff8"); }
         }
     }
 

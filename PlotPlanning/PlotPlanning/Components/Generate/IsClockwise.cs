@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -12,7 +11,7 @@ using System.Linq;
 
 namespace PlotPlanning.Components
 {
-    public class SegmentBounds : GH_Component
+    public class IsClockwise : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,9 +20,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public SegmentBounds()
-          : base("SegmentBounds", "bounds",
-              "Creates lines to place houses on",
+        public IsClockwise()
+          : base("IsClockwise", "IsClockwise",
+              "Detemine whether a polyline is clockwise or not",
               "PlotPlanningTool", "Generate")
         {
         }
@@ -33,10 +32,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("bounds", "bounds", "siteBoundaries", GH_ParamAccess.item);
-            pManager.AddRectangleParameter("rectangle", "rec", "rectanlge to place on the site", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("seed", "seed", "change seed in order to change plot layout", GH_ParamAccess.item);
-
+            pManager.AddCurveParameter("polyine", "pLine", "polyline to evaluaten", GH_ParamAccess.item);
+            pManager.AddVectorParameter("vector", "vector", "reference vector", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,8 +41,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("allLines", "allLines", "all possible lines", GH_ParamAccess.list);
-            pManager.AddLineParameter("currentLine", "currLine", "current line to place houses on", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("B", "B", "true or false", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,40 +51,22 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //Create class instances
+            Curve pCurve = new PolylineCurve();
+            Vector3d vec = new Vector3d();
 
-
-
-            //define instances
-            Curve pline = new PolylineCurve();
-           
-            Rectangle3d rectangle = new Rectangle3d();
-            int seed = 0;
-
-
-            //Get data
-            if (!DA.GetData(0, ref pline))
-                return;
-
-            if (!DA.GetData(1, ref rectangle))
-                return;
-
-            if (!DA.GetData(2, ref seed))
+            //Get Data
+            if (!DA.GetData(0, ref pCurve))
+            return;
+            if (!DA.GetData(1, ref vec))
                 return;
 
             //Calculate
-
-            PolylineCurve siteBound2 = pline as PolylineCurve;
-            Polyline siteBound = siteBound2.ToPolyline();
-
-            List<Line> segments = PlotPlanning.Methods.Generate.SegmentBounds(siteBound, rectangle, seed);
-
-            if (segments.Count != 0)
-            {
-                DA.SetDataList(0, segments);
-                DA.SetData(1, segments[0]);
-            }
-            
-
+            Polyline pLine = PlotPlanning.Methods.Calculate.ConvertToPolyline(pCurve as PolylineCurve);
+            bool isClockwise = PlotPlanning.Methods.Calculate.IsClockwise(pLine, vec, 0.001);
+           
+            //Set data
+            DA.SetData(0, isClockwise);
         }
 
         /// <summary>
@@ -100,7 +78,8 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Plot2D;
+                return Properties.Resources.Houses;
+                //return null;
             }
         }
 
@@ -111,7 +90,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff1"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff9"); }
         }
     }
 
