@@ -33,8 +33,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("A", "A", "rectangle that should be places on lines", GH_ParamAccess.list);
-            pManager.AddCurveParameter("B", "B", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddCurveParameter("rec", "rec", "rectangle that should be places on lines", GH_ParamAccess.item);
+            pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,18 +53,18 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            List<Curve> A = new List<Curve>();
-            Curve B = new PolylineCurve();
+            Curve rec = new PolyCurve();
+            Curve bound = new PolylineCurve();
 
-            if (!DA.GetDataList(0, A))
+            if (!DA.GetData(0, ref rec))
             return;
 
-            if (!DA.GetData(1, ref B))
+            if (!DA.GetData(1, ref bound))
                 return;
 
 
             //Calculate
-            List<Curve> R = PlotPlanning.Methods.Generate.CullSmallAreas(A,B);
+            List<Curve> R = PlotPlanning.Methods.Generate.CullSmallAreas(rec,bound);
 
             //Set data for the outputs
             DA.SetDataList(0, R);

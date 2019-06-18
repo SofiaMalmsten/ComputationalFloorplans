@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using System.Linq;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -11,7 +12,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class HouseFootprint : GH_Component
+    public class Generate2DLayot : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -19,11 +20,10 @@ namespace PlotPlanning.Components
         /// Category represents the Tab in which the component will appear, 
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
-        /// 
         /// </summary>
-        public HouseFootprint()
-          : base("HOuseFootprint", "CreateRectangles",
-              "Description",
+        public Generate2DLayot()
+          : base("Generate2DLyaout", "Generate2DLayout",
+              "Creates accesspoints on a line",
               "PlotPlanningTool", "Generate")
         {
         }
@@ -36,6 +36,7 @@ namespace PlotPlanning.Components
             pManager.AddRectangleParameter("baseRectangle", "baseRec", "rectangle that should be places on lines", GH_ParamAccess.item);
             pManager.AddPointParameter("position", "pos", "base positipon for the rectangles", GH_ParamAccess.item);
             pManager.AddVectorParameter("tanVector", "tan", "tangent vector for the line", GH_ParamAccess.item);
+            pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddRectangleParameter("rectangles", "rec", "placed rectangles", GH_ParamAccess.item);
+            pManager.AddCurveParameter("R", "region", "placed rectangles", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -53,25 +54,33 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            //Create class instances
+
             Rectangle3d baseRectangle = new Rectangle3d();
-            Point3d Points = new Point3d();
+            Point3d pos = new Point3d();
             Vector3d tan = new Vector3d();
+            Curve bound = new PolyCurve();
 
             if (!DA.GetData(0, ref baseRectangle))
-            return;
+                return;
 
-            if (!DA.GetData(1, ref Points))
+            if (!DA.GetData(1, ref pos))
                 return;
 
             if (!DA.GetData(2, ref tan))
                 return;
 
+            if (!DA.GetData(3, ref bound))
+                return;
+
             //Calculate
-            Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, Points, tan);
+
+                Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, pos, tan);
+                Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
+                List<Curve> rectangles = PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound);
 
             //Set data for the outputs
-            DA.SetData(0, pLines);
+            DA.SetDataList(0, rectangles);
+
         }
 
         /// <summary>
@@ -88,8 +97,6 @@ namespace PlotPlanning.Components
             }
         }
 
-
-
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
         /// It is vital this Guid doesn't change otherwise old ghx files 
@@ -97,7 +104,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff2"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff6"); }
         }
     }
 
