@@ -34,9 +34,11 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddRectangleParameter("baseRectangle", "baseRec", "rectangle that should be places on lines", GH_ParamAccess.item);
-            pManager.AddPointParameter("position", "pos", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddVectorParameter("tanVector", "tan", "tangent vector for the line", GH_ParamAccess.item);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddNumberParameter("minAmount", "minAmount", "tangent vector for the line", GH_ParamAccess.item);
+            pManager.AddNumberParameter("maxAmount", "maxAmount", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddNumberParameter("spaceDist", "spaceDist", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -45,6 +47,7 @@ namespace PlotPlanning.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddCurveParameter("R", "region", "placed rectangles", GH_ParamAccess.list);
+            pManager.AddVectorParameter("tan", "tan", "tan vectors", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -56,30 +59,42 @@ namespace PlotPlanning.Components
         {
 
             Rectangle3d baseRectangle = new Rectangle3d();
-            Point3d pos = new Point3d();
-            Vector3d tan = new Vector3d();
             Curve bound = new PolyCurve();
+            double minAmount = 1;
+            double maxAmount = 1;
+            double spaceDist = 0;
+            int seed = 1;
 
+            //Get Data
             if (!DA.GetData(0, ref baseRectangle))
                 return;
-
-            if (!DA.GetData(1, ref pos))
+            if (!DA.GetData(1, ref bound))
                 return;
-
-            if (!DA.GetData(2, ref tan))
+            if (!DA.GetData(2, ref minAmount))
                 return;
-
-            if (!DA.GetData(3, ref bound))
+            if (!DA.GetData(3, ref maxAmount))
+                return;
+            if (!DA.GetData(4, ref spaceDist))
+                return;
+            if (!DA.GetData(5, ref seed))
                 return;
 
             //Calculate
+            List<Line> line = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve), baseRectangle, seed);
+            List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(line[0], minAmount, maxAmount, baseRectangle, spaceDist);
+            List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, line[0]);
 
-                Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, pos, tan);
+            List<Curve> rectangles = new List<Curve>();
+            for (int i = 0; i < pos.Count; i++)
+            {
+                Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, pos[i], tan[i]);
                 Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                List<Curve> rectangles = PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound);
+                rectangles.AddRange(PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound));
+            }
 
             //Set data for the outputs
             DA.SetDataList(0, rectangles);
+            DA.SetDataList(1, tan);
 
         }
 
