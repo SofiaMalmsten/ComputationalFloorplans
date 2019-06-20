@@ -64,7 +64,7 @@ namespace PlotPlanning.Components
 
 
             //Calculate
-            List<Curve> R = PlotPlanning.Methods.Generate.CullSmallAreas(rec,bound);
+            List<Polyline> R = PlotPlanning.Methods.Generate.CullSmallAreas(rec,bound);
 
             //Set data for the outputs
             DA.SetDataList(0, R);

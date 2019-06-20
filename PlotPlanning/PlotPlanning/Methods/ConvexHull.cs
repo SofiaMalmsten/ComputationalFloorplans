@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using System.Linq;
 
 
 namespace PlotPlanning.Methods
@@ -10,6 +11,16 @@ namespace PlotPlanning.Methods
     public static partial class Calculate
     {
         //TODO: Only works for points in the XY plane - add plane as input?
+        public static Polyline ConvexHull(List<Polyline> pLines)
+        {
+            List<Point3d> pts = new List<Point3d>();
+            foreach (Polyline p in pLines)
+            {
+                pts.AddRange(p.ToList()); 
+            }
+            Polyline hullBoundary = ConvexHull(pts); 
+            return hullBoundary;
+        }
         public static Polyline ConvexHull(List<Point3d> points)
         {
             List<Point3d> hull = new List<Point3d>();
