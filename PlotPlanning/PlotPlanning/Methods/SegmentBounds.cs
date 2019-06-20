@@ -39,7 +39,8 @@ namespace PlotPlanning.Methods
 
             }
 
-            IEnumerable<Line> shuffledSegments = PlotPlanning.Methods.Generate.Shuffle(segments, new Random(r.Next()));
+            //IEnumerable<Line> shuffledSegments = PlotPlanning.Methods.Generate.Shuffle(segments, new Random(r.Next()));
+            IEnumerable<Line> shuffledSegments = segments.OrderBy(x => x.Length).ToList();
 
             return shuffledSegments.ToList();
         }

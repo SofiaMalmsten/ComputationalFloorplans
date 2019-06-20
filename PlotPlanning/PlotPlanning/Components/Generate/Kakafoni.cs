@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace PlotPlanning.Components
 {
-    public class Generate2DLayot : GH_Component
+    public class Kakafoni : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,10 +21,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Generate2DLayot()
-          : base("Generate2DLyaout", "Generate2DLayout",
+        public Kakafoni()
+          : base("Kakafoni", "GenerateKakafoni",
               "Creates accesspoints on a line",
-              "PlotPlanningTool", "Generate")
+              "PlotPlanningTool", "Houses")
         {
         }
 
@@ -81,8 +81,8 @@ namespace PlotPlanning.Components
 
             //Calculate
             List<Line> line = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve), baseRectangle, seed);
-            List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(line[0], minAmount, maxAmount, baseRectangle, spaceDist);
-            List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, line[0]);
+            List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(line.Last(), minAmount, maxAmount, baseRectangle, spaceDist);
+            List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, line.Last());
 
             List<Curve> rectangles = new List<Curve>();
             for (int i = 0; i < pos.Count; i++)
@@ -91,6 +91,19 @@ namespace PlotPlanning.Components
                 Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
                 rectangles.AddRange(PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound));
             }
+
+            /*if (rectangles.Count==0)
+            {
+                pos = PlotPlanning.Methods.Generate.AccessPoints(line[1], minAmount, maxAmount, baseRectangle, spaceDist);
+                tan = PlotPlanning.Methods.Generate.GetTanVect(pos, line[1]);
+
+                for (int i = 0; i < pos.Count; i++)
+                {
+                    Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, pos[i], tan[i]);
+                    Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
+                    rectangles.AddRange(PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound));
+                }
+            }*/
 
             //Set data for the outputs
             DA.SetDataList(0, rectangles);

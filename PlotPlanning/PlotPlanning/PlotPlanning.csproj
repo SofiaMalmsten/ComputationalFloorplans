@@ -62,7 +62,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Generate\Generate2DLayout.cs" />
+    <Compile Include="Components\Generate\Kakafoni.cs" />
     <Compile Include="Components\Generate\SnapToTopo.cs" />
     <Compile Include="Components\Generate\CullSmallAreas.cs" />
     <Compile Include="Components\Generate\IsClockwise.cs" />

@@ -24,7 +24,7 @@ namespace PlotPlanning.Components
         public CullSmallAreas()
           : base("CullSmallAreas", "CullSmallAreas",
               "Description",
-              "PlotPlanningTool", "Test")
+              "PlotPlanningTool", "Generate")
         {
         }
 
