@@ -14,6 +14,8 @@ namespace PlotPlanning.Methods
         public static List<Line> SegmentBounds(Polyline siteBound, Rectangle3d rectangle, int seed)
         {
 
+            Random r = new Random(seed);
+
             //Check if clockwise
             if (!PlotPlanning.Methods.Calculate.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
             {
@@ -37,7 +39,8 @@ namespace PlotPlanning.Methods
 
             }
 
-            IEnumerable<Line> shuffledSegments = PlotPlanning.Methods.Generate.Shuffle(segments, new Random(seed));
+            //IEnumerable<Line> shuffledSegments = PlotPlanning.Methods.Generate.Shuffle(segments, new Random(r.Next()));
+            IEnumerable<Line> shuffledSegments = segments.OrderBy(x => x.Length).ToList();
 
             return shuffledSegments.ToList();
         }

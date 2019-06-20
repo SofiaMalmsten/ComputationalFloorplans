@@ -11,7 +11,7 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
     
-        public static List<Curve> CullSmallAreas(List<Curve> A, Curve B)
+        public static List<Curve> CullSmallAreas(Curve rec, Curve bound)
         {
             Point3d origin = new Point3d(0, 0, 0);
             Vector3d normal = new Vector3d(0, 0, 1);
@@ -19,14 +19,18 @@ namespace PlotPlanning.Methods
             List<Curve> crvList = new List<Curve>();
 
             //Calculate start area
-            for (int i = 0; i < A.Count; i++)
+            //for (int i = 0; i < rec.Count; i++)
+            //{
+
+                Curve[] x = Rhino.Geometry.Curve.CreateBooleanIntersection(rec, bound, 0.001);
+
+
+            if (x.Length != 0)
             {
-
-                Curve[] x = Rhino.Geometry.Curve.CreateBooleanIntersection(A[i], B, 0.001);
-
-
+            
+            
                 double a1 = Rhino.Geometry.AreaMassProperties.Compute(x).Area;
-                double a2 = Rhino.Geometry.AreaMassProperties.Compute(A[i]).Area;
+                double a2 = Rhino.Geometry.AreaMassProperties.Compute(rec).Area;
 
                 double r1 = Math.Round(a1);
                 double r2 = Math.Round(a2);
@@ -36,10 +40,12 @@ namespace PlotPlanning.Methods
                 {
                     crvList.AddRange(x.ToList());
                 }
+            //}
             }
-            
             return crvList;
+            
         }
+
     }
 
     //====================================================================

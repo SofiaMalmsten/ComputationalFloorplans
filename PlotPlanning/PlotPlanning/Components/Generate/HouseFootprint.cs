@@ -33,7 +33,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddRectangleParameter("baseRectangle", "rec", "rectangle that should be places on lines", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("baseRectangle", "baseRec", "rectangle that should be places on lines", GH_ParamAccess.item);
             pManager.AddPointParameter("position", "pos", "base positipon for the rectangles", GH_ParamAccess.item);
             pManager.AddVectorParameter("tanVector", "tan", "tangent vector for the line", GH_ParamAccess.item);
         }
