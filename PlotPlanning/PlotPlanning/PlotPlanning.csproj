@@ -70,6 +70,7 @@
     <Compile Include="Components\Generate\Accesspoints.cs" />
     <Compile Include="Components\Generate\HouseFootprint.cs" />
     <Compile Include="Components\Generate\SegmentBounds.cs" />
+    <Compile Include="Methods\ClosePolyline.cs" />
     <Compile Include="Methods\PlaceHouseRow.cs" />
     <Compile Include="Methods\PickLargest.cs" />
     <Compile Include="Methods\Tolerance.cs" />

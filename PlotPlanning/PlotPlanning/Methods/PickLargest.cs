@@ -14,12 +14,12 @@ namespace PlotPlanning.Methods
         public static Curve PickLargest(this List<Curve> crvList)
         {
       
-            return crvList.OrderBy(x => AreaMassProperties.Compute(x).Area).ToList()[0]; 
+            return crvList.OrderBy(x => AreaMassProperties.Compute(x).Area).ToList().Last(); 
         }
         public static Curve PickLargest(this Curve[] crvList)
         {
 
-            return crvList.OrderBy(x => AreaMassProperties.Compute(x).Area).ToList()[0];
+            return crvList.OrderBy(x => AreaMassProperties.Compute(x).Area).ToList().Last();
         }
     }
 }

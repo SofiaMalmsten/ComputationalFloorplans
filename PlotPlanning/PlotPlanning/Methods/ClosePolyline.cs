@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq; 
+using System.Linq;
+using pp = PlotPlanning.Methods.Generate; 
 
 
 namespace PlotPlanning.Methods
@@ -25,19 +26,12 @@ namespace PlotPlanning.Methods
 
         public static List<Polyline> ClosePolyline(this List<Polyline> pls)
         {
-            List<Polyline> closed_list = new List<Polyline>(); 
+            List<Polyline> closed_list = new List<Polyline>();
             foreach (Polyline pl in pls)
             {
-                if (pl.IsClosed) { closed_list.Add(pl); }
-                else
-                {
-                    List<Point3d> ptList = pl.ToList();
-                    ptList.Add(ptList.First());
-                    closed_list.Add(new Polyline(ptList));
-                }
+                closed_list.Add(pl.ClosePolyline()); 
             }
             return closed_list; 
-           
         }
     }
 }
