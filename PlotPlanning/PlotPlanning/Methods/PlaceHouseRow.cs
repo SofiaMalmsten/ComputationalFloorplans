@@ -13,9 +13,11 @@ namespace PlotPlanning.Methods
 
         public static void PlaceHouseRow(Rectangle3d baseRec,Curve bound, double min, double max, double space, double offset, int seed, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve cutBound)
         {
+            try
+            { 
             List<Line> line = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve), baseRec, seed);
-            if (line.Count != 0)
-            {
+            //if (line.Count != 0)
+            //{
                 List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(line.Last(), min, max, baseRec, space);
                 tan = PlotPlanning.Methods.Generate.GetTanVect(pos, line.Last());
 
@@ -35,7 +37,8 @@ namespace PlotPlanning.Methods
                 cutBound = cutPolyline.ToPolylineCurve();
                 outRecs = rectangles;
             }
-            else
+            catch
+           // else
             {
                 outRecs = new List<Polyline>();
                 tan = new List<Vector3d>();
