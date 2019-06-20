@@ -38,7 +38,17 @@ namespace PlotPlanning.Methods
 
                 if (r1 == r2)
                 {
-                    crvList.AddRange(x);
+                    foreach (Polyline pl in x)
+                    {
+                        if (pl.IsClosed) {crvList.Add(pl);}
+                        else
+                        {
+                            List<Point3d> ptList = pl.ToList();
+                            ptList.Add(ptList.First());
+                            Polyline closed_pl = new Polyline(ptList);
+                        }
+                        
+                    }
                 }
             //}
             }
