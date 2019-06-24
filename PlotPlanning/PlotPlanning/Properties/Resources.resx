@@ -118,16 +118,73 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CellularStreets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CellularStreets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CullDeSacStreets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CullDeSacStreets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CutAndFill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CutAndFill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Evaluate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Evaluate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Evaluate1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Evaluate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Generate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Generate1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Generate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GridStreets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GridStreets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Houses" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Houses.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Houses1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Houses.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LamellaHouses" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LamellaHouses.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lamellas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lamellas.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MassBalance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MassBalance.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NumberOfHouses" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NumberOfHouses.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="oCellStreet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oCellStreet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pLineBound" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pLineBound.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Plot2D" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Plot2D.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plot2d1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Plot2d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QuarterHouses" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QuarterHouses.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RadiualStreets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RadiualStreets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RandomHouses" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RandomHouses.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SnapToStreet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SnapToStreet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SnapToTopo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SnapToTopo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

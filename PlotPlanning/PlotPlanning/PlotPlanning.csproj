@@ -120,6 +120,51 @@
   <ItemGroup>
     <None Include="Resources\Houses.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CellularStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CullDeSacStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CutAndFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GridStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LamellaHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lamellas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MassBalance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NumberOfHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\oCellStreet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pLineBound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QuarterHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RadiualStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RandomHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SnapToStreet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SnapToTopo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
