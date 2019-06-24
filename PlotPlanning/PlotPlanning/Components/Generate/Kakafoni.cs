@@ -41,6 +41,7 @@ namespace PlotPlanning.Components
             pManager.AddNumberParameter("offset", "offset", "offset around houses", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
+            pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
 
         }
 
@@ -70,6 +71,7 @@ namespace PlotPlanning.Components
             int itts = 1; 
             int seed = 1;
             double offset = 0;
+            string method = ""; 
            
 
             //Get Data
@@ -89,6 +91,8 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(7, ref seed))
                 return;
+            if (!DA.GetData(8, ref method))
+                return;
 
 
             //Calculate
@@ -97,10 +101,10 @@ namespace PlotPlanning.Components
             // Curve bound = new PolylineCurve();
             List<Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
-
+            Random random = new Random(seed); 
             for (int i = 0; i < itts; i++)
             {
-                pp.Generate.PlaceHouseRow(baseRectangle, bound, minAmount, maxAmount, spaceDist, offset, seed, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
+                pp.Generate.PlaceHouseRow(baseRectangle, bound, minAmount, maxAmount, spaceDist, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
                 rectangles.AddRange(outRecs);
                 tans.AddRange(tan);
                 bound = newBound; 
