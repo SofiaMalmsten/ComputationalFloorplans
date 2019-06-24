@@ -62,6 +62,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Generate\ConcaveHull2D.cs" />
     <Compile Include="Components\Generate\Kakafoni.cs" />
     <Compile Include="Components\Generate\SnapToTopo.cs" />
     <Compile Include="Components\Generate\CullSmallAreas.cs" />
@@ -70,6 +71,8 @@
     <Compile Include="Components\Generate\Accesspoints.cs" />
     <Compile Include="Components\Generate\HouseFootprint.cs" />
     <Compile Include="Components\Generate\SegmentBounds.cs" />
+    <Compile Include="Methods\DelaunayMesh.cs" />
+    <Compile Include="Methods\ConcaveHull.cs" />
     <Compile Include="Methods\SnapToTopo.cs" />
     <Compile Include="Methods\GetTanVector.cs" />
     <Compile Include="Methods\IsClockwise.cs" />
