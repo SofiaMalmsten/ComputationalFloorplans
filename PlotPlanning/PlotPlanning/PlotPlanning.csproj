@@ -71,6 +71,7 @@
     <Compile Include="Components\Generate\Accesspoints.cs" />
     <Compile Include="Components\Generate\HouseFootprint.cs" />
     <Compile Include="Components\Generate\SegmentBounds.cs" />
+    <Compile Include="Methods\DelaunayMesh.cs" />
     <Compile Include="Methods\ConcaveHull.cs" />
     <Compile Include="Methods\SnapToTopo.cs" />
     <Compile Include="Methods\GetTanVector.cs" />

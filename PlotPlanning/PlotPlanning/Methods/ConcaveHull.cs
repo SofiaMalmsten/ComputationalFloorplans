@@ -15,8 +15,10 @@ namespace PlotPlanning.Methods
         {
             //1. make mesh and get faces
             Mesh mesh = new Mesh(); 
+            mesh = Generate.DelaunayMesh(pts.ToList());
             mesh.Vertices.AddVertices(pts);
 
+           
             List<Point3d> ptsList = pts.ToList();
             List<Point3f> vertices = mesh.Vertices.ToList();
             List<MeshFace> faces = mesh.Faces.ToList();
@@ -53,8 +55,11 @@ namespace PlotPlanning.Methods
             //# create final meshes and outlines
             //Mesh finalMesh = ConstructMesh(vertices, newMesh);
             Mesh finalMesh = new Mesh();
+            //finalMesh.Vertices.AddVertices(pts);
+            //finalMesh.Append(newMesh);
+            finalMesh = newMesh;
             finalMesh.Vertices.AddVertices(pts);
-            finalMesh.Append(newMesh);
+            Polyline[] test = finalMesh.GetNakedEdges();
             Polyline concaveHull = finalMesh.GetNakedEdges().ToList()[0];
 
             return concaveHull;
