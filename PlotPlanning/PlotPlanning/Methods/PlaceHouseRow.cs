@@ -12,15 +12,15 @@ namespace PlotPlanning.Methods
     {
 
         public static void PlaceHouseRow(Rectangle3d baseRec,Curve bound, double min, double max, double space, double offset, Random random, string method, 
-            out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve cutBound)
+            out List<Polyline> outRecs, out List<Vector3d> out_tan, out PolylineCurve cutBound)
         {
             try
             { 
             List<Line> lines = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve), baseRec, 1); //1 is just a seed to make it work for now                                                                                                                                                    
                 Line this_line = lines.PickLine(method, random); 
                 List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec, space);
-                tan = new List<Vector3d>();
-                Vector3d tan_vec = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line)[0]; 
+                out_tan = new List<Vector3d>();
+                List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line);               
 
                 List<Polyline> rectangles = new List<Polyline>();
                 for (int i = 0; i < pos.Count; i++)
@@ -31,7 +31,7 @@ namespace PlotPlanning.Methods
                     if (this_rec.Count != 0)
                     {
                         rectangles.Add(this_rec[0]);
-                        tan.Add(tan_vec);
+                        out_tan.Add(tan[i]);
                     }
                 }
 
@@ -45,7 +45,7 @@ namespace PlotPlanning.Methods
             catch
             {
                 outRecs = new List<Polyline>();
-                tan = new List<Vector3d>();
+                out_tan = new List<Vector3d>();
                 cutBound = new PolylineCurve(); 
             }
 
