@@ -19,14 +19,20 @@ namespace PlotPlanning.Methods
             List<Line> lines = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve), baseRec, 1); //1 is just a seed to make it work for now                                                                                                                                                    
                 Line this_line = lines.PickLine(method, random); 
                 List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec, space);
-                tan = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line);
+                tan = new List<Vector3d>();
+                Vector3d tan_vec = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line)[0]; 
 
                 List<Polyline> rectangles = new List<Polyline>();
                 for (int i = 0; i < pos.Count; i++)
                 {
                     Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRec, pos[i], tan[i]);
                     Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    rectangles.AddRange(PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound));
+                    List<Polyline> this_rec = PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound);
+                    if (this_rec.Count != 0)
+                    {
+                        rectangles.Add(this_rec[0]);
+                        tan.Add(tan_vec);
+                    }
                 }
 
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles);

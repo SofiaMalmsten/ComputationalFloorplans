@@ -42,6 +42,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
+           // pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.item); 
 
         }
 
@@ -71,7 +72,8 @@ namespace PlotPlanning.Components
             int itts = 1; 
             int seed = 1;
             double offset = 0;
-            string method = ""; 
+            string method = "";
+            Curve roads = new PolyCurve(); 
            
 
             //Get Data
@@ -93,13 +95,22 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(8, ref method))
                 return;
+            //if (!DA.GetData(9, ref roads))
+               // return;
 
 
             //Calculate
+            /*
+            Polyline pl_bound = new Polyline();
+            bound.TryGetPolyline(out pl_bound);
+            List<Line> segmests = pl_bound.GetSegments().ToList();
+            Polyline pl_roads = new Polyline();
+            roads.TryGetPolyline(out pl_roads);
+            List<Line> road_segmests = pl_bound.GetSegments().ToList();
+            List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
+            */
 
-
-            // Curve bound = new PolylineCurve();
-            List<Vector3d> tans = new List<Vector3d>();
+            List <Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
             Random random = new Random(seed); 
             for (int i = 0; i < itts; i++)
@@ -107,47 +118,13 @@ namespace PlotPlanning.Components
                 pp.Generate.PlaceHouseRow(baseRectangle, bound, minAmount, maxAmount, spaceDist, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
                 rectangles.AddRange(outRecs);
                 tans.AddRange(tan);
-                bound = newBound; 
+                //List<Line> validLines = newBound.ToPolyline().GetSegments().ToList().Except(invalid_segments).ToList();
+                bound = newBound;//Curve.JoinCurves(validLines.Select(x => x.ToNurbsCurve()))[0]; 
             }
 
             Curve newRegion = bound; 
 
-
-
-
-                /*
-                List<Line> line = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve), baseRectangle, seed);
-                List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(line.Last(), minAmount, maxAmount, baseRectangle, spaceDist);
-                List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, line.Last());
-
-
-                List<Polyline> rectangles = new List<Polyline>();
-                for (int i = 0; i < pos.Count; i++)
-                {
-                    Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, pos[i], tan[i]);
-                    Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    rectangles.AddRange(PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound));
-                }
-
-                Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles);
-                Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
-                Curve offsetRegion = cutCrv.Offset(Plane.WorldXY, offset, PlotPlanning.Methods.Generate.DistanceTol(), CurveOffsetCornerStyle.Sharp)[0];
-                Curve newRegion = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).PickLargest();
-
-                */
-
-            /*if (rectangles.Count==0)
-            {
-                pos = PlotPlanning.Methods.Generate.AccessPoints(line[1], minAmount, maxAmount, baseRectangle, spaceDist);
-                tan = PlotPlanning.Methods.Generate.GetTanVect(pos, line[1]);
-
-                for (int i = 0; i < pos.Count; i++)
-                {
-                    Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, pos[i], tan[i]);
-                    Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    rectangles.AddRange(PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound));
-                }
-            }*/
+               
 
             //Set data for the outputs
             DA.SetDataList(0, rectangles);
