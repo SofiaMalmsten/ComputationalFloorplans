@@ -74,6 +74,8 @@
     <Compile Include="Methods\ClosePolyline.cs" />
     <Compile Include="Methods\PlaceHouseRow.cs" />
     <Compile Include="Methods\PickLargest.cs" />
+    <Compile Include="Methods\EqualityComparer.cs" />
+    <Compile Include="Methods\OffsetOut.cs" />
     <Compile Include="Methods\Tolerance.cs" />
     <Compile Include="Methods\CurvesToPolylines.cs" />
     <Compile Include="Methods\DelaunayMesh.cs" />
