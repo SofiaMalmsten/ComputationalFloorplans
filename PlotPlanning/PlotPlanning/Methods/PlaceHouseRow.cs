@@ -50,7 +50,7 @@ namespace PlotPlanning.Methods
             {
                 outRecs = new List<Polyline>();
                 out_tan = new List<Vector3d>();
-                cutBound = new PolylineCurve();
+                cutBound = bound as PolylineCurve;
             }
 
 
