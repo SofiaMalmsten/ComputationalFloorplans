@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Generate\ConcaveHull2D.cs" />
-    <Compile Include="Components\Generate\Kakafoni.cs" />
+    <Compile Include="Components\Generate\PlotLayout2D.cs" />
     <Compile Include="Components\Generate\SnapToTopo.cs" />
     <Compile Include="Components\Generate\CullSmallAreas.cs" />
     <Compile Include="Components\Generate\IsClockwise.cs" />
