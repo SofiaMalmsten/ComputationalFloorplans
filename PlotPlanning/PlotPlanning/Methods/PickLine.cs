@@ -73,7 +73,7 @@ namespace PlotPlanning.Methods
             {
                 return lines.OrderBy(x => x.Length).ToList()[lines.Count - 1];
             }
-            else
+            else // TODO: Fix issue with try/catch in PlaceHouseRow. 
             {
                 throw new NotImplementedException("The methods yo can choose from are 'shortest', 'longest', 'random', 'boundary' and 'boundary first'."); 
             }
