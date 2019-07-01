@@ -35,7 +35,7 @@ namespace PlotPlanning.Methods
                     }
                 }
 
-                if (rectangles.Count <= min)
+                if (rectangles.Count < min)
                     rectangles = new List<Polyline>();
 
 
