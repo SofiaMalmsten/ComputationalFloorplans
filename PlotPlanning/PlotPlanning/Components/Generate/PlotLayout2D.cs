@@ -83,13 +83,13 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(3, ref maxAmount))
                 return;
-            if (!DA.GetData(5, ref offset))
+            if (!DA.GetData(4, ref offset))
                 return;
-            if (!DA.GetData(6, ref itts))
+            if (!DA.GetData(5, ref itts))
                 return;
-            if (!DA.GetData(7, ref seed))
+            if (!DA.GetData(6, ref seed))
                 return;
-            if (!DA.GetData(8, ref method))
+            if (!DA.GetData(7, ref method))
                 return;
             //if (!DA.GetData(9, ref roads))
                // return;
