@@ -11,7 +11,7 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
     
-        public static List<Line> SegmentBounds(Polyline siteBound, Rectangle3d rectangle, int seed)
+        public static List<Line> SegmentBounds(Polyline siteBound, Rectangle3d rectangle, int seed, double minAmount)
         {
 
             Random r = new Random(seed);
@@ -32,7 +32,7 @@ namespace PlotPlanning.Methods
 
             foreach (var segm in siteBound.GetSegments())
             {
-                    if (segm.Length > shortestSegm*2)
+                    if (segm.Length > shortestSegm*minAmount)
                     {
                         segments.Add(segm);
                     }

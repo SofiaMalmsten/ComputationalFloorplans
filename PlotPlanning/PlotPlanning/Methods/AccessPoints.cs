@@ -34,6 +34,8 @@ namespace PlotPlanning.Methods
 
             currPt = startPt;
             double currLength = segmentLength;
+            int i = 0;
+
             while (currLength < lineLength)
             {
                 currLine = new Line(currPt, husVec);
@@ -41,6 +43,14 @@ namespace PlotPlanning.Methods
                 pointPos.Add(currPt);
                 lineCombination.Add(currLine);
                 currLength = currLength + segmentLength;
+                i = i + 1;
+
+                if (i == maxAmount)
+                {
+                    i = 0;
+                    break;
+                }
+
             }
 
             return pointPos;

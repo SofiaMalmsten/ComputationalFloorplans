@@ -36,6 +36,7 @@ namespace PlotPlanning.Components
             pManager.AddCurveParameter("bounds", "bounds", "siteBoundaries", GH_ParamAccess.item);
             pManager.AddRectangleParameter("rectangle", "rec", "rectanlge to place on the site", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "change seed in order to change plot layout", GH_ParamAccess.item);
+            pManager.AddNumberParameter("minAmount", "minAmount", "min amount of houses in a row", GH_ParamAccess.item);
 
         }
 
@@ -63,6 +64,7 @@ namespace PlotPlanning.Components
            
             Rectangle3d rectangle = new Rectangle3d();
             int seed = 0;
+            double minAmount = 1;
 
 
             //Get data
@@ -75,12 +77,15 @@ namespace PlotPlanning.Components
             if (!DA.GetData(2, ref seed))
                 return;
 
+            if (!DA.GetData(3, ref minAmount))
+                return;
+
             //Calculate
 
             PolylineCurve siteBound2 = pline as PolylineCurve;
             Polyline siteBound = siteBound2.ToPolyline();
 
-            List<Line> segments = PlotPlanning.Methods.Generate.SegmentBounds(siteBound, rectangle, seed);
+            List<Line> segments = PlotPlanning.Methods.Generate.SegmentBounds(siteBound, rectangle, seed, minAmount);
 
             if (segments.Count != 0)
             {
