@@ -36,7 +36,6 @@ namespace PlotPlanning.Components
             pManager.AddNumberParameter("minAmount", "minAmount", "min amount of houses in a row", GH_ParamAccess.item);
             pManager.AddNumberParameter("maxAmount", "maxAmount", "max amount of houses in a row", GH_ParamAccess.item);
             pManager.AddRectangleParameter("rectangle", "rectangle", "rectangle to place", GH_ParamAccess.item);
-            pManager.AddNumberParameter("spcaceDist", "spaceDist", "distance between two house segments", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -60,7 +59,6 @@ namespace PlotPlanning.Components
             Rectangle3d rectangle = new Rectangle3d();
             double minAmount = 1;
             double maxAmount = 1;
-            double spaceDist = 0;
 
             //Get Data
             if (!DA.GetData(0, ref line))
@@ -71,11 +69,9 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(3, ref rectangle))
                 return;
-            if (!DA.GetData(4, ref spaceDist))
-                return;
 
             //Calculate
-            List<Point3d> pointPos = PlotPlanning.Methods.Generate.AccessPoints(line, minAmount, maxAmount, rectangle, spaceDist);
+            List<Point3d> pointPos = PlotPlanning.Methods.Generate.AccessPoints(line, minAmount, maxAmount, rectangle);
             List<Vector3d> tanList = PlotPlanning.Methods.Generate.GetTanVect(pointPos, line);
            
             //Set data
