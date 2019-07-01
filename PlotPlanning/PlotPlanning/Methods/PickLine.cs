@@ -45,7 +45,7 @@ namespace PlotPlanning.Methods
                 }
                 return posLines[random.Next(lines.Count)];
             }
-            else if (method == "boundary first") //selects line on boundary first and then randomly is there are none
+            else if (method == "boundary first") //selects line on boundary first and then randomly is there are none. TODO: Make it work. :)
             {
                 originalBound.TryGetPolyline(out Polyline originalBoundPl);
                 List<Line> originalSegments = originalBoundPl.GetSegments().ToList();
