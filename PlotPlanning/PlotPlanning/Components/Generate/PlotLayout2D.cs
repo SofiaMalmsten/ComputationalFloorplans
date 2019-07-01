@@ -37,7 +37,6 @@ namespace PlotPlanning.Components
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
             pManager.AddNumberParameter("minAmount", "minAmount", "tangent vector for the line", GH_ParamAccess.item);
             pManager.AddNumberParameter("maxAmount", "maxAmount", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddNumberParameter("spaceDist", "spaceDist", "base positipon for the rectangles", GH_ParamAccess.item);
             pManager.AddNumberParameter("offset", "offset", "offset around houses", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
@@ -68,7 +67,6 @@ namespace PlotPlanning.Components
             Curve bound = new PolylineCurve();
             double minAmount = 1;
             double maxAmount = 1;
-            double spaceDist = 0;
             int itts = 1; 
             int seed = 1;
             double offset = 0;
@@ -84,8 +82,6 @@ namespace PlotPlanning.Components
             if (!DA.GetData(2, ref minAmount))
                 return;
             if (!DA.GetData(3, ref maxAmount))
-                return;
-            if (!DA.GetData(4, ref spaceDist))
                 return;
             if (!DA.GetData(5, ref offset))
                 return;
@@ -121,7 +117,7 @@ namespace PlotPlanning.Components
             for (int i = 0; i < itts; i++)
             {
                 Rectangle3d baseRectangle = baseRectangles[random.Next(baseRectangles.Count)];
-                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, minAmount, maxAmount, spaceDist, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
+                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, minAmount, maxAmount, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
                 rectangles.AddRange(outRecs);
                 tans.AddRange(tan);
                 //List<Line> validLines = newBound.ToPolyline().GetSegments().ToList().Except(invalid_segments).ToList();
