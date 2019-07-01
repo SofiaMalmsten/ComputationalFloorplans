@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace PlotPlanning.Components
 {
-    public class Kakafoni : GH_Component
+    public class PlotLayout2D : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,8 +21,8 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Kakafoni()
-          : base("Kakafoni", "GenerateKakafoni",
+        public PlotLayout2D()
+          : base("PlotLayout2D", "PlotLayout2D",
               "Creates accesspoints on a line",
               "PlotPlanningTool", "Houses")
         {
