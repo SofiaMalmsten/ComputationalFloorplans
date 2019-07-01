@@ -33,7 +33,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddRectangleParameter("baseRectangle", "baseRec", "rectangle that should be places on lines", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("baseRectangles", "baseRecs", "rectangles that should be places on lines", GH_ParamAccess.list);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
             pManager.AddNumberParameter("minAmount", "minAmount", "tangent vector for the line", GH_ParamAccess.item);
             pManager.AddNumberParameter("maxAmount", "maxAmount", "base positipon for the rectangles", GH_ParamAccess.item);
@@ -64,7 +64,7 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 
-            Rectangle3d baseRectangle = new Rectangle3d();
+            List<Rectangle3d> baseRectangles = new List<Rectangle3d>();
             Curve bound = new PolylineCurve();
             double minAmount = 1;
             double maxAmount = 1;
@@ -77,7 +77,7 @@ namespace PlotPlanning.Components
            
 
             //Get Data
-            if (!DA.GetData(0, ref baseRectangle))
+            if (!DA.GetDataList(0, baseRectangles))
                 return;
             if (!DA.GetData(1, ref bound))
                 return;
@@ -112,9 +112,14 @@ namespace PlotPlanning.Components
 
             List <Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
-            Random random = new Random(seed); 
+            Random random = new Random(seed);
+
+            //Get random baseRectangle from imput list:
+            
+
             for (int i = 0; i < itts; i++)
             {
+                Rectangle3d baseRectangle = baseRectangles[random.Next(baseRectangles.Count)];
                 pp.Generate.PlaceHouseRow(baseRectangle, bound, minAmount, maxAmount, spaceDist, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
                 rectangles.AddRange(outRecs);
                 tans.AddRange(tan);
