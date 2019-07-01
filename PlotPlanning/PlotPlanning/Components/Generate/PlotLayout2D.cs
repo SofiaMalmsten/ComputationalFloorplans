@@ -113,6 +113,7 @@ namespace PlotPlanning.Components
             List <Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
             Random random = new Random(seed);
+            Curve originalBound = bound; 
 
             //Get random baseRectangle from imput list:
             
@@ -120,7 +121,7 @@ namespace PlotPlanning.Components
             for (int i = 0; i < itts; i++)
             {
                 Rectangle3d baseRectangle = baseRectangles[random.Next(baseRectangles.Count)];
-                pp.Generate.PlaceHouseRow(baseRectangle, bound, minAmount, maxAmount, spaceDist, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
+                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, minAmount, maxAmount, spaceDist, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
                 rectangles.AddRange(outRecs);
                 tans.AddRange(tan);
                 //List<Line> validLines = newBound.ToPolyline().GetSegments().ToList().Except(invalid_segments).ToList();

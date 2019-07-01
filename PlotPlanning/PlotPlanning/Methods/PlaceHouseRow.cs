@@ -11,13 +11,13 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, double min, double max, double space, double offset, Random random, string method,
+        public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, Curve originalBound, double min, double max, double space, double offset, Random random, string method,
             out List<Polyline> outRecs, out List<Vector3d> out_tan, out PolylineCurve cutBound)
         {
             try
             {
                 List<Line> lines = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve).ClosePolyline(), baseRec, 1); //1 is just a seed to make it work for now                                                                                                                                                    
-                Line this_line = lines.PickLine(method, random);
+                Line this_line = lines.PickLine(method, originalBound, random);
                 List<Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec, space);
                 out_tan = new List<Vector3d>();
                 List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line);
@@ -52,29 +52,7 @@ namespace PlotPlanning.Methods
                 out_tan = new List<Vector3d>();
                 cutBound = bound as PolylineCurve;
             }
-
-
         }
-
-        public static Line PickLine(this List<Line> lines, string method, Random random)
-        {
-            if (method == "random")
-            {
-                Line line = lines[random.Next(lines.Count)];
-                return line;
-            }
-            else if (method == "shortest")
-            {
-                return lines.OrderBy(x => x.Length).ToList()[0];
-            }
-            else //(method == "longest")
-            {
-                return lines.OrderBy(x => x.Length).ToList()[lines.Count - 1];
-            }
-
-        }
-
-
         //====================================================================
 
     }
