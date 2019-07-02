@@ -11,12 +11,13 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, Curve originalBound, Curve roads, double min, double max, double offset, Random random, string method,
+        public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, Curve originalBound, List<Curve> roads, double min, double max, double offset, Random random, string method,
             out List<Polyline> outRecs, out List<Vector3d> out_tan, out PolylineCurve cutBound)
         {
             try
             {
-                List<Line> lines = PlotPlanning.Methods.Generate.SegmentBounds(Methods.Calculate.ConvertToPolyline(bound as PolylineCurve).ClosePolyline(), baseRec, 1, min); //1 is just a seed to make it work for now                                                                                                                                                    
+                bound.TryGetPolyline(out Polyline boundPL); 
+                List<Line> lines = PlotPlanning.Methods.Generate.SegmentBounds(boundPL.ClosePolyline(), baseRec, 1, min); //1 is just a seed to make it work for now                                                                                                                                                    
                 Line this_line = lines.PickLine(method, random, roads, originalBound); 
                 List <Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec);
                 out_tan = new List<Vector3d>();

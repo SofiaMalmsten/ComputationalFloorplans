@@ -41,7 +41,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
-            pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.item); 
+            pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list); 
 
         }
 
@@ -71,7 +71,7 @@ namespace PlotPlanning.Components
             int seed = 1;
             double offset = 0;
             string method = "";
-            Curve roads = new PolyCurve(); 
+            List<Curve> roads = new List<Curve>(); 
            
 
             //Get Data
@@ -91,7 +91,7 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(7, ref method))
                 return;
-            if (!DA.GetData(9, ref roads))
+            if (!DA.GetDataList(8, roads))
                 return;
 
 

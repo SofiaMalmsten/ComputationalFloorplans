@@ -14,7 +14,7 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static Line PickLine(this List<Line> lines, string method, Random random = null, Curve roads = null, Curve originalBound = null)
+        public static Line PickLine(this List<Line> lines, string method, Random random = null, List<Curve> roads = null, Curve originalBound = null)
         {
             if (method == "random") //selects line randomly
             {
@@ -32,7 +32,7 @@ namespace PlotPlanning.Methods
             //====================================================================
 
             else if (method == "boundary") //selects line on boundary
-            {                
+            {
                 List<Line> posLines = new List<Line>();
 
                 foreach (Line l in lines)
@@ -57,15 +57,22 @@ namespace PlotPlanning.Methods
 
                 foreach (Line l in lines)
                 {
-                    isc.CurveIntersections i = isc.Intersection.CurveCurve(roads, l.ToNurbsCurve(), DistanceTol(), DistanceTol());
-                    if (i.Count > 0)
+                    foreach (Curve road in roads)
                     {
-                        isc.IntersectionEvent ie = i[0];
-                        if (ie.IsOverlap)
+                        isc.CurveIntersections i = isc.Intersection.CurveCurve(road, l.ToNurbsCurve(), DistanceTol(), DistanceTol());
+                        if (i.Count > 0)
                         {
-                            posLines.Add(l);
+                            isc.IntersectionEvent ie = i[0];
+                            if (ie.IsOverlap)
+                            {
+                                posLines.Add(l);
+                                goto nextL;
+
+                            }
                         }
                     }
+                nextL:
+                    int a = 1; //TODO: make it nicer, this is just to break out of the nested for loop when l is added 
                 }
                 return posLines[random.Next(lines.Count)];
             }
@@ -73,7 +80,7 @@ namespace PlotPlanning.Methods
             //====================================================================
 
             else if (method == "boundary first") //selects line on boundary first and then randomly is there are none. TODO: Make it work. :)
-            {                
+            {
                 List<Line> posLines = new List<Line>();
 
                 foreach (Line l in lines)
@@ -90,7 +97,7 @@ namespace PlotPlanning.Methods
                 }
                 if (posLines.Count == 0)
                 {
-                    return lines.PickLine("random", random, originalBound);
+                    return lines.PickLine("random", random, roads, originalBound);
                 }
                 return posLines[random.Next(lines.Count)];
             }
@@ -103,7 +110,7 @@ namespace PlotPlanning.Methods
             }
             else // TODO: Fix issue with try/catch in PlaceHouseRow. 
             {
-                throw new NotImplementedException("The methods yo can choose from are 'shortest', 'longest', 'random', 'boundary' and 'boundary first'."); 
+                throw new NotImplementedException("The methods yo can choose from are 'shortest', 'longest', 'random', 'boundary' and 'boundary first'.");
             }
         }
 
