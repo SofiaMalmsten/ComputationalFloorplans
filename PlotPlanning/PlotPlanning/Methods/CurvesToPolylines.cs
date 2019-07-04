@@ -36,6 +36,12 @@ namespace PlotPlanning.Methods
 
             return x;
         }
+        public static Polyline CurveToPolyline(this Curve curve)
+        {
+            Polyline x = new Polyline();
+            curve.TryGetPolyline(out x);             
+            return x;
+        }
     }
 
 }

@@ -12,11 +12,15 @@ namespace PlotPlanning.Methods
 
         public static double DistanceTol()
         {
-            return 0.01; 
+            return 0.01;
         }
         public static double AngleTol()
         {
             return 0.01;
+        }
+        public static double GardenTol()
+        {
+            return 0.1;
         }
     }
 }

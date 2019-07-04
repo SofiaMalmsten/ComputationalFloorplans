@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
-using g = Grasshopper.Kernel.Components; 
+using static System.Math;
+
 
 
 namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-    
+
         public static List<Polyline> CullSmallAreas(Curve rec, Curve bound)
         {
             Point3d origin = new Point3d(0, 0, 0);
@@ -19,32 +20,21 @@ namespace PlotPlanning.Methods
             Plane p = new Plane(origin, normal);
             List<Polyline> crvList = new List<Polyline>();
 
-            //Calculate start area
-            //for (int i = 0; i < rec.Count; i++)
-            //{
+            Curve[] splitCurves = Rhino.Geometry.Curve.CreateBooleanIntersection(rec, bound, 0.001);
+            List<Polyline> plList = CurvesToPolylines(splitCurves);
 
-            Curve[] X = Rhino.Geometry.Curve.CreateBooleanIntersection(rec, bound, 0.001);
-            List<Polyline> x = CurvesToPolylines(X); 
-
-            if (x.Count != 0)
+            if (plList.Count >= 1)
             {
-            
-            
-                double a1 = Rhino.Geometry.AreaMassProperties.Compute(X).Area;
-                double a2 = Rhino.Geometry.AreaMassProperties.Compute(rec).Area;
+                Polyline biggest_pl = plList.OrderBy(x => Rhino.Geometry.AreaMassProperties.Compute(new PolylineCurve(x.GetControlPoints())).Area).ToList().Last();
 
-                double r1 = Math.Round(a1);
-                double r2 = Math.Round(a2);
+                double recArea = Rhino.Geometry.AreaMassProperties.Compute(rec).Area;
+                double diff = recArea - Rhino.Geometry.AreaMassProperties.Compute(new PolylineCurve(biggest_pl.GetControlPoints())).Area;
 
-                if (r1 == r2)
-                {
-                    x.ClosePolyline(); 
-                    crvList.AddRange(x); 
-                }
-            //}
+                if (diff < GardenTol() * recArea) return new List<Polyline>() { biggest_pl };
+                else return new List<Polyline>();
             }
-            return crvList;
-            
+            else return new List<Polyline>(); 
+
         }
 
     }
