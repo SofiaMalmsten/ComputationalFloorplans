@@ -12,7 +12,10 @@ namespace PlotPlanning.Methods
 
         public static Curve OffsetOut(this Curve curve, double distance, Plane plane, CurveOffsetCornerStyle cornerStyle = CurveOffsetCornerStyle.Sharp)
         {
-            
+
+            if (distance == 0) return curve; 
+
+
             double original_area = Rhino.Geometry.AreaMassProperties.Compute(curve).Area;
             Curve[] offset_1 = curve.Offset(plane, distance, pp.DistanceTol(),cornerStyle);
             if (offset_1 != null)

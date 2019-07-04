@@ -42,15 +42,12 @@ namespace PlotPlanning.Methods
                 if (rectangles.Count < min)
                     rectangles = new List<Polyline>();
 
-
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles);
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
-                Curve offsetRegion = new PolylineCurve();
-                offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
+                Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
                 Curve[] cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToArray();
                 double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
-                Polyline largest_region = new Polyline();
-                cutRegions.First(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area == max_area).TryGetPolyline(out largest_region);
+                cutRegions.First(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area == max_area).TryGetPolyline(out Polyline largest_region);
                 cutBound = largest_region.ToPolylineCurve();
                 outRecs = rectangles;
             }
