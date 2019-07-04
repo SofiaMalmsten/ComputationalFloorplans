@@ -54,7 +54,6 @@ namespace PlotPlanning.Methods
             }
 
             Vector3d move_vec = random.NextDouble()* (lineLength-currLength) *vec.Normalise();
-            //Transform t = Transform.Translation(move_vec);
             List<Point3d> move_pts = new List<Point3d>(); 
             foreach (Point3d p in pointPos) move_pts.Add(Rhino.Geometry.Point3d.Add(p, move_vec));           
 
