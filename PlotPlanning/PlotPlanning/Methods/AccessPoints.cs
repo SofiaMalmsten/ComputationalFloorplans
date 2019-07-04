@@ -10,7 +10,7 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
     
-        public static List<Point3d> AccessPoints(Line line, double minAmount, double maxAmount, Rectangle3d rectangle)
+        public static List<Point3d> AccessPoints(Line line, double minAmount, double maxAmount, Rectangle3d rectangle, Random random)
         {
             //========================================================
             //Declaration - fixed values
@@ -53,7 +53,12 @@ namespace PlotPlanning.Methods
 
             }
 
-            return pointPos;
+            Vector3d move_vec = random.NextDouble()* (lineLength-currLength) *vec.Normalise();
+            //Transform t = Transform.Translation(move_vec);
+            List<Point3d> move_pts = new List<Point3d>(); 
+            foreach (Point3d p in pointPos) move_pts.Add(Rhino.Geometry.Point3d.Add(p, move_vec));           
+
+            return move_pts;
         }
     }
 

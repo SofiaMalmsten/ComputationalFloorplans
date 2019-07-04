@@ -19,8 +19,9 @@ namespace PlotPlanning.Methods
             {
                 bound.TryGetPolyline(out Polyline boundPL); 
                 List<Line> lines = PlotPlanning.Methods.Generate.SegmentBounds(boundPL.ClosePolyline(), baseRec, 1, min); //1 is just a seed to make it work for now                                                                                                                                                    
-                Line this_line = lines.PickLine(method, random, roads, originalBound); 
-                List <Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec);
+                Line this_line = lines.PickLine(method, random, roads, originalBound);
+                this_line.Extend(-FilletOffset(), -FilletOffset()); 
+                List <Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec, random);
                 out_tan = new List<Vector3d>();
                 midPts = new List<Point3d>(); 
                 List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line);
