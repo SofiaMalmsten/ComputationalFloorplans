@@ -14,21 +14,25 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static Line PickLine(this List<Line> lines, string method, Curve originalBound, Random random)
+        public static Line PickLine(this List<Line> lines, string method, Random random = null, List<Curve> roads = null, Curve originalBound = null)
         {
             if (method == "random") //selects line randomly
             {
                 Line line = lines[random.Next(lines.Count)];
                 return line;
             }
+
+            //====================================================================
+
             else if (method == "shortest") //selects shortest line 
             {
                 return lines.OrderBy(x => x.Length).ToList()[0];
             }
+
+            //====================================================================
+
             else if (method == "boundary") //selects line on boundary
             {
-                originalBound.TryGetPolyline(out Polyline originalBoundPl);
-                List<Line> originalSegments = originalBoundPl.GetSegments().ToList();
                 List<Line> posLines = new List<Line>();
 
                 foreach (Line l in lines)
@@ -45,10 +49,38 @@ namespace PlotPlanning.Methods
                 }
                 return posLines[random.Next(lines.Count)];
             }
+            //====================================================================
+
+            else if (method == "roads") //select line on road
+            {
+                List<Line> posLines = new List<Line>();
+
+                foreach (Line l in lines)
+                {
+                    foreach (Curve road in roads)
+                    {
+                        isc.CurveIntersections i = isc.Intersection.CurveCurve(road, l.ToNurbsCurve(), DistanceTol(), DistanceTol());
+                        if (i.Count > 0)
+                        {
+                            isc.IntersectionEvent ie = i[0];
+                            if (ie.IsOverlap)
+                            {
+                                posLines.Add(l);
+                                goto nextL;
+
+                            }
+                        }
+                    }
+                nextL:
+                    int a = 1; //TODO: make it nicer, this is just to break out of the nested for loop when l is added 
+                }
+                return posLines[random.Next(lines.Count)];
+            }
+
+            //====================================================================
+
             else if (method == "boundary first") //selects line on boundary first and then randomly is there are none. TODO: Make it work. :)
             {
-                originalBound.TryGetPolyline(out Polyline originalBoundPl);
-                List<Line> originalSegments = originalBoundPl.GetSegments().ToList();
                 List<Line> posLines = new List<Line>();
 
                 foreach (Line l in lines)
@@ -65,17 +97,20 @@ namespace PlotPlanning.Methods
                 }
                 if (posLines.Count == 0)
                 {
-                    return lines.PickLine("random", originalBound, random);
+                    return lines.PickLine("random", random, roads, originalBound);
                 }
                 return posLines[random.Next(lines.Count)];
             }
-            else if(method == "longest") //returns longest line 
+
+            //====================================================================
+
+            else if (method == "longest") //returns longest line 
             {
                 return lines.OrderBy(x => x.Length).ToList()[lines.Count - 1];
             }
             else // TODO: Fix issue with try/catch in PlaceHouseRow. 
             {
-                throw new NotImplementedException("The methods yo can choose from are 'shortest', 'longest', 'random', 'boundary' and 'boundary first'."); 
+                throw new NotImplementedException("The methods yo can choose from are 'shortest', 'longest', 'random', 'boundary' and 'boundary first'.");
             }
         }
 

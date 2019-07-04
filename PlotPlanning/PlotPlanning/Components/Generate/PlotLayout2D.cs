@@ -41,7 +41,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
-           // pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.item); 
+            pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list); 
 
         }
 
@@ -71,7 +71,7 @@ namespace PlotPlanning.Components
             int seed = 1;
             double offset = 0;
             string method = "";
-            Curve roads = new PolyCurve(); 
+            List<Curve> roads = new List<Curve>(); 
            
 
             //Get Data
@@ -91,8 +91,8 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(7, ref method))
                 return;
-            //if (!DA.GetData(9, ref roads))
-               // return;
+            if (!DA.GetDataList(8, roads))
+                return;
 
 
             //Calculate
@@ -119,7 +119,7 @@ namespace PlotPlanning.Components
                 int index = random.Next(baseRectangles.Count);
                 Rectangle3d baseRectangle = baseRectangles[index];
                 double minAmount = minAmounts[index];
-                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, minAmount, maxAmount, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
+                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, roads, minAmount, maxAmount, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
                 rectangles.AddRange(outRecs);
                 tans.AddRange(tan);
                 //List<Line> validLines = newBound.ToPolyline().GetSegments().ToList().Except(invalid_segments).ToList();
