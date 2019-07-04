@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
+using nic = Rhino.NodeInCode.Components; 
 
 
 namespace PlotPlanning.Methods
@@ -12,7 +13,7 @@ namespace PlotPlanning.Methods
     {
 
         public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, Curve originalBound, List<Curve> roads, double min, double max, double offset, Random random, string method,
-            out List<Polyline> outRecs, out List<Vector3d> out_tan, out PolylineCurve cutBound)
+            out List<Polyline> outRecs, out List<Vector3d> out_tan, out PolylineCurve cutBound, out List<Point3d> midPts)
         {
             try
             {
@@ -21,6 +22,7 @@ namespace PlotPlanning.Methods
                 Line this_line = lines.PickLine(method, random, roads, originalBound); 
                 List <Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec);
                 out_tan = new List<Vector3d>();
+                midPts = new List<Point3d>(); 
                 List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line);
 
                 List<Polyline> rectangles = new List<Polyline>();
@@ -32,7 +34,8 @@ namespace PlotPlanning.Methods
                     if (this_rec.Count != 0)
                     {
                         rectangles.Add(this_rec[0]);
-                        out_tan.Add(tan[i]);
+                        out_tan.Add(tan[i]);                        
+                        midPts.Add(rec.CurveToPolyline().CenterPoint()); 
                     }
                 }
 
@@ -56,6 +59,7 @@ namespace PlotPlanning.Methods
                 outRecs = new List<Polyline>();
                 out_tan = new List<Vector3d>();
                 cutBound = bound as PolylineCurve;
+                midPts = new List<Point3d>(); 
             }
         }
         //====================================================================

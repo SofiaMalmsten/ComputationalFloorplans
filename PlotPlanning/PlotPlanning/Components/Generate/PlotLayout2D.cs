@@ -50,9 +50,10 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("R", "region", "placed rectangles", GH_ParamAccess.list);
-            pManager.AddVectorParameter("tan", "tan", "tan vectors", GH_ParamAccess.list);
-            pManager.AddCurveParameter("cutR", "curR", "cut region", GH_ParamAccess.item);
+            pManager.AddCurveParameter("house", "h", "placed house footprints", GH_ParamAccess.list);
+            pManager.AddVectorParameter("tangent", "t", "tan vectors", GH_ParamAccess.list);
+            pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.item);
+            pManager.AddPointParameter("midPt", "midPt", "center points of all the houses", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -108,6 +109,7 @@ namespace PlotPlanning.Components
 
             List <Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
+            List<Point3d> middlePts = new List<Point3d>(); 
             Random random = new Random(seed);
             Curve originalBound = bound; 
 
@@ -119,11 +121,14 @@ namespace PlotPlanning.Components
                 int index = random.Next(baseRectangles.Count);
                 Rectangle3d baseRectangle = baseRectangles[index];
                 double minAmount = minAmounts[index];
-                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, roads, minAmount, maxAmount, offset, random, method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound);
+
+                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, roads, minAmount, maxAmount, offset, random,
+                    method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound, out List<Point3d> midPts);
+
                 rectangles.AddRange(outRecs);
                 tans.AddRange(tan);
-                //List<Line> validLines = newBound.ToPolyline().GetSegments().ToList().Except(invalid_segments).ToList();
-                bound = newBound;//Curve.JoinCurves(validLines.Select(x => x.ToNurbsCurve()))[0]; 
+                middlePts.AddRange(midPts); 
+                bound = newBound;
             }
 
             Curve newRegion = bound; 
@@ -134,6 +139,7 @@ namespace PlotPlanning.Components
             DA.SetDataList(0, rectangles);
             DA.SetDataList(1, tans);
             DA.SetData(2, newRegion);
+            DA.SetDataList(3, middlePts); 
 
         }
 
