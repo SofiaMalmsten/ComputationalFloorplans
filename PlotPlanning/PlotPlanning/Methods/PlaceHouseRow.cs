@@ -46,9 +46,9 @@ namespace PlotPlanning.Methods
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles);
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
                 Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
-                Curve[] cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToArray();
-                double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
-                cutRegions.Select(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area >= CellSize(baseRec.ToNurbsCurve()));
+                List<Curve> cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToList();
+                //double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
+                cutRegions = cutRegions.Where(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area >= CellSize(baseRec.ToNurbsCurve())).ToList();
                 cutBound = cutRegions.CurvesToPolylineCurves(); 
                 outRecs = rectangles;
             }
