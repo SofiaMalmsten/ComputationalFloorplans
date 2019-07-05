@@ -111,26 +111,30 @@ namespace PlotPlanning.Components
             List<Polyline> rectangles = new List<Polyline>();
             List<Point3d> middlePts = new List<Point3d>(); 
             Random random = new Random(seed);
-            Curve originalBound = bound; 
+            Curve originalBound = bound;
 
-            //Get random baseRectangle from imput list:
-            
+            List<Curve> BoundList = new List<Curve>() { bound };
 
-            for (int i = 0; i < itts; i++)
+
+            for 
             {
-                int index = random.Next(baseRectangles.Count);
-                Rectangle3d baseRectangle = baseRectangles[index];
-                double minAmount = minAmounts[index];
 
-                pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, roads, minAmount, maxAmount, offset, random,
-                    method, out List<Polyline> outRecs, out List<Vector3d> tan, out PolylineCurve newBound, out List<Point3d> midPts);
 
-                rectangles.AddRange(outRecs);
-                tans.AddRange(tan);
-                middlePts.AddRange(midPts); 
-                bound = newBound;
+                for (int i = 0; i < itts; i++)
+                {
+                    int index = random.Next(baseRectangles.Count);
+                    Rectangle3d baseRectangle = baseRectangles[index];
+                    double minAmount = minAmounts[index];
+
+                    pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, roads, minAmount, maxAmount, offset, random,
+                        method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
+
+                    rectangles.AddRange(outRecs);
+                    tans.AddRange(tan);
+                    middlePts.AddRange(midPts);
+                    BoundList.AddRange(newBound);
+                }
             }
-
             Curve newRegion = bound; 
 
                
