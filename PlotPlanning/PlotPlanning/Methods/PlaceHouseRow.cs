@@ -13,7 +13,7 @@ namespace PlotPlanning.Methods
     {
 
         public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, Curve originalBound, List<Curve> roads, double min, double max, double offset, Random random, string method,
-            out List<Polyline> outRecs, out List<Vector3d> out_tan, out PolylineCurve cutBound, out List<Point3d> midPts)
+            out List<Polyline> outRecs, out List<Vector3d> out_tan, out List<PolylineCurve> cutBound, out List<Point3d> midPts)
         {
             try
             {
@@ -48,8 +48,11 @@ namespace PlotPlanning.Methods
                 Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
                 Curve[] cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToArray();
                 double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
-                cutRegions.First(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area == max_area).TryGetPolyline(out Polyline largest_region);
-                cutBound = largest_region.ToPolylineCurve();
+                cutRegions.Select(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area >= CellSize(baseRec.ToNurbsCurve()));
+
+
+                
+                cutBound = cutRegions.CurvesToPolylines();
                 outRecs = rectangles;
             }
             catch

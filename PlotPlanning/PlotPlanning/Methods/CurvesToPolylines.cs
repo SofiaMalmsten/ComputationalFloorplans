@@ -36,6 +36,20 @@ namespace PlotPlanning.Methods
 
             return x;
         }
+
+        public static List<PolylineCurve> CurvesToPolylinecurves(this Curve[] crvList)
+        {
+            List<Polyline> x = new List<Polyline>();
+
+            foreach (Curve c in crvList)
+            {
+                Polyline pl = new Polyline();
+                c.TryGetPolyline(out pl);
+                x.Add(pl as PolylineCurve);
+            }
+
+            return x;
+        }
         public static Polyline CurveToPolyline(this Curve curve)
         {
             Polyline x = new Polyline();
