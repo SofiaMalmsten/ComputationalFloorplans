@@ -137,9 +137,8 @@ namespace PlotPlanning.Components
                 tans.AddRange(tan);
                 middlePts.AddRange(midPts);
                 BoundList.AddRange(newBound);
-                if (BoundList.Count == 0) break; 
+                if (BoundList.Count == 0) break;
             }
-
 
             List<Curve> newRegions = BoundList;
 
