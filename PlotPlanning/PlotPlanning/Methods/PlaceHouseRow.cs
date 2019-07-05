@@ -19,8 +19,9 @@ namespace PlotPlanning.Methods
             {
                 bound.TryGetPolyline(out Polyline boundPL); 
                 List<Line> lines = PlotPlanning.Methods.Generate.SegmentBounds(boundPL.ClosePolyline(), baseRec, 1, min); //1 is just a seed to make it work for now                                                                                                                                                    
-                Line this_line = lines.PickLine(method, random, roads, originalBound); 
-                List <Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec);
+                Line this_line = lines.PickLine(method, random, roads, originalBound);
+                this_line.Extend(-FilletOffset(), -FilletOffset()); 
+                List <Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec, random);
                 out_tan = new List<Vector3d>();
                 midPts = new List<Point3d>(); 
                 List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line);
@@ -42,15 +43,12 @@ namespace PlotPlanning.Methods
                 if (rectangles.Count < min)
                     rectangles = new List<Polyline>();
 
-
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles);
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
-                Curve offsetRegion = new PolylineCurve();
-                offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
+                Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
                 Curve[] cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToArray();
                 double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
-                Polyline largest_region = new Polyline();
-                cutRegions.First(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area == max_area).TryGetPolyline(out largest_region);
+                cutRegions.First(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area == max_area).TryGetPolyline(out Polyline largest_region);
                 cutBound = largest_region.ToPolylineCurve();
                 outRecs = rectangles;
             }

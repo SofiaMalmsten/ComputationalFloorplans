@@ -71,7 +71,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            List<Point3d> pointPos = PlotPlanning.Methods.Generate.AccessPoints(line, minAmount, maxAmount, rectangle);
+            List<Point3d> pointPos = PlotPlanning.Methods.Generate.AccessPoints(line, minAmount, maxAmount, rectangle, new Random());
             List<Vector3d> tanList = PlotPlanning.Methods.Generate.GetTanVect(pointPos, line);
            
             //Set data
