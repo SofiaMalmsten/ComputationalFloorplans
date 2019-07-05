@@ -119,25 +119,27 @@ namespace PlotPlanning.Components
 
 
 
+
             for (int i = 0; i < itts; i++)
             {
-                foreach (Curve c in BoundList)
-                {
-                    BoundList.RemoveAt(0); 
+                int idx = random.Next(BoundList.Count);
+                Curve c = BoundList[idx]; 
+                BoundList.RemoveAt(idx);
 
-                    int index = random.Next(baseRectangles.Count);
-                    Rectangle3d baseRectangle = baseRectangles[index];
-                    double minAmount = minAmounts[index];
+                int index = random.Next(baseRectangles.Count);
+                Rectangle3d baseRectangle = baseRectangles[index];
+                double minAmount = minAmounts[index];
 
-                    pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, maxAmount, offset, random,
-                        method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
+                pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, maxAmount, offset, random,
+                    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
-                    rectangles.AddRange(outRecs);
-                    tans.AddRange(tan);
-                    middlePts.AddRange(midPts);
-                    BoundList.AddRange(newBound);
-                }
+                rectangles.AddRange(outRecs);
+                tans.AddRange(tan);
+                middlePts.AddRange(midPts);
+                BoundList.AddRange(newBound);
+                if (BoundList.Count == 0) break; 
             }
+
 
             List<Curve> newRegions = BoundList;
 

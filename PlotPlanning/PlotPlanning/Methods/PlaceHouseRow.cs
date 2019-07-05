@@ -49,17 +49,14 @@ namespace PlotPlanning.Methods
                 Curve[] cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToArray();
                 double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
                 cutRegions.Select(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area >= CellSize(baseRec.ToNurbsCurve()));
-
-
-                
-                cutBound = cutRegions.CurvesToPolylines();
+                cutBound = cutRegions.CurvesToPolylineCurves(); 
                 outRecs = rectangles;
             }
             catch
             {
                 outRecs = new List<Polyline>();
                 out_tan = new List<Vector3d>();
-                cutBound = bound as PolylineCurve;
+                cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
                 midPts = new List<Point3d>(); 
             }
         }
