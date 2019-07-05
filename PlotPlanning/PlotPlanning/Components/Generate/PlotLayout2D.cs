@@ -41,7 +41,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
-            pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list); 
+            pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list);
 
         }
 
@@ -52,7 +52,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddCurveParameter("house", "h", "placed house footprints", GH_ParamAccess.list);
             pManager.AddVectorParameter("tangent", "t", "tan vectors", GH_ParamAccess.list);
-            pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.item);
+            pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
             pManager.AddPointParameter("midPt", "midPt", "center points of all the houses", GH_ParamAccess.list);
         }
 
@@ -68,12 +68,12 @@ namespace PlotPlanning.Components
             Curve bound = new PolylineCurve();
             List<double> minAmounts = new List<double>();
             double maxAmount = 1;
-            int itts = 1; 
+            int itts = 1;
             int seed = 1;
             double offset = 0;
             string method = "";
-            List<Curve> roads = new List<Curve>(); 
-           
+            List<Curve> roads = new List<Curve>();
+
 
             //Get Data
             if (!DA.GetDataList(0, baseRectangles))
@@ -107,26 +107,29 @@ namespace PlotPlanning.Components
             List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
             */
 
-            List <Vector3d> tans = new List<Vector3d>();
+            List<Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
-            List<Point3d> middlePts = new List<Point3d>(); 
+            List<Point3d> middlePts = new List<Point3d>();
             Random random = new Random(seed);
             Curve originalBound = bound;
 
             List<Curve> BoundList = new List<Curve>() { bound };
 
 
-            for 
+
+
+
+            for (int i = 0; i < itts; i++)
             {
-
-
-                for (int i = 0; i < itts; i++)
+                foreach (Curve c in BoundList)
                 {
+                    BoundList.RemoveAt(0); 
+
                     int index = random.Next(baseRectangles.Count);
                     Rectangle3d baseRectangle = baseRectangles[index];
                     double minAmount = minAmounts[index];
 
-                    pp.Generate.PlaceHouseRow(baseRectangle, bound, originalBound, roads, minAmount, maxAmount, offset, random,
+                    pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, maxAmount, offset, random,
                         method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
                     rectangles.AddRange(outRecs);
@@ -135,15 +138,16 @@ namespace PlotPlanning.Components
                     BoundList.AddRange(newBound);
                 }
             }
-            Curve newRegion = bound; 
 
-               
+            List<Curve> newRegions = BoundList;
+
+
 
             //Set data for the outputs
             DA.SetDataList(0, rectangles);
             DA.SetDataList(1, tans);
-            DA.SetData(2, newRegion);
-            DA.SetDataList(3, middlePts); 
+            DA.SetDataList(2, newRegions);
+            DA.SetDataList(3, middlePts);
 
         }
 
