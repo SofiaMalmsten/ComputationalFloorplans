@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.ObjectModel
 {
-    public class Regulations
+    public class Regulation
     {
         public int MinAmount { get; set; } = 0;
         public int MaxAmount { get; set; } = 999;

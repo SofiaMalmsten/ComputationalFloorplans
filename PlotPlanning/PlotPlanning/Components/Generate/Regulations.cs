@@ -66,7 +66,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Set properties
-            PlotPlanning.ObjectModel.Regulations regulation = new ObjectModel.Regulations();
+            PlotPlanning.ObjectModel.Regulation regulation = new ObjectModel.Regulation();
             regulation.MinAmount = minAmount;
             regulation.MaxAmount = maxAmount;
             regulation.Offset = offset;

@@ -93,7 +93,8 @@
     <Compile Include="Methods\ConvexHull.cs" />
     <Compile Include="Methods\HouseFootprint.cs" />
     <Compile Include="Methods\AccessPoints.cs" />
-    <Compile Include="ObjectModel\Regulations.cs" />
+    <Compile Include="ObjectModel\Streets.cs" />
+    <Compile Include="ObjectModel\Regulation.cs" />
     <Compile Include="ObjectModel\House.cs" />
     <Compile Include="PlotPlanningInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
