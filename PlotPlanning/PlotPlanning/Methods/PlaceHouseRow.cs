@@ -13,7 +13,7 @@ namespace PlotPlanning.Methods
     {
 
         public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, Curve originalBound, List<Curve> roads, double min, double max, double offset, Random random, string method,
-            out List<Polyline> outRecs, out List<Vector3d> out_tan, out PolylineCurve cutBound, out List<Point3d> midPts)
+            out List<Polyline> outRecs, out List<Vector3d> out_tan, out List<PolylineCurve> cutBound, out List<Point3d> midPts)
         {
             try
             {
@@ -46,17 +46,17 @@ namespace PlotPlanning.Methods
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles);
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
                 Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
-                Curve[] cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToArray();
-                double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
-                cutRegions.First(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area == max_area).TryGetPolyline(out Polyline largest_region);
-                cutBound = largest_region.ToPolylineCurve();
+                List<Curve> cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, PlotPlanning.Methods.Generate.DistanceTol()).ToList();
+                //double max_area = cutRegions.Max(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area);
+                cutRegions = cutRegions.Where(x => Rhino.Geometry.AreaMassProperties.Compute(x).Area >= CellSize(baseRec.ToNurbsCurve())).ToList();
+                cutBound = cutRegions.CurvesToPolylineCurves(); 
                 outRecs = rectangles;
             }
             catch
             {
                 outRecs = new List<Polyline>();
                 out_tan = new List<Vector3d>();
-                cutBound = bound as PolylineCurve;
+                cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
                 midPts = new List<Point3d>(); 
             }
         }

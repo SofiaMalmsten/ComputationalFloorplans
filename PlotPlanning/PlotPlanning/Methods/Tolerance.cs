@@ -26,6 +26,11 @@ namespace PlotPlanning.Methods
         {
             return 2;
         }
+        public static double CellSize(Curve house)
+        {
+            return Rhino.Geometry.AreaMassProperties.Compute(house).Area*2;          
+            
+        }
     }
 }
 

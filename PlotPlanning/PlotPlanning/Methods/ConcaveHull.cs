@@ -60,7 +60,7 @@ namespace PlotPlanning.Methods
             finalMesh = newMesh;
             finalMesh.Vertices.AddVertices(pts);
             Polyline[] test = finalMesh.GetNakedEdges();
-            Polyline concaveHull = finalMesh.GetNakedEdges().ToList()[0];
+            Polyline concaveHull = finalMesh.GetNakedEdges().ToList()[0].ClosePolyline();
 
             return concaveHull;
         }
