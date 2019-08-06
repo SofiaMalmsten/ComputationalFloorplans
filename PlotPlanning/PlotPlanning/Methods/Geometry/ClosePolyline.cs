@@ -24,6 +24,7 @@ namespace PlotPlanning.Methods
             }
         }
 
+        //====================================================================
         public static List<Polyline> ClosePolyline(this List<Polyline> pls)
         {
             List<Polyline> closed_list = new List<Polyline>();

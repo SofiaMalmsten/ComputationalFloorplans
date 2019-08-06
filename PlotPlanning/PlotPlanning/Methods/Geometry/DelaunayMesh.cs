@@ -9,7 +9,6 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-    
         public static Mesh DelaunayMesh(List<Point3d> pts)
         {
 

@@ -24,7 +24,7 @@ namespace PlotPlanning.Methods
                 List <Point3d> pos = PlotPlanning.Methods.Generate.AccessPoints(this_line, min, max, baseRec, random);
                 out_tan = new List<Vector3d>();
                 midPts = new List<Point3d>(); 
-                List<Vector3d> tan = PlotPlanning.Methods.Generate.GetTanVect(pos, this_line);
+                List<Vector3d> tan = PlotPlanning.Methods.Generate.Tangent(pos, this_line);
 
                 List<Polyline> rectangles = new List<Polyline>();
                 for (int i = 0; i < pos.Count; i++)
