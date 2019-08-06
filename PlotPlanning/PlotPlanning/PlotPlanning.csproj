@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Generate\ConcaveHull2D.cs" />
+    <Compile Include="Components\Generate\Site.cs" />
     <Compile Include="Components\Generate\Regulations.cs" />
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
     <Compile Include="Components\Generate\Counter.cs" />
@@ -93,7 +94,9 @@
     <Compile Include="Methods\ConvexHull.cs" />
     <Compile Include="Methods\HouseFootprint.cs" />
     <Compile Include="Methods\AccessPoints.cs" />
-    <Compile Include="ObjectModel\Streets.cs" />
+    <Compile Include="ObjectModel\Site.cs" />
+    <Compile Include="ObjectModel\Cell.cs" />
+    <Compile Include="ObjectModel\Street.cs" />
     <Compile Include="ObjectModel\Regulation.cs" />
     <Compile Include="ObjectModel\House.cs" />
     <Compile Include="PlotPlanningInfo.cs" />
