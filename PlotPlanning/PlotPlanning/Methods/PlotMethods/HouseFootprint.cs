@@ -22,9 +22,9 @@ namespace PlotPlanning.Methods
             //======================================================
                 //create points
                 Point3d pt0 = pts;
-                Point3d pt1 = pt0 + tan * hDim;
-                Point3d pt2 = pt1 + Vector3d.CrossProduct(tan, unitZ) * (wDim);
-                Point3d pt3 = pt2 - tan * hDim;
+                Point3d pt1 = pt0 + tan * wDim;
+                Point3d pt2 = pt1 + Vector3d.CrossProduct(tan, unitZ) * (hDim);
+                Point3d pt3 = pt2 - tan * wDim;
                 Point3d pt4 = pt0;
 
                 //add points
@@ -38,6 +38,7 @@ namespace PlotPlanning.Methods
 
             return pLine;
         }
+
     }
 
     //====================================================================
