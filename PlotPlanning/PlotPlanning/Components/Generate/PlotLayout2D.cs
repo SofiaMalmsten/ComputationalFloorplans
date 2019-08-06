@@ -109,9 +109,7 @@ namespace PlotPlanning.Components
             List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
             */
 
-            List<Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
-            List<ObjectModel.House> outpHouses = new List<ObjectModel.House>();
             List<ObjectModel.House> houseList = new List<ObjectModel.House>();
             List<Point3d> middlePts = new List<Point3d>();
             Random random = new Random(seed);

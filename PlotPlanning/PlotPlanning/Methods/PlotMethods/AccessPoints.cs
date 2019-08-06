@@ -9,7 +9,6 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-
         public static List<Point3d> AccessPoints(Line line, double minAmount, double maxAmount, Rectangle3d rectangle, Random random)
         {
             //========================================================
