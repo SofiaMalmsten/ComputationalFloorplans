@@ -52,7 +52,6 @@ namespace PlotPlanning.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
-            pManager.AddVectorParameter("tangent", "t", "tan vectors", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
             pManager.AddPointParameter("midPt", "midPt", "center points of all the houses", GH_ParamAccess.list);
             pManager.AddRectangleParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
@@ -138,21 +137,21 @@ namespace PlotPlanning.Components
                 pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, maxAmount, offset, random,
                     method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
-                //int j = 0;
+                int j = 0;
                 foreach (var rec in outRecs)
                 {
                     ObjectModel.House outHouse = new ObjectModel.House();
                     outHouse.gardenBound = pp.Calculate.BoundingRect(rec);
                     outHouse.Type = houses[index].Type;
+                    outHouse.orientation = tan[j];
                     //outHouse.houseGeom = houses[index].houseGeom;
                     //outHouse.houseGeom.Translate(Methods.Calculate.createVector(baseRectangle.Center, midPts[j]));
                     houseList.Add(outHouse);
 
-                    //j++;
+                    j++;
                 }
 
                 rectangles.AddRange(outRecs);
-                tans.AddRange(tan);
                 middlePts.AddRange(midPts);
                 BoundList.AddRange(newBound);
                 if (BoundList.Count == 0) break;
@@ -163,10 +162,9 @@ namespace PlotPlanning.Components
 
             //Set data for the outputs
             DA.SetDataList(0, houseList);
-            DA.SetDataList(1, tans);
-            DA.SetDataList(2, newRegions);
-            DA.SetDataList(3, middlePts);
-            DA.SetDataList(4, rectangles);
+            DA.SetDataList(1, newRegions);
+            DA.SetDataList(2, middlePts);
+            DA.SetDataList(3, rectangles);
         }
 
         /// <summary>
