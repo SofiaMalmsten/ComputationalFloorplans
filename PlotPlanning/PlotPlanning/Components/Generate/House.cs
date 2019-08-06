@@ -33,6 +33,9 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("type", "type", "house type", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("carport", "carport", "has car port", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("gardenBound", "gardenBound", "gardenBound", GH_ParamAccess.item);
+            pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -51,16 +54,28 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            String str = "";
+            string type = "";
+            bool carport = false;
+            Rectangle3d gardenBound = new Rectangle3d();
+            Brep houseGeom = new Brep();
 
             //Get Data
-            if (!DA.GetData(0, ref str))
+            if (!DA.GetData(0, ref type))
+                return;
+            if (!DA.GetData(1, ref carport))
+                return;
+            if (!DA.GetData(2, ref gardenBound))
+                return;
+            if (!DA.GetData(3, ref houseGeom))
                 return;
 
-            //Calculate
+            //Set properties
             PlotPlanning.ObjectModel.House house = new ObjectModel.House();
-            house.Type = str;
-           
+            house.Type = type;
+            house.HasCarPort = carport;
+            house.gardenBound = gardenBound;
+            house.houseGeom = houseGeom;
+
             //Set data
             DA.SetData(0, house);
         }
