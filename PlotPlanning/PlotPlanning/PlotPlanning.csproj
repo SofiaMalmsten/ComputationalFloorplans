@@ -104,7 +104,6 @@
     <Compile Include="Methods\Base\Shuffle.cs" />
     <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
-    <Compile Include="Methods\PlotMethods\HouseFootprint.cs" />
     <Compile Include="Methods\PlotMethods\AccessPoints.cs" />
     <Compile Include="ObjectModel\Site.cs" />
     <Compile Include="ObjectModel\Cell.cs" />

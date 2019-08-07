@@ -29,7 +29,7 @@ namespace PlotPlanning.Methods
                 List<Polyline> rectangles = new List<Polyline>();
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRec, pos[i], tan[i]);
+                    Polyline pLines = PlotPlanning.Methods.Calculate.Translate(baseRec, pos[i], tan[i]);
                     Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
                     List<Polyline> this_rec = PlotPlanning.Methods.Generate.CullSmallAreas(rec, bound);
                     if (this_rec.Count != 0)

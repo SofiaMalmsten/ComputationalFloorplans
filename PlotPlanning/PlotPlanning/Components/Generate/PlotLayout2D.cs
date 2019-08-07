@@ -142,8 +142,9 @@ namespace PlotPlanning.Components
                     outHouse.gardenBound = pp.Calculate.BoundingRect(rec);
                     outHouse.Type = houses[index].Type;
                     outHouse.orientation = tan[j];
-                    //outHouse.houseGeom = houses[index].houseGeom;
-                    //outHouse.houseGeom.Translate(Methods.Calculate.createVector(baseRectangle.Center, midPts[j]));
+                    //ObjectModel.House houseClone = new ObjectModel.House() { houseGeom = houses[index].houseGeom };
+                    outHouse.houseGeom = houses[index].houseGeom.DuplicateBrep();
+                    outHouse.houseGeom.Translate(Methods.Calculate.createVector(midPts[j], baseRectangle.Center));
                     houseList.Add(outHouse);
 
                     j++;

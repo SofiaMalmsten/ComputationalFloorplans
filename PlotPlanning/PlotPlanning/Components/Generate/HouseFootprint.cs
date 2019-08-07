@@ -68,7 +68,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            Polyline pLines = PlotPlanning.Methods.Generate.HouseFootprint(baseRectangle, Points, tan);
+            Polyline pLines = PlotPlanning.Methods.Calculate.Translate(baseRectangle, Points, tan);
 
             //Set data for the outputs
             DA.SetData(0, pLines);

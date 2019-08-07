@@ -17,5 +17,10 @@ namespace PlotPlanning.Methods
         }
 
         /***************************************************/
+
+        public static Brep Clone(this Brep brep)
+        {
+            return brep.DuplicateBrep();
+        }
     }
 }
