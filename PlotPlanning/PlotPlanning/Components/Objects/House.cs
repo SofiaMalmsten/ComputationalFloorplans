@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class House : GH_Component
+    public class HouseComponent : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,7 +20,7 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public House()
+        public HouseComponent()
           : base("GenerateHouse", "GenerateHouse",
               "Generate house",
               "PlotPlanningTool", "Objects")

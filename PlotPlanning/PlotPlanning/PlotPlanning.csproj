@@ -77,6 +77,7 @@
     <Compile Include="Components\Generate\SegmentBounds.cs" />
     <Compile Include="Methods\Base\Clone.cs" />
     <Compile Include="Methods\Base\GetClosestValue.cs" />
+    <Compile Include="Methods\Convert\Convert.cs" />
     <Compile Include="Methods\Geometry\Translate.cs" />
     <Compile Include="Methods\Geometry\BoundingRect.cs" />
     <Compile Include="Methods\Geometry\Vector.cs" />

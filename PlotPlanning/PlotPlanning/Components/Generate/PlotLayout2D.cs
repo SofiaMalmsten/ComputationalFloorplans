@@ -37,8 +37,7 @@ namespace PlotPlanning.Components
             pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
             pManager.AddNumberParameter("minAmounts", "minAmount", "tangent vector for the line", GH_ParamAccess.list);
-            pManager.AddNumberParameter("maxAmount", "maxAmount", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddNumberParameter("offset", "offset", "offset around houses", GH_ParamAccess.item);
+            pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
@@ -53,7 +52,6 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
-            //pManager.AddPointParameter("midPt", "midPt", "center points of all the houses", GH_ParamAccess.list);
             pManager.AddCurveParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
         }
 
@@ -64,13 +62,12 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<ObjectModel.House> houses = new List<ObjectModel.House>();
+            List<House> houses = new List<House>();
             Curve bound = new PolylineCurve();
+            Regulation regulations = new Regulation();
             List<double> minAmounts = new List<double>();
-            double maxAmount = 1;
             int itts = 1;
             int seed = 1;
-            double offset = 0;
             string method = "";
             List<Curve> roads = new List<Curve>();
 
@@ -81,17 +78,15 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetDataList(2, minAmounts))
                 return;
-            if (!DA.GetData(3, ref maxAmount))
+            if (!DA.GetData(3, ref regulations))
                 return;
-            if (!DA.GetData(4, ref offset))
+            if (!DA.GetData(4, ref itts))
                 return;
-            if (!DA.GetData(5, ref itts))
+            if (!DA.GetData(5, ref seed))
                 return;
-            if (!DA.GetData(6, ref seed))
+            if (!DA.GetData(6, ref method))
                 return;
-            if (!DA.GetData(7, ref method))
-                return;
-            if (!DA.GetDataList(8, roads))
+            if (!DA.GetDataList(7, roads))
                 return;
 
 
@@ -107,15 +102,11 @@ namespace PlotPlanning.Components
             */
 
             List<Polyline> rectangles = new List<Polyline>();
-            List<ObjectModel.House> houseList = new List<ObjectModel.House>();
+            List<House> houseList = new List<House>();
             Random random = new Random(seed);
             Curve originalBound = bound;
 
             List<Curve> BoundList = new List<Curve>() { bound };
-
-
-
-
 
 
             for (int i = 0; i < itts; i++)
@@ -128,13 +119,13 @@ namespace PlotPlanning.Components
                 Rectangle3d baseRectangle = houses[index].gardenBound;
                 double minAmount = minAmounts[index];
 
-                pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, maxAmount, offset, random,
+                pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
                     method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
                 int j = 0;
                 foreach (var rec in outRecs)
                 {
-                    ObjectModel.House outHouse = new ObjectModel.House();
+                    House outHouse = new House();
                     outHouse.gardenBound = pp.Calculate.BoundingRect(rec);
                     outHouse.Type = houses[index].Type;
                     outHouse.orientation = tan[j];
@@ -170,7 +161,6 @@ namespace PlotPlanning.Components
             {
                 // You can add image files to your project resources and access them like this:
                 return Properties.Resources.RandomHouses;
-                //return null;
             }
         }
 
