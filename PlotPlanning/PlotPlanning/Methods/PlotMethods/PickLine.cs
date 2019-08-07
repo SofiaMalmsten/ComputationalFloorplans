@@ -74,7 +74,7 @@ namespace PlotPlanning.Methods
                 nextL:
                     int a = 1; //TODO: make it nicer, this is just to break out of the nested for loop when l is added 
                 }
-                return posLines[random.Next(lines.Count)];
+                return posLines[random.Next(posLines.Count)];
             }
 
             //====================================================================

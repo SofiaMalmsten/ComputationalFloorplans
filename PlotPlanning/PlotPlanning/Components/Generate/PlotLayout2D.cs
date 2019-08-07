@@ -121,7 +121,6 @@ namespace PlotPlanning.Components
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, minAmounts, regulations.MaxAmount, regulations.Offset, random,
                     method, out List<Polyline> outRecs, out List<House> outHouseList, out List<PolylineCurve> newBound);
 
-
                 rectangles.AddRange(outRecs);
                 BoundList.AddRange(newBound);
                 houseList.AddRange(outHouseList);
@@ -129,7 +128,6 @@ namespace PlotPlanning.Components
             }
 
             List<Curve> newRegions = BoundList;
-
 
             //Set data for the outputs
             DA.SetDataList(0, houseList);

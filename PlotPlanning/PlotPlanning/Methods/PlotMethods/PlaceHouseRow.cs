@@ -11,7 +11,7 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-
+        //====================================================================
         public static void PlaceHouseRow(Rectangle3d baseRec, Curve bound, Curve originalBound, List<Curve> roads, double min, double max, double offset, Random random, string method,
             out List<Polyline> outRecs, out List<Vector3d> out_tan, out List<PolylineCurve> cutBound, out List<Point3d> midPts)
         {
@@ -64,43 +64,46 @@ namespace PlotPlanning.Methods
         }
         //====================================================================
 
-
         public static void PlaceHouseRow(List<House> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, List<int> min, double max, double offset, Random random, string method,
             out List<Polyline> outRecs, out List<House> houseList, out List<PolylineCurve> cutBound)
         {
-            //pick random house type to place
+            //1. Declare list
+            houseList = new List<House>();
+            List<Polyline> rectangles = new List<Polyline>();
+
+            //2. pick random house type to place
             int index = random.Next(baseHouses.Count);
             int minAmount = min[index];
             House baseHouse = baseHouses[index];
 
-            houseList = new List<House>();
-            
+           
             try
             {
+                //3. Get currLine and its positions
                 bound.TryGetPolyline(out Polyline boundPL);
                 List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse.gardenBound, 1, min[index]); //1 is just a seed to make it work for now                                                                                                                                                    
-                Line this_line = lines.PickLine(method, random, roads, originalBound);
-                this_line.Extend(-FilletOffset(), -FilletOffset());
-                List<Point3d> pos = AccessPoints(this_line, min[index], max, baseHouse.gardenBound, random);
-                List<Vector3d> tan = Tangent(pos, this_line);
+                Line currLine = lines.PickLine(method, random, roads, originalBound); //här blir det problem ibland
+                currLine.Extend(-FilletOffset(), -FilletOffset());
+                List<Point3d> pos = AccessPoints(currLine, min[index], max, baseHouse.gardenBound, random);
+                List<Vector3d> tan = Tangent(pos, currLine);
 
-                List<Polyline> rectangles = new List<Polyline>();
+                //4. Create gardens for each position. 
                 for (int i = 0; i < pos.Count; i++)
                 {
                     Polyline pLines = Calculate.Translate(baseHouse.gardenBound, pos[i], tan[i]);
                     Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    List<Polyline> this_rec = CullSmallAreas(rec, bound); //this_rec finns inte. 
-                    if (this_rec.Count != 0)
+                    List<Polyline> currGarden = CullSmallAreas(rec, bound); //problem när currGarden finns inte. 
+                    if (currGarden.Count != 0)
                     {
                         House outHouse = new House();
-                        outHouse.gardenBound = pp.Calculate.BoundingRect(this_rec[0]);
+                        outHouse.gardenBound = pp.Calculate.BoundingRect(currGarden[0]);
                         outHouse.Type = baseHouse.Type;
                         outHouse.orientation = tan[i];
                         outHouse.houseGeom = baseHouse.houseGeom.DuplicateBrep();
-                        outHouse.houseGeom.Translate(Methods.Calculate.createVector(rec.CurveToPolyline().CenterPoint(), baseHouse.gardenBound.Center));
-                        outHouse.accessPoint = rec.CurveToPolyline().CenterPoint();
+                        outHouse.houseGeom.Translate(Calculate.createVector(pLines.CenterPoint(), baseHouse.gardenBound.Center));
+                        outHouse.accessPoint = pLines.CenterPoint();
                         houseList.Add(outHouse);
-                        rectangles.Add(this_rec[0]);
+                        rectangles.Add(currGarden[0]);
 
                     }
                     //else: Testa med annan hustyp!
