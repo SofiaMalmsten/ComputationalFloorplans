@@ -36,7 +36,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddNumberParameter("minAmounts", "minAmount", "tangent vector for the line", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("minAmounts", "minAmount", "tangent vector for the line", GH_ParamAccess.list);
             pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
@@ -65,7 +65,7 @@ namespace PlotPlanning.Components
             List<House> houses = new List<House>();
             Curve bound = new PolylineCurve();
             Regulation regulations = new Regulation();
-            List<double> minAmounts = new List<double>();
+            List<int> minAmounts = new List<int>();
             int itts = 1;
             int seed = 1;
             string method = "";
@@ -115,30 +115,16 @@ namespace PlotPlanning.Components
                 Curve c = BoundList[idx]; 
                 BoundList.RemoveAt(idx);
 
-                int index = random.Next(houses.Count);
-                Rectangle3d baseRectangle = houses[index].gardenBound;
-                double minAmount = minAmounts[index];
+                //pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
+                //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
-                pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
-                    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
+                pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, minAmounts, regulations.MaxAmount, regulations.Offset, random,
+                    method, out List<Polyline> outRecs, out List<House> outHouseList, out List<PolylineCurve> newBound);
 
-                int j = 0;
-                foreach (var rec in outRecs)
-                {
-                    House outHouse = new House();
-                    outHouse.gardenBound = pp.Calculate.BoundingRect(rec);
-                    outHouse.Type = houses[index].Type;
-                    outHouse.orientation = tan[j];
-                    outHouse.houseGeom = houses[index].houseGeom.DuplicateBrep();
-                    outHouse.houseGeom.Translate(Methods.Calculate.createVector(midPts[j], baseRectangle.Center));
-                    outHouse.accessPoint = midPts[j];
-                    houseList.Add(outHouse);
-
-                    j++;
-                }
 
                 rectangles.AddRange(outRecs);
                 BoundList.AddRange(newBound);
+                houseList.AddRange(outHouseList);
                 if (BoundList.Count == 0) break;
             }
 
