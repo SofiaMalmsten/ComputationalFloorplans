@@ -53,8 +53,8 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddPointParameter("midPt", "midPt", "center points of all the houses", GH_ParamAccess.list);
-            pManager.AddRectangleParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
+            //pManager.AddPointParameter("midPt", "midPt", "center points of all the houses", GH_ParamAccess.list);
+            pManager.AddCurveParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -64,8 +64,6 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-
-            //List<Rectangle3d> baseRectangles = new List<Rectangle3d>();
             List<ObjectModel.House> houses = new List<ObjectModel.House>();
             Curve bound = new PolylineCurve();
             List<double> minAmounts = new List<double>();
@@ -75,7 +73,6 @@ namespace PlotPlanning.Components
             double offset = 0;
             string method = "";
             List<Curve> roads = new List<Curve>();
-
 
             //Get Data
             if (!DA.GetDataList(0, houses))
@@ -111,7 +108,6 @@ namespace PlotPlanning.Components
 
             List<Polyline> rectangles = new List<Polyline>();
             List<ObjectModel.House> houseList = new List<ObjectModel.House>();
-            List<Point3d> middlePts = new List<Point3d>();
             Random random = new Random(seed);
             Curve originalBound = bound;
 
@@ -142,16 +138,15 @@ namespace PlotPlanning.Components
                     outHouse.gardenBound = pp.Calculate.BoundingRect(rec);
                     outHouse.Type = houses[index].Type;
                     outHouse.orientation = tan[j];
-                    //ObjectModel.House houseClone = new ObjectModel.House() { houseGeom = houses[index].houseGeom };
                     outHouse.houseGeom = houses[index].houseGeom.DuplicateBrep();
                     outHouse.houseGeom.Translate(Methods.Calculate.createVector(midPts[j], baseRectangle.Center));
+                    outHouse.accessPoint = midPts[j];
                     houseList.Add(outHouse);
 
                     j++;
                 }
 
                 rectangles.AddRange(outRecs);
-                middlePts.AddRange(midPts);
                 BoundList.AddRange(newBound);
                 if (BoundList.Count == 0) break;
             }
@@ -162,8 +157,7 @@ namespace PlotPlanning.Components
             //Set data for the outputs
             DA.SetDataList(0, houseList);
             DA.SetDataList(1, newRegions);
-            DA.SetDataList(2, middlePts);
-            DA.SetDataList(3, rectangles);
+            DA.SetDataList(2, rectangles);
         }
 
         /// <summary>
