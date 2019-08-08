@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PlotPlanning.ObjectModel;
+using PlotPlanning.Methods; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -64,7 +65,7 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             List<House> houses = new List<House>();
-            Curve bound = new PolylineCurve();
+            Cell cell = new Cell();
             Regulation regulations = new Regulation();
             List<int> minAmounts = new List<int>();
             int itts = 1;
@@ -75,7 +76,7 @@ namespace PlotPlanning.Components
             //Get Data
             if (!DA.GetDataList(0, houses))
                 return;
-            if (!DA.GetData(1, ref bound))
+            if (!DA.GetData(1, ref cell))
                 return;
             if (!DA.GetDataList(2, minAmounts))
                 return;
@@ -102,6 +103,7 @@ namespace PlotPlanning.Components
             List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
             */
 
+            cell.SetAvaliableSegments()
             List<Polyline> rectangles = new List<Polyline>();
             List<House> houseList = new List<House>();
             Random random = new Random(seed);
