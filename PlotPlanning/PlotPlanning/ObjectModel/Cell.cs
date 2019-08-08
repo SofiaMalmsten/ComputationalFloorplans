@@ -9,9 +9,13 @@ namespace PlotPlanning.ObjectModel
 {
     public class Cell
     {
-        public Curve CentreCurve { get; set; } = new PolylineCurve();
+        public Polyline BoundaryCurve { get; set; } = new Polyline();
+        public List<Line> AvaliableSegments { get; set; } = new List<Line>(); 
+        public Polyline OriginalBoundary { get; set;  } = new Polyline();
 
     }
+
+
 
     //====================================================================
 
