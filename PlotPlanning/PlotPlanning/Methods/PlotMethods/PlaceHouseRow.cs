@@ -76,23 +76,25 @@ namespace PlotPlanning.Methods
             int minAmount = min[index];
             House baseHouse = baseHouses[index];
 
-           
+            //3. Get boundaries
+            bound.TryGetPolyline(out Polyline boundPL);
+            List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse.gardenBound, 1, min[index]); //1 is just a seed to make it work for now                                                                                                                                                    
+
+            //3. Could we have a while loop here testing all the lines in the list??
+            // Could we shuffle the list in the pick line method and then pick the first item we can itterate over the list of lines?
             try
             {
-                //3. Get currLine and its positions
-                bound.TryGetPolyline(out Polyline boundPL);
-                List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse.gardenBound, 1, min[index]); //1 is just a seed to make it work for now                                                                                                                                                    
-                Line currLine = lines.PickLine(method, random, roads, originalBound); //här blir det problem ibland
+                Line currLine = lines.PickLine(method, random, roads, originalBound);
                 currLine.Extend(-FilletOffset(), -FilletOffset());
                 List<Point3d> pos = AccessPoints(currLine, min[index], max, baseHouse.gardenBound, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
-
-                //4. Create gardens for each position. 
+            
+                //4. Create gardens for each position. if the garden overlaps the boundary it will not be created
                 for (int i = 0; i < pos.Count; i++)
                 {
                     Polyline pLines = Calculate.Translate(baseHouse.gardenBound, pos[i], tan[i]);
                     Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    List<Polyline> currGarden = CullSmallAreas(rec, bound); //problem när currGarden finns inte. 
+                    List<Polyline> currGarden = CullSmallAreas(rec, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
                     {
                         House outHouse = new House();
@@ -104,15 +106,15 @@ namespace PlotPlanning.Methods
                         outHouse.accessPoint = pLines.CenterPoint();
                         houseList.Add(outHouse);
                         rectangles.Add(currGarden[0]);
-
                     }
-                    //else: Testa med annan hustyp!
-                    //om det ta bort linjen från listan över linjer att testa
                 }
 
                 if (rectangles.Count < min[index])
-                    rectangles = new List<Polyline>();
-
+                {
+                    //Test another line in the set. If it still doesnt work after all the lines are tested we return an empty list of rectangles. 
+                        rectangles = new List<Polyline>();
+                }
+                
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles); //Här blir det fel eftersom vi har rectangles.count == 0 ibland
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
                 Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
