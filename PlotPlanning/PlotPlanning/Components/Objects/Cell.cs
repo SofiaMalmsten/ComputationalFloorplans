@@ -34,7 +34,7 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("boundary", "boundary", "boundary", GH_ParamAccess.item);
-           
+            pManager.AddTextParameter("method", "method", "method", GH_ParamAccess.item);            
         }
 
         /// <summary>
@@ -53,15 +53,23 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Curve boundary = new PolylineCurve();            
+            Curve boundary = new PolylineCurve();
+            string method = "random"; 
 
             //Get Data
             if (!DA.GetData(0, ref boundary))
-                return;            
+                return;
+            if (!DA.GetData(1, ref method))
+                return;
 
             //Set properties
             PlotPlanning.ObjectModel.Cell cell = new ObjectModel.Cell();
-            if (boundary.IsClosed) cell.BoundaryCurve = boundary.CurveToPolyline(); 
+            if (boundary.IsClosed)
+            {
+                cell.BoundaryCurve = boundary.CurveToPolyline();
+                cell.OriginalBoundary = boundary.CurveToPolyline(); 
+            }
+            cell.Method = method; 
 
             //Set data
             DA.SetData(0, cell);
