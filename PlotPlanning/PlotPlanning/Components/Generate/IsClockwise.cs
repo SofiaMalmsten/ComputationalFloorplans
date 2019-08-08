@@ -62,7 +62,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            Polyline pLine = PlotPlanning.Methods.Calculate.ConvertToPolyline(pCurve as PolylineCurve);
+            Polyline pLine = PlotPlanning.Methods.Generate.ConvertToPolyline(pCurve as PolylineCurve);
             bool isClockwise = PlotPlanning.Methods.Calculate.IsClockwise(pLine, vec, 0.001);
            
             //Set data
@@ -90,7 +90,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff9"); }
+            get { return new Guid("c4785d5a-7bc4-431c-a161-658d97555e56"); }
         }
     }
 

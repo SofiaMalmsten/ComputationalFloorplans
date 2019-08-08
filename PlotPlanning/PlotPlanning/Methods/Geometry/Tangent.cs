@@ -10,10 +10,8 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static List<Vector3d> GetTanVect(List<Point3d> Points, Line line)
+        public static List<Vector3d> Tangent(List<Point3d> Points, Line line)
         {
-          
-
             Vector3d unitZ = new Vector3d(0, 0, 1);
             List<Vector3d> tanList = new List<Vector3d>();
 
@@ -26,7 +24,6 @@ namespace PlotPlanning.Methods
                 tanList.Add(tan);
             }
 
-            //Set data for the outputs
             return tanList;
         }
     }

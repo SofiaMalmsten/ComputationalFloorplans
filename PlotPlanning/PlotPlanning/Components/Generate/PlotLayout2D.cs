@@ -4,6 +4,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PlotPlanning.ObjectModel;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -33,11 +34,10 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddRectangleParameter("baseRectangles", "baseRecs", "rectangles that should be places on lines", GH_ParamAccess.list);
+            pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddNumberParameter("minAmounts", "minAmount", "tangent vector for the line", GH_ParamAccess.list);
-            pManager.AddNumberParameter("maxAmount", "maxAmount", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddNumberParameter("offset", "offset", "offset around houses", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("minAmounts", "minAmount", "tangent vector for the line", GH_ParamAccess.list);
+            pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
@@ -50,10 +50,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("house", "h", "placed house footprints", GH_ParamAccess.list);
-            pManager.AddVectorParameter("tangent", "t", "tan vectors", GH_ParamAccess.list);
+            pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddPointParameter("midPt", "midPt", "center points of all the houses", GH_ParamAccess.list);
+            pManager.AddCurveParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -63,36 +62,31 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-
-            List<Rectangle3d> baseRectangles = new List<Rectangle3d>();
+            List<House> houses = new List<House>();
             Curve bound = new PolylineCurve();
-            List<double> minAmounts = new List<double>();
-            double maxAmount = 1;
+            Regulation regulations = new Regulation();
+            List<int> minAmounts = new List<int>();
             int itts = 1;
             int seed = 1;
-            double offset = 0;
             string method = "";
             List<Curve> roads = new List<Curve>();
 
-
             //Get Data
-            if (!DA.GetDataList(0, baseRectangles))
+            if (!DA.GetDataList(0, houses))
                 return;
             if (!DA.GetData(1, ref bound))
                 return;
             if (!DA.GetDataList(2, minAmounts))
                 return;
-            if (!DA.GetData(3, ref maxAmount))
+            if (!DA.GetData(3, ref regulations))
                 return;
-            if (!DA.GetData(4, ref offset))
+            if (!DA.GetData(4, ref itts))
                 return;
-            if (!DA.GetData(5, ref itts))
+            if (!DA.GetData(5, ref seed))
                 return;
-            if (!DA.GetData(6, ref seed))
+            if (!DA.GetData(6, ref method))
                 return;
-            if (!DA.GetData(7, ref method))
-                return;
-            if (!DA.GetDataList(8, roads))
+            if (!DA.GetDataList(7, roads))
                 return;
 
 
@@ -107,17 +101,12 @@ namespace PlotPlanning.Components
             List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
             */
 
-            List<Vector3d> tans = new List<Vector3d>();
             List<Polyline> rectangles = new List<Polyline>();
-            List<Point3d> middlePts = new List<Point3d>();
+            List<House> houseList = new List<House>();
             Random random = new Random(seed);
             Curve originalBound = bound;
 
             List<Curve> BoundList = new List<Curve>() { bound };
-
-
-
-
 
 
             for (int i = 0; i < itts; i++)
@@ -126,30 +115,24 @@ namespace PlotPlanning.Components
                 Curve c = BoundList[idx]; 
                 BoundList.RemoveAt(idx);
 
-                int index = random.Next(baseRectangles.Count);
-                Rectangle3d baseRectangle = baseRectangles[index];
-                double minAmount = minAmounts[index];
+                //pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
+                //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
-                pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, maxAmount, offset, random,
-                    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
+                pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, minAmounts, regulations.MaxAmount, regulations.Offset, random,
+                    method, out List<Polyline> outRecs, out List<House> outHouseList, out List<PolylineCurve> newBound);
 
                 rectangles.AddRange(outRecs);
-                tans.AddRange(tan);
-                middlePts.AddRange(midPts);
                 BoundList.AddRange(newBound);
+                houseList.AddRange(outHouseList);
                 if (BoundList.Count == 0) break;
             }
 
             List<Curve> newRegions = BoundList;
 
-
-
             //Set data for the outputs
-            DA.SetDataList(0, rectangles);
-            DA.SetDataList(1, tans);
-            DA.SetDataList(2, newRegions);
-            DA.SetDataList(3, middlePts);
-
+            DA.SetDataList(0, houseList);
+            DA.SetDataList(1, newRegions);
+            DA.SetDataList(2, rectangles);
         }
 
         /// <summary>
@@ -162,7 +145,6 @@ namespace PlotPlanning.Components
             {
                 // You can add image files to your project resources and access them like this:
                 return Properties.Resources.RandomHouses;
-                //return null;
             }
         }
 
@@ -173,7 +155,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff6"); }
+            get { return new Guid("874a8451-aa5e-4c5d-90fb-5e2158862b5d"); }
         }
     }
 

@@ -93,7 +93,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff8"); }
+            get { return new Guid("638ed177-8d91-4698-8691-1f64da1578ed"); }
         }
     }
 
