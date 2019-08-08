@@ -103,38 +103,37 @@ namespace PlotPlanning.Components
             List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
             */
 
-            cell.SetAvaliableSegments()
+            cell.SetAvaliableSegments(roads); 
             List<Polyline> rectangles = new List<Polyline>();
             List<House> houseList = new List<House>();
             Random random = new Random(seed);
-            Curve originalBound = bound;
 
-            List<Curve> BoundList = new List<Curve>() { bound };
+            List<Cell> CellList = new List<Cell>() { cell };
 
 
             for (int i = 0; i < itts; i++)
             {
-                int idx = random.Next(BoundList.Count);
-                Curve c = BoundList[idx]; 
-                BoundList.RemoveAt(idx);
+                int idx = random.Next(CellList.Count);
+                Cell c = CellList[idx]; 
+                CellList.RemoveAt(idx);
 
                 //pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
                 //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
-                pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, minAmounts, regulations.MaxAmount, regulations.Offset, random,
-                    method, out List<Polyline> outRecs, out List<House> outHouseList, out List<PolylineCurve> newBound);
+                pp.Generate.PlaceHouseRow(houses, c, roads, minAmounts, regulations.MaxAmount, regulations.Offset, random,
+                    method, out List<Polyline> outRecs, out List<House> outHouseList, out List<Cell> newBound);
 
                 rectangles.AddRange(outRecs);
-                BoundList.AddRange(newBound);
+                CellList.AddRange(newBound);
                 houseList.AddRange(outHouseList);
-                if (BoundList.Count == 0) break;
+                if (CellList.Count == 0) break;
             }
 
-            List<Curve> newRegions = BoundList;
+            List<Cell> newCells = CellList;
 
             //Set data for the outputs
             DA.SetDataList(0, houseList);
-            DA.SetDataList(1, newRegions);
+            DA.SetDataList(1, newCells);
             DA.SetDataList(2, rectangles);
         }
 

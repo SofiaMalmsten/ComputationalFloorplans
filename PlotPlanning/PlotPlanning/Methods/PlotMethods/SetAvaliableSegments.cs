@@ -15,9 +15,9 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static Cell SetAvaliableSegments(this Cell cell, string method, List<Curve> roads = null)
+        public static void SetAvaliableSegments(this Cell cell, List<Curve> roads = null)
         {
-            if (method == "roads") //select line on road
+            if (cell.Method == "roads") //select line on road
             {
                 List<Line> lines = cell.BoundaryCurve.GetSegments().ToList();
                 List<Line> posLines = new List<Line>();
@@ -41,9 +41,9 @@ namespace PlotPlanning.Methods
                 nextL:
                     int a = 1; //TODO: make it nicer, this is just to break out of the nested for loop when l is added 
                 }
-                return cell;
+                //return cell;
             }
-            else return cell; 
+            //else return cell; 
         }       
 
         //====================================================================
