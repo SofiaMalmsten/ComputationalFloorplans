@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Generate\ConcaveHull2D.cs" />
+    <Compile Include="Components\Objects\Cell.cs" />
     <Compile Include="Components\Objects\Site.cs" />
     <Compile Include="Components\Objects\Regulations.cs" />
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Methods\Geometry\Angle.cs" />
     <Compile Include="Methods\Geometry\DiscontinuityPoints.cs" />
     <Compile Include="Methods\Geometry\ClosePolyline.cs" />
+    <Compile Include="Methods\PlotMethods\SetAvaliableSegments.cs" />
     <Compile Include="Methods\PlotMethods\PickLine.cs" />
     <Compile Include="Methods\PlotMethods\PlaceHouseRow.cs" />
     <Compile Include="Methods\PlotMethods\PickLargest.cs" />

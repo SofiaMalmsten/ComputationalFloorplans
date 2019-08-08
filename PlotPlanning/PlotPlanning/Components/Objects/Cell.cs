@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using PlotPlanning.Methods; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -52,7 +53,7 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Polyline boundary = new Polyline();            
+            Curve boundary = new PolylineCurve();            
 
             //Get Data
             if (!DA.GetData(0, ref boundary))
@@ -60,7 +61,7 @@ namespace PlotPlanning.Components
 
             //Set properties
             PlotPlanning.ObjectModel.Cell cell = new ObjectModel.Cell();
-            if (boundary.IsClosed) cell.BoundaryCurve = boundary;             
+            if (boundary.IsClosed) cell.BoundaryCurve = boundary.CurveToPolyline(); 
 
             //Set data
             DA.SetData(0, cell);

@@ -35,7 +35,7 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
-            pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddCurveParameter("bound", "bound", "base position for the rectangles", GH_ParamAccess.item);
             pManager.AddIntegerParameter("minAmounts", "minAmount", "tangent vector for the line", GH_ParamAccess.list);
             pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
