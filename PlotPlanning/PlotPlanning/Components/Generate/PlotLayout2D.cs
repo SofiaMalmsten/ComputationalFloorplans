@@ -103,7 +103,7 @@ namespace PlotPlanning.Components
             List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
             */
 
-            cell.SetAvaliableSegments(roads); 
+            cell.SetAvaliableSegments(regulations, roads); 
             List<Polyline> rectangles = new List<Polyline>();
             List<House> houseList = new List<House>();
             Random random = new Random(seed);

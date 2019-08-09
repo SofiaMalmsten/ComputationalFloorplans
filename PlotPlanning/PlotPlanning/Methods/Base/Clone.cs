@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
-
+using PlotPlanning.ObjectModel; 
 
 namespace PlotPlanning.Methods
 {
@@ -21,6 +21,12 @@ namespace PlotPlanning.Methods
         public static Brep Clone(this Brep brep)
         {
             return brep.DuplicateBrep();
+        }
+
+        public static Cell Clone(this Cell cell)
+        {
+            return new Cell() { AvaliableSegments = cell.AvaliableSegments, BoundaryCurve = cell.BoundaryCurve, OriginalBoundary = cell.OriginalBoundary }; 
+
         }
     }
 }

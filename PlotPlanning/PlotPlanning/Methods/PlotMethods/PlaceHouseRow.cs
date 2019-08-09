@@ -92,9 +92,9 @@ namespace PlotPlanning.Methods
                 //4. Create gardens for each position. if the garden overlaps the boundary it will not be created
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    Polyline pLines = Calculate.Translate(baseHouse.gardenBound, pos[i], tan[i]);
-                    Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    List<Polyline> currGarden = CullSmallAreas(rec, cell); //returns 0 when the garden overlaps the boundary
+                    Polyline pLine = Calculate.Translate(baseHouse.gardenBound, pos[i], tan[i]);
+                    Curve rec = Curve.CreateControlPointCurve(pLine.ToList(), 1);
+                    List<Polyline> currGarden = CullSmallAreas(rec, cell.BoundaryCurve.ToNurbsCurve()); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
                     {
                         House outHouse = new House();
@@ -102,8 +102,8 @@ namespace PlotPlanning.Methods
                         outHouse.Type = baseHouse.Type;
                         outHouse.orientation = tan[i];
                         outHouse.houseGeom = baseHouse.houseGeom.DuplicateBrep();
-                        outHouse.houseGeom.Translate(Calculate.createVector(pLines.CenterPoint(), baseHouse.gardenBound.Center));
-                        outHouse.accessPoint = pLines.CenterPoint();
+                        outHouse.houseGeom.Translate(Calculate.createVector(pLine.CenterPoint(), baseHouse.gardenBound.Center));
+                        outHouse.accessPoint = pLine.CenterPoint();
                         houseList.Add(outHouse);
                         rectangles.Add(currGarden[0]);
                     }
@@ -118,15 +118,16 @@ namespace PlotPlanning.Methods
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles); //Här blir det fel eftersom vi har rectangles.count == 0 ibland
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
                 Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
-                List<Curve> cutRegions = Curve.CreateBooleanDifference(cell, offsetRegion, DistanceTol()).ToList();
+                List<Curve> cutRegions = Curve.CreateBooleanDifference(cell.BoundaryCurve.ToNurbsCurve(), offsetRegion, DistanceTol()).ToList();
                 cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.gardenBound.ToNurbsCurve())).ToList();
+                
                 cellList = cutRegions.CurvesToPolylineCurves();
                 outRecs = rectangles;
             }
             catch
             {
                 outRecs = new List<Polyline>();
-                cellList = new List<PolylineCurve>() { cell.CurveToPolylineCurve() };
+                cellList = new List<Cell>() { cell.CurveToPolylineCurve() };
                 houseList = new List<House>();
             }
         }

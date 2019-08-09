@@ -15,9 +15,9 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static void SetAvaliableSegments(this Cell cell, List<Curve> roads = null)
+        public static void SetAvaliableSegments(this Cell cell, Regulation reg,  List<Curve> roads = null)
         {
-            if (cell.Method == "roads") //select line on road
+            if (reg.Method == "roads") //select line on road
             {
                 List<Line> lines = cell.BoundaryCurve.GetSegments().ToList();
                 List<Line> posLines = new List<Line>();

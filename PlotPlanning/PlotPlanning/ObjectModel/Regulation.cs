@@ -13,7 +13,7 @@ namespace PlotPlanning.ObjectModel
         public int MaxAmount { get; set; } = 999;
         public int Offset { get; set; } = 0;
 
-
+        public string Method = "random"; 
     }
 
     //====================================================================
