@@ -6,6 +6,7 @@ using Rhino.Geometry;
 using System.Linq;
 using isc = Rhino.Geometry.Intersect;
 using nic = Rhino.NodeInCode.Components;
+using PlotPlanning.ObjectModel; 
 
 
 
@@ -118,6 +119,21 @@ namespace PlotPlanning.Methods
         }
 
         //====================================================================
+        public static void Pickline(this Cell cell, Random random, out Line line, out Cell updatedCell)
+        {
+            int idx = random.Next(cell.AvaliableSegments.Count); 
+            line = cell.AvaliableSegments[idx];
+            cell.AvaliableSegments.RemoveAt(idx);
+            cell.AvaliableSegments.Shuffle(random); 
+            updatedCell = new Cell()
+            {
+                OriginalBoundary = cell.OriginalBoundary,
+                BoundaryCurve = cell.BoundaryCurve,
+                Method = cell.Method,
+                AvaliableSegments = cell.AvaliableSegments
+            }; 
 
+
+        }
     }
 }

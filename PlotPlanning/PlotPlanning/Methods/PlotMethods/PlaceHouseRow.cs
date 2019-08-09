@@ -64,8 +64,8 @@ namespace PlotPlanning.Methods
         }
         //====================================================================
 
-        public static void PlaceHouseRow(List<House> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, List<int> min, double max, double offset, Random random, string method,
-            out List<Polyline> outRecs, out List<House> houseList, out List<PolylineCurve> cutBound)
+        public static void PlaceHouseRow(List<House> baseHouses, Cell cell, List<Curve> roads, List<int> min, double max, double offset, Random random, string method,
+            out List<Polyline> outRecs, out List<House> houseList, out List<Cell> cellList)
         {
             //1. Declare list
             houseList = new List<House>();
@@ -76,15 +76,15 @@ namespace PlotPlanning.Methods
             int minAmount = min[index];
             House baseHouse = baseHouses[index];
 
-            //3. Get boundaries
-            bound.TryGetPolyline(out Polyline boundPL);
-            List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse.gardenBound, 1, min[index]); //1 is just a seed to make it work for now                                                                                                                                                    
+            //3. Get boundaries            
+            List<Line> lines = SegmentBounds(cell.BoundaryCurve.ClosePolyline(), baseHouse.gardenBound, 1, min[index]); //1 is just a seed to make it work for now                                                                                                                                                    
 
             //3. Could we have a while loop here testing all the lines in the list??
             // Could we shuffle the list in the pick line method and then pick the first item we can itterate over the list of lines?
             try
             {
-                Line currLine = lines.PickLine(method, random, roads, originalBound);
+                Line currLine = new Line(); 
+                cell.Pickline(random, out currLine, out cell);                 
                 currLine.Extend(-FilletOffset(), -FilletOffset());
                 List<Point3d> pos = AccessPoints(currLine, min[index], max, baseHouse.gardenBound, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
@@ -94,7 +94,7 @@ namespace PlotPlanning.Methods
                 {
                     Polyline pLines = Calculate.Translate(baseHouse.gardenBound, pos[i], tan[i]);
                     Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    List<Polyline> currGarden = CullSmallAreas(rec, bound); //returns 0 when the garden overlaps the boundary
+                    List<Polyline> currGarden = CullSmallAreas(rec, cell); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
                     {
                         House outHouse = new House();
@@ -118,15 +118,15 @@ namespace PlotPlanning.Methods
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles); //Här blir det fel eftersom vi har rectangles.count == 0 ibland
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
                 Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
-                List<Curve> cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, DistanceTol()).ToList();
+                List<Curve> cutRegions = Curve.CreateBooleanDifference(cell, offsetRegion, DistanceTol()).ToList();
                 cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.gardenBound.ToNurbsCurve())).ToList();
-                cutBound = cutRegions.CurvesToPolylineCurves();
+                cellList = cutRegions.CurvesToPolylineCurves();
                 outRecs = rectangles;
             }
             catch
             {
                 outRecs = new List<Polyline>();
-                cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
+                cellList = new List<PolylineCurve>() { cell.CurveToPolylineCurve() };
                 houseList = new List<House>();
             }
         }
