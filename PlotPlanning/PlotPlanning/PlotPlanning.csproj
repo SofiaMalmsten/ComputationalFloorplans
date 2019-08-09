@@ -90,6 +90,7 @@
     <Compile Include="Methods\Geometry\Angle.cs" />
     <Compile Include="Methods\Geometry\DiscontinuityPoints.cs" />
     <Compile Include="Methods\Geometry\ClosePolyline.cs" />
+    <Compile Include="Methods\PlotMethods\DivideCell.cs" />
     <Compile Include="Methods\PlotMethods\SetAvaliableSegments.cs" />
     <Compile Include="Methods\PlotMethods\PickLine.cs" />
     <Compile Include="Methods\PlotMethods\PlaceHouseRow.cs" />

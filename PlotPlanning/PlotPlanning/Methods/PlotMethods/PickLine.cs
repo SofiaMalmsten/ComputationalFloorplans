@@ -129,7 +129,6 @@ namespace PlotPlanning.Methods
             {
                 OriginalBoundary = cell.OriginalBoundary,
                 BoundaryCurve = cell.BoundaryCurve,
-                Method = cell.Method,
                 AvaliableSegments = cell.AvaliableSegments
             }; 
 
