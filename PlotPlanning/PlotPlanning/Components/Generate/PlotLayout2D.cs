@@ -53,7 +53,7 @@ namespace PlotPlanning.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
-            pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
             pManager.AddCurveParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
         }
 

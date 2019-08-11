@@ -35,6 +35,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount", GH_ParamAccess.item);
             pManager.AddIntegerParameter("maxAmount", "maxAmount", "maxAmount", GH_ParamAccess.item);
             pManager.AddIntegerParameter("offset", "offset", "offset", GH_ParamAccess.item);
+            pManager.AddTextParameter("method", "method", "method", GH_ParamAccess.item); 
         }
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace PlotPlanning.Components
             int minAmount = 0;
             int maxAmount = 999;
             int offset = 0;
+            string method = ""; 
 
             //Get Data
             if (!DA.GetData(0, ref minAmount))
@@ -64,12 +66,15 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(2, ref offset))
                 return;
+            if (!DA.GetData(3, ref method))
+                return;
 
             //Set properties
             PlotPlanning.ObjectModel.Regulation regulation = new ObjectModel.Regulation();
             regulation.MinAmount = minAmount;
             regulation.MaxAmount = maxAmount;
             regulation.Offset = offset;
+            regulation.Method = method; 
 
             //Set data
             DA.SetData(0, regulation);

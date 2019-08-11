@@ -120,21 +120,13 @@ namespace PlotPlanning.Methods
                 Curve offsetRegion = cutCrv.OffsetOut(offset, Plane.WorldXY);
                 List<Curve> cutRegions = Curve.CreateBooleanDifference(cell.BoundaryCurve.ToNurbsCurve(), offsetRegion, DistanceTol()).ToList();
                 cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.gardenBound.ToNurbsCurve())).ToList();
-                cellList = new List<Cell>();
-                foreach (Curve c in cutRegions)
-                {
-                    Cell currCell = cell.Clone();
-                    currCell.BoundaryCurve = c.CurveToPolyline(); 
-                    currCell.SetAvaliableSegments(reg, roads);
-                    cellList.Add(currCell); 
-                }
-                cellList = cutRegions.CurvesToPolylineCurves();
+                cellList = cell.DivideCell(cutRegions.CurvesToPolylines());
                 outRecs = rectangles;
             }
             catch
             {
                 outRecs = new List<Polyline>();
-                cellList = new List<Cell>() { cell.CurveToPolylineCurve() };
+                cellList = new List<Cell>() { cell };
                 houseList = new List<House>();
             }
         }

@@ -17,6 +17,8 @@ namespace PlotPlanning.Methods
 
         public static List<Cell> DivideCell(this Cell cell, List<Polyline> boundaries)
         {
+            if (boundaries.Count == 1) return new List<Cell> { cell }; 
+            
             List<Line> avaliableSegments = cell.AvaliableSegments;
             List<Cell> cells = new List<Cell>(); 
             foreach (Polyline p in boundaries)
@@ -51,4 +53,4 @@ namespace PlotPlanning.Methods
     //====================================================================
 
 }
-}
+
