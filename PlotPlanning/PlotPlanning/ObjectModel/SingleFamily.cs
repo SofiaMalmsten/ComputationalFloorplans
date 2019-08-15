@@ -15,6 +15,9 @@ namespace PlotPlanning.ObjectModel
         public Brep houseGeom { get; set; } = new Brep();
         public Vector3d orientation { get; set; } = new Vector3d();
         public Point3d accessPoint { get; set; } = new Point3d();
+        public int MinAmount { get; set; } = 0;
+        public int MaxAmount { get; set; } = 999;
+        public int Offset { get; set; } = 0;
 
     }
 

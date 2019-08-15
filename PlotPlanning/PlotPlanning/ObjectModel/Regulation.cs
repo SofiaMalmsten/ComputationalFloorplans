@@ -9,9 +9,9 @@ namespace PlotPlanning.ObjectModel
 {
     public class Regulation
     {
-        public int MinAmount { get; set; } = 0;
-        public int MaxAmount { get; set; } = 999;
-        public int Offset { get; set; } = 0;
+        //public int MinAmount { get; set; } = 0;
+        //public int MaxAmount { get; set; } = 999;
+        //public int Offset { get; set; } = 0;
 
 
     }

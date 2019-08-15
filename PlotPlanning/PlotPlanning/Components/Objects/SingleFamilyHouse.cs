@@ -36,6 +36,10 @@ namespace PlotPlanning.Components
             pManager.AddBooleanParameter("carport", "carport", "has car port", GH_ParamAccess.item);
             pManager.AddRectangleParameter("gardenBound", "gardenBound", "gardenBound", GH_ParamAccess.item);
             pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount in a row of houses", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("maxAmount", "maxAmount", "max amount in a row of houses (1 means free standing)", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("offset", "offset", "buffer distance", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -58,6 +62,10 @@ namespace PlotPlanning.Components
             bool carport = false;
             Rectangle3d gardenBound = new Rectangle3d();
             Brep houseGeom = new Brep();
+            Point3d accessPoint = new Point3d();
+            int minAmount = 1;
+            int maxAmount = 999;
+            int offset = 1;
 
             //Get Data
             if (!DA.GetData(0, ref type))
@@ -68,6 +76,14 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(3, ref houseGeom))
                 return;
+            if (!DA.GetData(4, ref accessPoint))
+                return;
+            if (!DA.GetData(5, ref minAmount))
+                return;
+            if (!DA.GetData(6, ref maxAmount))
+                return;
+            if (!DA.GetData(7, ref offset))
+                return;
 
             //Set properties
             PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
@@ -75,6 +91,9 @@ namespace PlotPlanning.Components
             house.HasCarPort = carport;
             house.gardenBound = gardenBound;
             house.houseGeom = houseGeom;
+            house.MinAmount = minAmount;
+            house.MaxAmount = maxAmount;
+            house.Offset = offset;
 
             //Set data
             DA.SetData(0, house);
