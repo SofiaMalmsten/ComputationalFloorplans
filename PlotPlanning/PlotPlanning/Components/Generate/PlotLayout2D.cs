@@ -62,7 +62,7 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<House> houses = new List<House>();
+            List<SingleFamily> houses = new List<SingleFamily>();
             Curve bound = new PolylineCurve();
             Regulation regulations = new Regulation();
             List<int> minAmounts = new List<int>();
@@ -102,7 +102,7 @@ namespace PlotPlanning.Components
             */
 
             List<Polyline> rectangles = new List<Polyline>();
-            List<House> houseList = new List<House>();
+            List<SingleFamily> houseList = new List<SingleFamily>();
             Random random = new Random(seed);
             Curve originalBound = bound;
 
@@ -119,7 +119,7 @@ namespace PlotPlanning.Components
                 //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, minAmounts, regulations.MaxAmount, regulations.Offset, random,
-                    method, out List<Polyline> outRecs, out List<House> outHouseList, out List<PolylineCurve> newBound);
+                    method, out List<Polyline> outRecs, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
 
                 rectangles.AddRange(outRecs);
                 BoundList.AddRange(newBound);

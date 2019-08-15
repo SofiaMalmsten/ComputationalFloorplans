@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.ObjectModel
 {
-    public class House
+    public class SingleFamily
     {
         public string Type { get; set; } = "";
         public bool HasCarPort { get; set; } = false;

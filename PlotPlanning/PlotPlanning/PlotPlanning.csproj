@@ -63,11 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Generate\ConcaveHull2D.cs" />
+    <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
     <Compile Include="Components\Objects\Site.cs" />
     <Compile Include="Components\Objects\Regulations.cs" />
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
     <Compile Include="Components\Generate\Counter.cs" />
-    <Compile Include="Components\Objects\House.cs" />
+    <Compile Include="Components\Objects\SingleFamilyHouse.cs" />
     <Compile Include="Components\Generate\SnapToTopo.cs" />
     <Compile Include="Components\Generate\CullSmallAreas.cs" />
     <Compile Include="Components\Generate\IsClockwise.cs" />
@@ -106,11 +107,12 @@
     <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
     <Compile Include="Methods\PlotMethods\AccessPoints.cs" />
+    <Compile Include="ObjectModel\MultiFamily.cs" />
     <Compile Include="ObjectModel\Site.cs" />
     <Compile Include="ObjectModel\Cell.cs" />
     <Compile Include="ObjectModel\Street.cs" />
     <Compile Include="ObjectModel\Regulation.cs" />
-    <Compile Include="ObjectModel\House.cs" />
+    <Compile Include="ObjectModel\SingleFamily.cs" />
     <Compile Include="PlotPlanningInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

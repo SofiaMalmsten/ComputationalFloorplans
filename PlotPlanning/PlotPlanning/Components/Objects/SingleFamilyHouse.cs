@@ -21,8 +21,8 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public HouseComponent()
-          : base("GenerateHouse", "GenerateHouse",
-              "Generate house",
+          : base("SingleFamilyHouse", "SingleFamilyHouse",
+              "SingleFamilyHouse",
               "PlotPlanningTool", "Objects")
         {
         }
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("house", "house", "house", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SingleFamilyHouse", "SFH", "SFH", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Set properties
-            PlotPlanning.ObjectModel.House house = new ObjectModel.House();
+            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
             house.Type = type;
             house.HasCarPort = carport;
             house.gardenBound = gardenBound;

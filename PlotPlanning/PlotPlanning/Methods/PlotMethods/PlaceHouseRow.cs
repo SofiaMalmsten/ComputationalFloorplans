@@ -64,17 +64,17 @@ namespace PlotPlanning.Methods
         }
         //====================================================================
 
-        public static void PlaceHouseRow(List<House> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, List<int> min, double max, double offset, Random random, string method,
-            out List<Polyline> outRecs, out List<House> houseList, out List<PolylineCurve> cutBound)
+        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, List<int> min, double max, double offset, Random random, string method,
+            out List<Polyline> outRecs, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound)
         {
             //1. Declare list
-            houseList = new List<House>();
+            houseList = new List<SingleFamily>();
             List<Polyline> rectangles = new List<Polyline>();
 
             //2. pick random house type to place
             int index = random.Next(baseHouses.Count);
             int minAmount = min[index];
-            House baseHouse = baseHouses[index];
+            SingleFamily baseHouse = baseHouses[index];
 
             //3. Get boundaries
             bound.TryGetPolyline(out Polyline boundPL);
@@ -97,7 +97,7 @@ namespace PlotPlanning.Methods
                     List<Polyline> currGarden = CullSmallAreas(rec, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
                     {
-                        House outHouse = new House();
+                        SingleFamily outHouse = new SingleFamily();
                         outHouse.gardenBound = pp.Calculate.BoundingRect(currGarden[0]);
                         outHouse.Type = baseHouse.Type;
                         outHouse.orientation = tan[i];
@@ -127,7 +127,7 @@ namespace PlotPlanning.Methods
             {
                 outRecs = new List<Polyline>();
                 cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
-                houseList = new List<House>();
+                houseList = new List<SingleFamily>();
             }
         }
     }
