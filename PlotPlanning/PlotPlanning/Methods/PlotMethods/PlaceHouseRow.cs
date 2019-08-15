@@ -103,6 +103,7 @@ namespace PlotPlanning.Methods
                         outHouse.houseGeom = baseHouse.houseGeom.DuplicateBrep();
                         outHouse.houseGeom.Translate(Calculate.createVector(pLines.CenterPoint(), baseHouse.gardenBound.Center));
                         outHouse.accessPoint = pLines.CenterPoint();
+                        outHouse.HasCarPort = baseHouse.HasCarPort;
                         houseList.Add(outHouse);
                         rectangles.Add(currGarden[0]);
                     }

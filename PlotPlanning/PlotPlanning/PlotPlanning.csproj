@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Generate\ConcaveHull2D.cs" />
+    <Compile Include="Components\Objects\ParkingLot.cs" />
+    <Compile Include="Components\Objects\Carport.cs" />
     <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
     <Compile Include="Components\Objects\Site.cs" />
     <Compile Include="Components\Objects\Regulations.cs" />
@@ -107,6 +109,8 @@
     <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
     <Compile Include="Methods\PlotMethods\AccessPoints.cs" />
+    <Compile Include="ObjectModel\ParkingLot.cs" />
+    <Compile Include="ObjectModel\Carport.cs" />
     <Compile Include="ObjectModel\MultiFamily.cs" />
     <Compile Include="ObjectModel\Site.cs" />
     <Compile Include="ObjectModel\Cell.cs" />
