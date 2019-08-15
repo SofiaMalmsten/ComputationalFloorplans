@@ -25,7 +25,7 @@ namespace PlotPlanning.Components
         public PlotLayout2D()
           : base("PlotLayout2D", "PlotLayout2D",
               "Creates accesspoints on a line",
-              "PlotPlanningTool", "Houses")
+              "PlotPlanningTool", "Generate")
         {
         }
 

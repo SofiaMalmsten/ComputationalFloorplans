@@ -63,6 +63,16 @@ namespace PlotPlanning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CarPort {
+            get {
+                object obj = ResourceManager.GetObject("CarPort", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CellularStreets {
             get {
                 object obj = ResourceManager.GetObject("CellularStreets", resourceCulture);
@@ -193,6 +203,16 @@ namespace PlotPlanning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MFH {
+            get {
+                object obj = ResourceManager.GetObject("MFH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NumberOfHouses {
             get {
                 object obj = ResourceManager.GetObject("NumberOfHouses", resourceCulture);
@@ -206,6 +226,16 @@ namespace PlotPlanning.Properties {
         internal static System.Drawing.Bitmap oCellStreet {
             get {
                 object obj = ResourceManager.GetObject("oCellStreet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ParkingLot {
+            get {
+                object obj = ResourceManager.GetObject("ParkingLot", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -266,6 +296,26 @@ namespace PlotPlanning.Properties {
         internal static System.Drawing.Bitmap RandomHouses {
             get {
                 object obj = ResourceManager.GetObject("RandomHouses", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SFH {
+            get {
+                object obj = ResourceManager.GetObject("SFH", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Site {
+            get {
+                object obj = ResourceManager.GetObject("Site", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

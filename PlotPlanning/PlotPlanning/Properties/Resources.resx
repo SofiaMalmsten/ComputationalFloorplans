@@ -187,4 +187,19 @@
   <data name="SnapToTopo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SnapToTopo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CarPort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CarPort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MFH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MFH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ParkingLot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ParkingLot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SFH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SFH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Site" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Site.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -62,6 +62,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Evolve\NumberOfHouses.cs" />
     <Compile Include="Components\Generate\ConcaveHull2D.cs" />
     <Compile Include="Components\Objects\ParkingLot.cs" />
     <Compile Include="Components\Objects\Carport.cs" />
@@ -127,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\Evaluate\" />
-    <Folder Include="Components\Evolve\" />
+    <Folder Include="Components\Modify\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -194,6 +195,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SnapToTopo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CarPort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MFH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ParkingLot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SFH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Site.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

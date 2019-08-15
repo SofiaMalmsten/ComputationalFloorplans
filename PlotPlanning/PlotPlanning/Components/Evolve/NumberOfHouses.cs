@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Carport : GH_Component
+    public class NumberOfHouses : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,10 +20,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Carport()
-          : base("Carport", "Carport",
-              "Carport",
-              "PlotPlanningTool", "Objects")
+        public NumberOfHouses()
+          : base("NumberOfHouses", "NumberOfHouses",
+              "Calculates the amount of SFH on a site",
+              "PlotPlanningTool", "Evaluate")
         {
         }
 
@@ -32,9 +32,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddRectangleParameter("gardenBound", "gardenBound", "gardenBOund", GH_ParamAccess.item);
-            pManager.AddBrepParameter("carportGeom", "carportGeom", "carportGeom", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -42,7 +40,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Carport", "Crp", "Crp", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("NumberOfHOuses", "NuberOfHouses", "NumberOfHouses", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,27 +51,17 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Rectangle3d gardenBound = new Rectangle3d();
-            Brep carportGeom = new Brep();
-            Point3d accessPoint = new Point3d();
+            List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
 
             //Get Data
-            if (!DA.GetData(0, ref gardenBound))
-                return;
-            if (!DA.GetData(1, ref carportGeom))
-                return;
-            if (!DA.GetData(2, ref accessPoint))
+            if (!DA.GetDataList(0, SFH))
                 return;
 
-
-            //Set properties
-            PlotPlanning.ObjectModel.Carport carport = new ObjectModel.Carport();
-            carport.accessPoint = accessPoint;
-            carport.carportGeom = carportGeom;
-            carport.gardenBound = gardenBound;
-
+            //Calculate
+            int numerOfHouses = SFH.Count;
+           
             //Set data
-            DA.SetData(0, carport);
+            DA.SetData(0, numerOfHouses);
         }
 
         /// <summary>
@@ -85,7 +73,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.CarPort;
+                return Properties.Resources.NumberOfHouses;
                 //return null;
             }
         }
@@ -97,7 +85,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("1f358b10-f626-4d8a-ab05-eb737935abcb"); }
+            get { return new Guid("a088001a-e2ea-406f-adc0-7d31fe6430de"); }
         }
     }
 
