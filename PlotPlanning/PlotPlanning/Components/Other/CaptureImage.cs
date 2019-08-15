@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Counter : GH_Component
+    public class CaptureImage : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,9 +20,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Counter()
-          : base("Counter", "Counter",
-              "counter",
+        public CaptureImage()
+          : base("CaptureImage", "CaptureImage",
+              "CaptureImage",
               "PlotPlanningTool", "Other")
         {
         }
@@ -32,11 +32,10 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBooleanParameter("reset", "reset", "default false", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("run", "run", "default false", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("steps", "steps", "default 1", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("start", "start", "default 0", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("stop", "stop", "default 9999", GH_ParamAccess.item);
+            pManager.AddTextParameter("PathToFile", "pathToFile", "type hint: string", GH_ParamAccess.item);
+            pManager.AddTextParameter("FileName", "FileName", "type hint: string", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Transparent", "Transparent", "transparent background or not", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Activate", "Activate", "type hint: boolean /n true or false", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("int", "int", "int", GH_ParamAccess.item);
+            pManager.AddTextParameter("Success", "Success", "Success", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -54,46 +53,28 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         /// 
 
-        int n = 0;
-        int A = 0;
-
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            bool reset = false;
-            bool run = false;
-            int steps = 1;
-            int start = 0;
-            int stop = 9999;
+            string PathToFIle = "";
+            string FileName = "";
+            bool Transparent = false;
+            bool Activate = false;
 
-            
+
 
             //Get Data
-            if (!DA.GetData(0, ref reset))
+            if (!DA.GetData(0, ref PathToFIle))
                 return;
-            if (!DA.GetData(1, ref run))
+            if (!DA.GetData(1, ref FileName))
                 return;
-            if (!DA.GetData(2, ref steps))
+            if (!DA.GetData(2, ref Transparent))
                 return;
-            if (!DA.GetData(3, ref start))
-                return;
-            if (!DA.GetData(4, ref stop))
+            if (!DA.GetData(3, ref Activate))
                 return;
 
             //Calculate
-            if (reset)
-                n = start;
-            else if (run)
-            {
-                n = n + steps;
-
-                if (n > stop)
-                {
-                    n = start;
-                }
-
-                A = n;
-            }
+            string A = PlotPlanning.Methods.Generate.CaptureImage(PathToFIle, FileName, Transparent, Activate);
 
             //Set data
             DA.SetData(0, A);
@@ -108,7 +89,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.SnapToTopo;
+                return Properties.Resources.Capture;
                 //return null;
             }
         }
@@ -120,7 +101,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff5"); }
+            get { return new Guid("2d450a9b-604f-4931-a436-097a468d04e7"); }
         }
     }
 

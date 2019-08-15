@@ -70,7 +70,7 @@
     <Compile Include="Components\Objects\Site.cs" />
     <Compile Include="Components\Objects\Regulations.cs" />
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
-    <Compile Include="Components\Generate\Counter.cs" />
+    <Compile Include="Components\Other\Counter.cs" />
     <Compile Include="Components\Objects\SingleFamilyHouse.cs" />
     <Compile Include="Components\Generate\SnapToTopo.cs" />
     <Compile Include="Components\Generate\CullSmallAreas.cs" />
@@ -79,6 +79,7 @@
     <Compile Include="Components\Generate\Accesspoints.cs" />
     <Compile Include="Components\Generate\HouseFootprint.cs" />
     <Compile Include="Components\Generate\SegmentBounds.cs" />
+    <Compile Include="Components\Other\CaptureImage.cs" />
     <Compile Include="Methods\Base\Clone.cs" />
     <Compile Include="Methods\Base\GetClosestValue.cs" />
     <Compile Include="Methods\Convert\Convert.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Methods\Geometry\Angle.cs" />
     <Compile Include="Methods\Geometry\DiscontinuityPoints.cs" />
     <Compile Include="Methods\Geometry\ClosePolyline.cs" />
+    <Compile Include="Methods\PlotMethods\CaptureImage.cs" />
     <Compile Include="Methods\PlotMethods\PickLine.cs" />
     <Compile Include="Methods\PlotMethods\PlaceHouseRow.cs" />
     <Compile Include="Methods\PlotMethods\PickLargest.cs" />
@@ -210,6 +212,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Site.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Capture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Timer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -63,6 +63,16 @@ namespace PlotPlanning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Capture {
+            get {
+                object obj = ResourceManager.GetObject("Capture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CarPort {
             get {
                 object obj = ResourceManager.GetObject("CarPort", resourceCulture);
@@ -336,6 +346,16 @@ namespace PlotPlanning.Properties {
         internal static System.Drawing.Bitmap SnapToTopo {
             get {
                 object obj = ResourceManager.GetObject("SnapToTopo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Timer {
+            get {
+                object obj = ResourceManager.GetObject("Timer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
