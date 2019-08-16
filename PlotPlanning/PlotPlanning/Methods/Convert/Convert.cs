@@ -11,9 +11,9 @@ namespace PlotPlanning.Methods
     public static partial class Calculate
     {
         /***************************************************/
-        public static ObjectModel.House Convert(this ObjectModel.House house)
+        public static ObjectModel.SingleFamily Convert(this ObjectModel.SingleFamily house)
         {
-            ObjectModel.House newHouse = new ObjectModel.House();
+            ObjectModel.SingleFamily newHouse = new ObjectModel.SingleFamily();
             newHouse.Type = house.Type;
             newHouse.houseGeom = house.houseGeom.DuplicateBrep();
 

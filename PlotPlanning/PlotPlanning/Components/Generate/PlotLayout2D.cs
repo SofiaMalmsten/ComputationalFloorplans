@@ -25,7 +25,7 @@ namespace PlotPlanning.Components
         public PlotLayout2D()
           : base("PlotLayout2D", "PlotLayout2D",
               "Creates accesspoints on a line",
-              "PlotPlanningTool", "Houses")
+              "PlotPlanningTool", "Generate")
         {
         }
 
@@ -36,8 +36,6 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("minAmounts", "minAmount", "tangent vector for the line", GH_ParamAccess.list);
-            pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
@@ -62,10 +60,8 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<House> houses = new List<House>();
+            List<SingleFamily> houses = new List<SingleFamily>();
             Curve bound = new PolylineCurve();
-            Regulation regulations = new Regulation();
-            List<int> minAmounts = new List<int>();
             int itts = 1;
             int seed = 1;
             string method = "";
@@ -76,17 +72,13 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(1, ref bound))
                 return;
-            if (!DA.GetDataList(2, minAmounts))
+            if (!DA.GetData(2, ref itts))
                 return;
-            if (!DA.GetData(3, ref regulations))
+            if (!DA.GetData(3, ref seed))
                 return;
-            if (!DA.GetData(4, ref itts))
+            if (!DA.GetData(4, ref method))
                 return;
-            if (!DA.GetData(5, ref seed))
-                return;
-            if (!DA.GetData(6, ref method))
-                return;
-            if (!DA.GetDataList(7, roads))
+            if (!DA.GetDataList(5, roads))
                 return;
 
 
@@ -102,7 +94,7 @@ namespace PlotPlanning.Components
             */
 
             List<Polyline> rectangles = new List<Polyline>();
-            List<House> houseList = new List<House>();
+            List<SingleFamily> houseList = new List<SingleFamily>();
             Random random = new Random(seed);
             Curve originalBound = bound;
 
@@ -118,8 +110,8 @@ namespace PlotPlanning.Components
                 //pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
                 //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
-                pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, minAmounts, regulations.MaxAmount, regulations.Offset, random,
-                    method, out List<Polyline> outRecs, out List<House> outHouseList, out List<PolylineCurve> newBound);
+                pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
+                    method, out List<Polyline> outRecs, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
 
                 rectangles.AddRange(outRecs);
                 BoundList.AddRange(newBound);

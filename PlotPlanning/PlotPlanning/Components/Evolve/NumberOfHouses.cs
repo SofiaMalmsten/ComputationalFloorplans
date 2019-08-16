@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Regulations : GH_Component
+    public class NumberOfHouses : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,10 +20,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Regulations()
-          : base("GenerateRegulations", "GenerateRegulations",
-              "Generate regulations",
-              "PlotPlanningTool", "Objects")
+        public NumberOfHouses()
+          : base("NumberOfHouses", "NumberOfHouses",
+              "Calculates the amount of SFH on a site",
+              "PlotPlanningTool", "Evaluate")
         {
         }
 
@@ -32,9 +32,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("maxAmount", "maxAmount", "maxAmount", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("offset", "offset", "offset", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -42,7 +40,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("NumberOfHOuses", "NuberOfHouses", "NumberOfHouses", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,26 +51,17 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            int minAmount = 0;
-            int maxAmount = 999;
-            int offset = 0;
+            List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
 
             //Get Data
-            if (!DA.GetData(0, ref minAmount))
-                return;
-            if (!DA.GetData(1, ref maxAmount))
-                return;
-            if (!DA.GetData(2, ref offset))
+            if (!DA.GetDataList(0, SFH))
                 return;
 
-            //Set properties
-            PlotPlanning.ObjectModel.Regulation regulation = new ObjectModel.Regulation();
-            regulation.MinAmount = minAmount;
-            regulation.MaxAmount = maxAmount;
-            regulation.Offset = offset;
-
+            //Calculate
+            int numerOfHouses = SFH.Count;
+           
             //Set data
-            DA.SetData(0, regulation);
+            DA.SetData(0, numerOfHouses);
         }
 
         /// <summary>
@@ -84,7 +73,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.SnapToTopo;
+                return Properties.Resources.NumberOfHouses;
                 //return null;
             }
         }
@@ -96,10 +85,9 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("e3e64100-c5d8-41ce-b139-0ce2e60d7844"); }
+            get { return new Guid("a088001a-e2ea-406f-adc0-7d31fe6430de"); }
         }
     }
 
 
 }
-*/

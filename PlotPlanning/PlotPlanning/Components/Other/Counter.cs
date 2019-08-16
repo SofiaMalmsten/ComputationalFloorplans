@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Regulations : GH_Component
+    public class Counter : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,10 +20,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Regulations()
-          : base("GenerateRegulations", "GenerateRegulations",
-              "Generate regulations",
-              "PlotPlanningTool", "Objects")
+        public Counter()
+          : base("Counter", "Counter",
+              "counter",
+              "PlotPlanningTool", "Other")
         {
         }
 
@@ -32,9 +32,11 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("maxAmount", "maxAmount", "maxAmount", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("offset", "offset", "offset", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("reset", "reset", "default false", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("run", "run", "default false", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("steps", "steps", "default 1", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("start", "start", "default 0", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("stop", "stop", "default 9999", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("int", "int", "int", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -50,29 +52,51 @@ namespace PlotPlanning.Components
         /// </summary>
         /// <param name="DA">The DA object can be used to retrieve data from input parameters and 
         /// to store data in output parameters.</param>
+        /// 
+
+        int n = 0;
+        int A = 0;
+
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            int minAmount = 0;
-            int maxAmount = 999;
-            int offset = 0;
+            bool reset = false;
+            bool run = false;
+            int steps = 1;
+            int start = 0;
+            int stop = 9999;
+
+            
 
             //Get Data
-            if (!DA.GetData(0, ref minAmount))
+            if (!DA.GetData(0, ref reset))
                 return;
-            if (!DA.GetData(1, ref maxAmount))
+            if (!DA.GetData(1, ref run))
                 return;
-            if (!DA.GetData(2, ref offset))
+            if (!DA.GetData(2, ref steps))
+                return;
+            if (!DA.GetData(3, ref start))
+                return;
+            if (!DA.GetData(4, ref stop))
                 return;
 
-            //Set properties
-            PlotPlanning.ObjectModel.Regulation regulation = new ObjectModel.Regulation();
-            regulation.MinAmount = minAmount;
-            regulation.MaxAmount = maxAmount;
-            regulation.Offset = offset;
+            //Calculate
+            if (reset)
+                n = start;
+            else if (run)
+            {
+                n = n + steps;
+
+                if (n > stop)
+                {
+                    n = start;
+                }
+
+                A = n;
+            }
 
             //Set data
-            DA.SetData(0, regulation);
+            DA.SetData(0, A);
         }
 
         /// <summary>
@@ -84,7 +108,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.SnapToTopo;
+                return Properties.Resources.Timer;
                 //return null;
             }
         }
@@ -96,10 +120,9 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("e3e64100-c5d8-41ce-b139-0ce2e60d7844"); }
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff5"); }
         }
     }
 
 
 }
-*/

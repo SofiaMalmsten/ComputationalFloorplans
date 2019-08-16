@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Regulations : GH_Component
+    public class Carport : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,9 +20,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Regulations()
-          : base("GenerateRegulations", "GenerateRegulations",
-              "Generate regulations",
+        public Carport()
+          : base("Carport", "Carport",
+              "Carport",
               "PlotPlanningTool", "Objects")
         {
         }
@@ -32,9 +32,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("maxAmount", "maxAmount", "maxAmount", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("offset", "offset", "offset", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("gardenBound", "gardenBound", "gardenBOund", GH_ParamAccess.item);
+            pManager.AddBrepParameter("carportGeom", "carportGeom", "carportGeom", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("regulations", "regulations", "regulations", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Carport", "Crp", "Crp", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,26 +53,27 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            int minAmount = 0;
-            int maxAmount = 999;
-            int offset = 0;
+            Rectangle3d gardenBound = new Rectangle3d();
+            Brep carportGeom = new Brep();
+            Point3d accessPoint = new Point3d();
 
             //Get Data
-            if (!DA.GetData(0, ref minAmount))
+            if (!DA.GetData(0, ref gardenBound))
                 return;
-            if (!DA.GetData(1, ref maxAmount))
+            if (!DA.GetData(1, ref carportGeom))
                 return;
-            if (!DA.GetData(2, ref offset))
+            if (!DA.GetData(2, ref accessPoint))
                 return;
+
 
             //Set properties
-            PlotPlanning.ObjectModel.Regulation regulation = new ObjectModel.Regulation();
-            regulation.MinAmount = minAmount;
-            regulation.MaxAmount = maxAmount;
-            regulation.Offset = offset;
+            PlotPlanning.ObjectModel.Carport carport = new ObjectModel.Carport();
+            carport.accessPoint = accessPoint;
+            carport.carportGeom = carportGeom;
+            carport.gardenBound = gardenBound;
 
             //Set data
-            DA.SetData(0, regulation);
+            DA.SetData(0, carport);
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.SnapToTopo;
+                return Properties.Resources.CarPort;
                 //return null;
             }
         }
@@ -96,10 +97,9 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("e3e64100-c5d8-41ce-b139-0ce2e60d7844"); }
+            get { return new Guid("1f358b10-f626-4d8a-ab05-eb737935abcb"); }
         }
     }
 
 
 }
-*/

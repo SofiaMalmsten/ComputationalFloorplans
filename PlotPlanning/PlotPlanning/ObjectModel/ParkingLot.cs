@@ -7,12 +7,11 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.ObjectModel
 {
-    public class Regulation
+    public class ParkingLot
     {
-        //public int MinAmount { get; set; } = 0;
-        //public int MaxAmount { get; set; } = 999;
-        //public int Offset { get; set; } = 0;
-
+        public string type { get; set; } = "";
+        public Curve parkingBound { get; set; } = new PolylineCurve();
+        public int floors { get; set; } = 0;
 
     }
 
