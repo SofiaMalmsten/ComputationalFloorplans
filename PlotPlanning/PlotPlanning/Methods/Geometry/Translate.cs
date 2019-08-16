@@ -60,8 +60,9 @@ namespace PlotPlanning.Methods
 
         //================================
 
-        public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d basePt, Point3d boundPt, Vector3d tan)
+        public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
         {
+            Point3d basePt = house.AccessPoint;
             Line accessLine = GetAccessLine(basePt, house.GardenBound);
             Vector3d accessVec = createVector(accessLine.To, accessLine.From);
 
@@ -74,7 +75,7 @@ namespace PlotPlanning.Methods
             movedHouse.HouseGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
 
 
-            return house;
+            return movedHouse;
         }
 
         //================================

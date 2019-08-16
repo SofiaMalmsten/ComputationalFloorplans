@@ -90,30 +90,19 @@ namespace PlotPlanning.Methods
                 //4. Create gardens for each position. if the garden overlaps the boundary it will not be created
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    Polyline pLines = Calculate.Translate(baseHouse.GardenBound, baseHouse.AccessPoint, pos[i], tan[i]);
-                    Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    List<Polyline> currGarden = CullSmallAreas(rec, bound); //returns 0 when the garden overlaps the boundary
+                    SingleFamily movedHouse = Calculate.Translate(baseHouse, pos[i], tan[i]);
+
+                    Curve garden = Curve.CreateControlPointCurve(movedHouse.GardenBound.ToList(), 1);
+                    List<Polyline> currGarden = CullSmallAreas(garden, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
                     {
-                        SingleFamily outHouse = new SingleFamily();
-                        outHouse.GardenBound = currGarden[0];
-                        outHouse.Type = baseHouse.Type;
-                        outHouse.Orientation = tan[i];
-                        outHouse.HouseGeom = baseHouse.HouseGeom.DuplicateBrep();
-                        outHouse.HouseGeom.Translate(Calculate.createVector(baseHouse.GardenBound.CenterPoint(), pLines.CenterPoint()));
-                        outHouse.AccessPoint = pLines.CenterPoint();
-                        outHouse.HasCarPort = baseHouse.HasCarPort;
+                        SingleFamily outHouse = movedHouse;
                         houseList.Add(outHouse);
-                        rectangles.Add(currGarden[0]);
                     }
                 }
 
                 if (houseList.Count < baseHouse.MinAmount)
-                {
-                    //Test another line in the set. If it still doesnt work after all the lines are tested we return an empty list of rectangles. 
-                    //rectangles = new List<Polyline>();
                     houseList = new List<SingleFamily>();
-                }
                 
                 Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(houseList.Select(x => x.GardenBound).ToList()); //Här blir det fel eftersom vi har rectangles.count == 0 ibland
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
