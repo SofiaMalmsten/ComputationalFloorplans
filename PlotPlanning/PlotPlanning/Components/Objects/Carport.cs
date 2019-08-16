@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public Carport()
           : base("Carport", "Carport",
               "Carport",
-              "PlotPlanningTool", "Objects")
+              "PlotPlanningTool", "1.Objects")
         {
         }
 

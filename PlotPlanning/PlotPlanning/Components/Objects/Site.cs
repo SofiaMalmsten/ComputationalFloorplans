@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public Site()
           : base("GenerateSite", "GenerateSite",
               "Generate site",
-              "PlotPlanningTool", "Objects")
+              "PlotPlanningTool", "1.Objects")
         {
         }
 
