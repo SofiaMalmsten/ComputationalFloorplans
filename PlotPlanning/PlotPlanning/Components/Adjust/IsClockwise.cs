@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public IsClockwise()
           : base("IsClockwise", "IsClockwise",
               "Detemine whether a polyline is clockwise or not",
-              "PlotPlanningTool", "Generate")
+              "PlotPlanningTool", "Adjust")
         {
         }
 

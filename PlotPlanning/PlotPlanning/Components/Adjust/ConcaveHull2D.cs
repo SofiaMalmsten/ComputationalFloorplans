@@ -24,7 +24,7 @@ namespace PlotPlanning.Components
         public ConcaveHull()
           : base("Concave", "concaveHull",
               "Chull",
-              "PlotPlanningTool", "Generate")
+              "PlotPlanningTool", "Adjust")
         {
         }
 

@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public SnapToTopo()
           : base("SnapToTopo", "SnapToTopo",
               "projects points on a line",
-              "PlotPlanningTool", "Generate")
+              "PlotPlanningTool", "Adjust")
         {
         }
 

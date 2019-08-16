@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
-    <Compile Include="Components\Generate\ConcaveHull2D.cs" />
+    <Compile Include="Components\Adjust\ConcaveHull2D.cs" />
     <Compile Include="Components\Objects\ParkingLot.cs" />
     <Compile Include="Components\Objects\Carport.cs" />
     <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
@@ -72,8 +72,8 @@
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
     <Compile Include="Components\Other\Counter.cs" />
     <Compile Include="Components\Objects\SingleFamilyHouse.cs" />
-    <Compile Include="Components\Generate\SnapToTopo.cs" />
-    <Compile Include="Components\Generate\IsClockwise.cs" />
+    <Compile Include="Components\Adjust\SnapToTopo.cs" />
+    <Compile Include="Components\Adjust\IsClockwise.cs" />
     <Compile Include="Components\Other\CaptureImage.cs" />
     <Compile Include="Methods\Base\Clone.cs" />
     <Compile Include="Methods\Base\GetClosestValue.cs" />
@@ -125,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\Evolve\" />
-    <Folder Include="Components\Modify\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
