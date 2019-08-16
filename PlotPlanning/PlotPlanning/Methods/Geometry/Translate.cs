@@ -60,18 +60,18 @@ namespace PlotPlanning.Methods
 
         //================================
 
-        public static ObjectModel.SingleFamily Translate(ObjectModel.SingleFamily house, Point3d basePt, Point3d boundPt, Vector3d tan)
+        public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d basePt, Point3d boundPt, Vector3d tan)
         {
             Line accessLine = GetAccessLine(basePt, house.GardenBound);
             Vector3d accessVec = createVector(accessLine.To, accessLine.From);
 
+            SingleFamily movedHouse = house.Clone();
 
-            Polyline pLineToMove = new (house.GardenBound);
-            pLineToMove.Transform(Transform.Translation(createVector(basePt, boundPt)));
+            movedHouse.GardenBound.Transform(Transform.Translation(createVector(basePt, boundPt)));
+            movedHouse.GardenBound.Transform(Transform.Rotation(accessVec, tan, boundPt));
 
-            pLineToMove.Transform(Transform.Rotation(accessVec, tan, boundPt));
-
-
+            movedHouse.HouseGeom.Transform(Transform.Translation(createVector(basePt, boundPt)));
+            movedHouse.HouseGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
 
 
             return house;
