@@ -22,5 +22,25 @@ namespace PlotPlanning.Methods
         {
             return brep.DuplicateBrep();
         }
+
+        /***************************************************/
+
+        public static ObjectModel.SingleFamily Clone(this ObjectModel.SingleFamily house)
+        {
+            return new ObjectModel.SingleFamily
+            {
+                Type = house.Type,
+                HasCarPort = house.HasCarPort,
+                GardenBound = house.GardenBound,
+                HouseGeom = house.HouseGeom,
+                Orientation = house.Orientation,
+                AccessPoint = house.AccessPoint,
+                MinAmount = house.MinAmount,
+                Offset = house.Offset,
+                RowPosition = house.RowPosition
+            };
+        }
+
+        /***************************************************/
     }
 }

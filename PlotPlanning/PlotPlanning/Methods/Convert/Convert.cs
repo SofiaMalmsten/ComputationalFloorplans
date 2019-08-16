@@ -15,7 +15,7 @@ namespace PlotPlanning.Methods
         {
             ObjectModel.SingleFamily newHouse = new ObjectModel.SingleFamily();
             newHouse.Type = house.Type;
-            newHouse.houseGeom = house.houseGeom.DuplicateBrep();
+            newHouse.HouseGeom = house.HouseGeom.DuplicateBrep();
 
             return newHouse;
         }

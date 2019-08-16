@@ -90,12 +90,12 @@ namespace PlotPlanning.Components
             PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
             house.Type = type;
             house.HasCarPort = carport;
-            house.gardenBound = gardenBound.ToPolyline();
-            house.houseGeom = houseGeom;
+            house.GardenBound = gardenBound.ToPolyline();
+            house.HouseGeom = houseGeom;
             house.MinAmount = minAmount;
             house.MaxAmount = maxAmount;
             house.Offset = offset;
-            house.accessPoint = accessPoint;
+            house.AccessPoint = accessPoint;
 
             //Set data
             DA.SetData(0, house);

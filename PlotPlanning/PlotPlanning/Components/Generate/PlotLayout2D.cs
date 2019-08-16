@@ -50,7 +50,6 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddCurveParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -82,17 +81,6 @@ namespace PlotPlanning.Components
                 return;
 
 
-            //Calculate
-            /*
-            Polyline pl_bound = new Polyline();
-            bound.TryGetPolyline(out pl_bound);
-            List<Line> segmests = pl_bound.GetSegments().ToList();
-            Polyline pl_roads = new Polyline();
-            roads.TryGetPolyline(out pl_roads);
-            List<Line> road_segmests = pl_bound.GetSegments().ToList();
-            List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
-            */
-
             List<Polyline> rectangles = new List<Polyline>();
             List<SingleFamily> houseList = new List<SingleFamily>();
             Random random = new Random(seed);
@@ -111,9 +99,8 @@ namespace PlotPlanning.Components
                 //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
 
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
-                    method, out List<Polyline> outRecs, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
+                    method, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
 
-                rectangles.AddRange(outRecs);
                 BoundList.AddRange(newBound);
                 houseList.AddRange(outHouseList);
                 if (BoundList.Count == 0) break;
@@ -124,7 +111,6 @@ namespace PlotPlanning.Components
             //Set data for the outputs
             DA.SetDataList(0, houseList);
             DA.SetDataList(1, newRegions);
-            DA.SetDataList(2, rectangles);
         }
 
         /// <summary>
