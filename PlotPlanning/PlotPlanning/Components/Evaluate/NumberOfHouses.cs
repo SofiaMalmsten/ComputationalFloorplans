@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class SnapToTopo : GH_Component
+    public class NumberOfHouses : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,10 +20,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public SnapToTopo()
-          : base("SnapToTopo", "SnapToTopo",
-              "projects points on a line",
-              "PlotPlanningTool", "Generate")
+        public NumberOfHouses()
+          : base("NumberOfHouses", "NumberOfHouses",
+              "Calculates the amount of SFH on a site",
+              "PlotPlanningTool", "Evaluate")
         {
         }
 
@@ -32,9 +32,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
-            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -42,7 +40,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("NumberOfHOuses", "NuberOfHouses", "NumberOfHouses", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,23 +51,17 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            List<Point3d> topoPts = new List<Point3d>();
-            List<Point3d> planePts = new List<Point3d>();
-            List<double> possibleValues = new List<double>();
+            List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
 
             //Get Data
-            if (!DA.GetDataList(0, planePts))
-                return;
-            if (!DA.GetDataList(1, topoPts))
-                return;
-            if (!DA.GetDataList(2, possibleValues))
+            if (!DA.GetDataList(0, SFH))
                 return;
 
             //Calculate
-            List<Point3d> projectedPts = PlotPlanning.Methods.Calculate.SnapToTopo(planePts, topoPts, possibleValues);
+            int numerOfHouses = SFH.Count;
            
             //Set data
-            DA.SetDataList(0, projectedPts);
+            DA.SetData(0, numerOfHouses);
         }
 
         /// <summary>
@@ -81,7 +73,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.SnapToTopo;
+                return Properties.Resources.Houses;
                 //return null;
             }
         }
@@ -93,7 +85,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("638ed177-8d91-4698-8691-1f64da1578ed"); }
+            get { return new Guid("a088001a-e2ea-406f-adc0-7d31fe6430de"); }
         }
     }
 

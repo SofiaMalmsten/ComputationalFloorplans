@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public MFHComponent()
           : base("MultiFamilyHouse", "MultiFamilyHouse",
               "MultiFamilyHouse",
-              "PlotPlanningTool", "Objects")
+              "PlotPlanningTool", "1.Objects")
         {
         }
 

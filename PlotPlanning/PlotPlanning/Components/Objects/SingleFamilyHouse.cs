@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public HouseComponent()
           : base("SingleFamilyHouse", "SingleFamilyHouse",
               "SingleFamilyHouse",
-              "PlotPlanningTool", "Objects")
+              "PlotPlanningTool", "1.Objects")
         {
         }
 

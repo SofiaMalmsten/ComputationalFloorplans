@@ -62,8 +62,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Evolve\NumberOfHouses.cs" />
-    <Compile Include="Components\Generate\ConcaveHull2D.cs" />
+    <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
+    <Compile Include="Components\Adjust\ConcaveHull2D.cs" />
     <Compile Include="Components\Objects\ParkingLot.cs" />
     <Compile Include="Components\Objects\Carport.cs" />
     <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
@@ -72,13 +72,8 @@
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
     <Compile Include="Components\Other\Counter.cs" />
     <Compile Include="Components\Objects\SingleFamilyHouse.cs" />
-    <Compile Include="Components\Generate\SnapToTopo.cs" />
-    <Compile Include="Components\Generate\CullSmallAreas.cs" />
-    <Compile Include="Components\Generate\IsClockwise.cs" />
-    <Compile Include="Components\Generate\ConvexHull2D.cs" />
-    <Compile Include="Components\Generate\Accesspoints.cs" />
-    <Compile Include="Components\Generate\HouseFootprint.cs" />
-    <Compile Include="Components\Generate\SegmentBounds.cs" />
+    <Compile Include="Components\Adjust\SnapToTopo.cs" />
+    <Compile Include="Components\Adjust\IsClockwise.cs" />
     <Compile Include="Components\Other\CaptureImage.cs" />
     <Compile Include="Methods\Base\Clone.cs" />
     <Compile Include="Methods\Base\GetClosestValue.cs" />
@@ -129,8 +124,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\Evaluate\" />
-    <Folder Include="Components\Modify\" />
+    <Folder Include="Components\Evolve\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

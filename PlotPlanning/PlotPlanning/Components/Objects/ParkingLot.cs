@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         public ParkingLot()
           : base("ParkingLot", "ParkingLot",
               "ParkingLot",
-              "PlotPlanningTool", "Objects")
+              "PlotPlanningTool", "1.Objects")
         {
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using Grasshopper.Kernel.Parameters;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -11,7 +12,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class CullSmallAreas : GH_Component
+    public class MethodComponent : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -19,22 +20,25 @@ namespace PlotPlanning.Components
         /// Category represents the Tab in which the component will appear, 
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
-        /// 
         /// </summary>
-        public CullSmallAreas()
-          : base("CullSmallAreas", "CullSmallAreas",
-              "Description",
-              "PlotPlanningTool", "Generate")
+        public MethodComponent()
+          : base("SelectMethod", "SelectMethod",
+              "Select method",
+              "PlotPlanningTool", "Objects")
         {
         }
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
+        /// 
+
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("rec", "rec", "rectangle that should be places on lines", GH_ParamAccess.item);
-            pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("intiger", "method", "input int", GH_ParamAccess.item);
+            Param_Integer param = pManager[0] as Param_Integer;
+            param.AddNamedValue("option1", 0);
+            param.AddNamedValue("option2", 1);
         }
 
         /// <summary>
@@ -42,7 +46,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("R", "region", "placed rectangles", GH_ParamAccess.list);
+            pManager.AddTextParameter("method", "method", "methods", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,21 +57,22 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Curve rec = new PolyCurve();
-            Curve bound = new PolylineCurve();
+            int methodIdx = 0;
 
-            if (!DA.GetData(0, ref rec))
-            return;
-
-            if (!DA.GetData(1, ref bound))
+            //Get Data
+            if (!DA.GetData(0, ref methodIdx))
                 return;
 
 
-            //Calculate
-            List<Polyline> R = PlotPlanning.Methods.Generate.CullSmallAreas(rec,bound);
+            //Set properties
+            string method = "";
+            if (methodIdx == 0) method = "option1";
+            else method = "option2";
 
-            //Set data for the outputs
-            DA.SetDataList(0, R);
+
+
+            //Set data
+            DA.SetData(0, method);
         }
 
         /// <summary>
@@ -79,12 +84,10 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                //return Properties.Resources.Houses;
-                return null;
+                return Properties.Resources.SnapToTopo;
+                //return null;
             }
         }
-
-
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
@@ -93,7 +96,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("9ea3a457-5178-4784-86e1-e216998c6d1d"); }
+            get { return new Guid("43b0b66a-ffa7-437b-9351-47e010cbd664"); }
         }
     }
 
