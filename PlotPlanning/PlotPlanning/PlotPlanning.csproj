@@ -62,7 +62,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Evolve\NumberOfHouses.cs" />
+    <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
     <Compile Include="Components\Generate\ConcaveHull2D.cs" />
     <Compile Include="Components\Objects\ParkingLot.cs" />
     <Compile Include="Components\Objects\Carport.cs" />
@@ -128,7 +128,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\Evaluate\" />
+    <Folder Include="Components\Evolve\" />
     <Folder Include="Components\Modify\" />
   </ItemGroup>
   <ItemGroup>
