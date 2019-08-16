@@ -45,7 +45,7 @@ namespace PlotPlanning.Methods
         public static Polyline Translate(Polyline pline, Point3d basePt, Point3d boundPt, Vector3d tan)
         {
             Line accessLine = GetAccessLine(basePt, pline);
-            Vector3d accessVec = createVector(accessLine.From, accessLine.To);
+            Vector3d accessVec = createVector(accessLine.To, accessLine.From);
 
 
             Polyline pLineToMove = new Polyline(pline);

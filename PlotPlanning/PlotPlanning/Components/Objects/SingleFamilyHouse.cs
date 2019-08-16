@@ -95,6 +95,7 @@ namespace PlotPlanning.Components
             house.MinAmount = minAmount;
             house.MaxAmount = maxAmount;
             house.Offset = offset;
+            house.accessPoint = accessPoint;
 
             //Set data
             DA.SetData(0, house);
