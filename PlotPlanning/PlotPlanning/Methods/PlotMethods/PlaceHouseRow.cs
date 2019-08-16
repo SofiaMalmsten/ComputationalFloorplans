@@ -77,7 +77,7 @@ namespace PlotPlanning.Methods
 
             //3. Get boundaries
             bound.TryGetPolyline(out Polyline boundPL);
-            List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse.gardenBound, 1, baseHouse.MinAmount); //1 is just a seed to make it work for now                                                                                                                                                    
+            List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse.gardenBound, baseHouse.accessPoint, 1, baseHouse.MinAmount); //1 is just a seed to make it work for now                                                                                                                                                    
 
             //3. Could we have a while loop here testing all the lines in the list??
             // Could we shuffle the list in the pick line method and then pick the first item we can itterate over the list of lines?
@@ -85,7 +85,7 @@ namespace PlotPlanning.Methods
             {
                 Line currLine = lines.PickLine(method, random, roads, originalBound);
                 currLine.Extend(-FilletOffset(), -FilletOffset());
-                List<Point3d> pos = AccessPoints(currLine, baseHouse.MinAmount, baseHouse.MaxAmount, baseHouse.gardenBound, random);
+                List<Point3d> pos = AccessPoints(currLine, baseHouse.MinAmount, baseHouse.MaxAmount, baseHouse.gardenBound, baseHouse.accessPoint, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
             
                 //4. Create gardens for each position. if the garden overlaps the boundary it will not be created

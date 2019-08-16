@@ -59,14 +59,11 @@ namespace PlotPlanning.Methods
             List<double> lengths = new List<double>();
             List<Line> segments = new List<Line>();
 
-            double segmentWidth = rectangle.Width;
-            double segmentHeight = rectangle.Height;
-
-            double shortestSegm = Math.Min(segmentWidth, segmentHeight);
+            double gardenLength = PlotPlanning.Methods.Calculate.GetAccessLine(pt, pline).Length;
 
             foreach (var segm in siteBound.GetSegments())
             {
-                if (segm.Length > shortestSegm * minAmount)
+                if (segm.Length > gardenLength * minAmount)
                 {
                     segments.Add(segm);
                 }

@@ -39,5 +39,24 @@ namespace PlotPlanning.Methods
 
                 return pLine;
             }
+
+        //================================
+
+        public static Polyline Translate(Polyline pline, Point3d pt, Point3d pt2, Vector3d tan)
+        {
+            Line accessLine = GetAccessLine(pt, pline);
+            Vector3d accessVec = createVector(accessLine.From, accessLine.To);
+
+
+            Polyline pLineToMove = new Polyline(pline);
+            pLineToMove.Transform(Transform.Translation(createVector(pt, pt2)));
+
+            pLineToMove.Transform(Transform.Rotation(accessVec, tan, pt2));
+
+
+            return pLineToMove;
+        }
+
+        //================================
     }
 }
