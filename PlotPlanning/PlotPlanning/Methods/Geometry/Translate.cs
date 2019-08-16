@@ -74,6 +74,7 @@ namespace PlotPlanning.Methods
             movedHouse.HouseGeom.Transform(Transform.Translation(createVector(basePt, boundPt)));
             movedHouse.HouseGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
 
+            movedHouse.AccessPoint = boundPt;
 
             return movedHouse;
         }

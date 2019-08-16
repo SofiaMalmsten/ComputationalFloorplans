@@ -106,8 +106,14 @@ namespace PlotPlanning.Methods
 
         //====================================================================
 
-        public static List<Point3d> AccessPoints(Line line, double minAmount, double maxAmount, Polyline pline, Point3d refPt, Random random)
+        public static List<Point3d> AccessPoints(Line line, ObjectModel.SingleFamily house, Random random)
         {
+
+            double minAmount = house.MinAmount;
+            double maxAmount = house.MaxAmount;
+            Polyline pline = house.GardenBound;
+            Point3d refPt = house.AccessPoint;
+
             //========================================================
             //Declaration - fixed values
             //========================================================
