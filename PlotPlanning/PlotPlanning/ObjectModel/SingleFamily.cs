@@ -18,6 +18,7 @@ namespace PlotPlanning.ObjectModel
         public int MinAmount { get; set; } = 0;
         public int MaxAmount { get; set; } = 999;
         public int Offset { get; set; } = 0;
+        public string rowPosition { get; set; } = ""; 
 
     }
 
