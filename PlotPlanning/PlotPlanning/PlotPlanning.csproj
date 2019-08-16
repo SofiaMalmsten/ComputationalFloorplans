@@ -73,11 +73,7 @@
     <Compile Include="Components\Other\Counter.cs" />
     <Compile Include="Components\Objects\SingleFamilyHouse.cs" />
     <Compile Include="Components\Generate\SnapToTopo.cs" />
-    <Compile Include="Components\Generate\CullSmallAreas.cs" />
     <Compile Include="Components\Generate\IsClockwise.cs" />
-    <Compile Include="Components\Generate\Accesspoints.cs" />
-    <Compile Include="Components\Generate\HouseFootprint.cs" />
-    <Compile Include="Components\Generate\SegmentBounds.cs" />
     <Compile Include="Components\Other\CaptureImage.cs" />
     <Compile Include="Methods\Base\Clone.cs" />
     <Compile Include="Methods\Base\GetClosestValue.cs" />
