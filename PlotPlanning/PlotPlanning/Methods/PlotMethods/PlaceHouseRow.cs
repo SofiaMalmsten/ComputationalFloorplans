@@ -91,17 +91,17 @@ namespace PlotPlanning.Methods
                 //4. Create gardens for each position. if the garden overlaps the boundary it will not be created
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    Polyline pLines = Calculate.Translate(baseHouse.gardenBound, pos[i], tan[i]);
+                    Polyline pLines = Calculate.Translate(baseHouse.gardenBound, baseHouse.accessPoint, pos[i], tan[i]);
                     Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
                     List<Polyline> currGarden = CullSmallAreas(rec, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
                     {
                         SingleFamily outHouse = new SingleFamily();
-                        outHouse.gardenBound = pp.Calculate.BoundingRect(currGarden[0]);
+                        outHouse.gardenBound = currGarden[0];
                         outHouse.Type = baseHouse.Type;
                         outHouse.orientation = tan[i];
                         outHouse.houseGeom = baseHouse.houseGeom.DuplicateBrep();
-                        outHouse.houseGeom.Translate(Calculate.createVector(pLines.CenterPoint(), baseHouse.gardenBound.Center));
+                        outHouse.houseGeom.Translate(Calculate.createVector(pLines.CenterPoint(), pLines.CenterPoint()));
                         outHouse.accessPoint = pLines.CenterPoint();
                         outHouse.HasCarPort = baseHouse.HasCarPort;
                         houseList.Add(outHouse);
