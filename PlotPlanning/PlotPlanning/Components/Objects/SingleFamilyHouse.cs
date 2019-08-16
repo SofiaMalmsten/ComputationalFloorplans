@@ -35,7 +35,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddTextParameter("type", "type", "house type", GH_ParamAccess.item);
             pManager.AddBooleanParameter("carport", "carport", "has car port", GH_ParamAccess.item);
-            pManager.AddCultureParameter("gardenBound", "gardenBound", "gardenBound", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("gardenBound", "gardenBound", "gardenBound", GH_ParamAccess.item);
             pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
             pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
             pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount in a row of houses", GH_ParamAccess.item);
@@ -61,8 +61,7 @@ namespace PlotPlanning.Components
             //Create class instances
             string type = "";
             bool carport = false;
-            //Polyline gardenBound = new Polyline();
-            Curve tempCrv = new PolylineCurve();
+            Rectangle3d gardenBound = new Rectangle3d();
             Brep houseGeom = new Brep();
             Point3d accessPoint = new Point3d();
             int minAmount = 1;
@@ -74,7 +73,7 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(1, ref carport))
                 return;
-            if (!DA.GetData(2, ref tempCrv))
+            if (!DA.GetData(2, ref gardenBound))
                 return;
             if (!DA.GetData(3, ref houseGeom))
                 return;
@@ -87,14 +86,11 @@ namespace PlotPlanning.Components
             if (!DA.GetData(7, ref offset))
                 return;
 
-            //
-            Polyline gardenBound = tempCrv.CurveToPolyline();
-
             //Set properties
             PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
             house.Type = type;
             house.HasCarPort = carport;
-            house.gardenBound = gardenBound;
+            house.gardenBound = gardenBound.ToPolyline();
             house.houseGeom = houseGeom;
             house.MinAmount = minAmount;
             house.MaxAmount = maxAmount;
