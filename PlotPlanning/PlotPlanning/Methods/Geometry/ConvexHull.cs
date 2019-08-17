@@ -41,6 +41,10 @@ namespace PlotPlanning.Methods
             int counter = 0;
             while (counter < hull.Count)
             {
+                if (counter > points.Count)
+                {
+                    break; //Quick and dirty solution. We need to solve why we end up with over 10000 hull points for a list on 20 points. 
+                }
                 nextPt = NextHullPoint(points, hull[counter]);
                 if (nextPt != hull[0])
                     hull.Add(nextPt);
