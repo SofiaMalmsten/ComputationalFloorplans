@@ -29,7 +29,7 @@ namespace PlotPlanning.Methods
                 List<Polyline> rectangles = new List<Polyline>();
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    Polyline pLines = Calculate.Translate(baseRec, pos[i], tan[i]);
+                    Polyline pLines = Adjust.Translate(baseRec, pos[i], tan[i]);
                     Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
                     List<Polyline> this_rec = CullSmallAreas(rec, bound); //this_rec finns inte. 
                     if (this_rec.Count != 0)
@@ -84,7 +84,7 @@ namespace PlotPlanning.Methods
                 //4. Create gardens for each position
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    SingleFamily movedHouse = Calculate.Translate(baseHouse, pos[i], tan[i]);
+                    SingleFamily movedHouse = Adjust.Translate(baseHouse, pos[i], tan[i]);
 
                     Curve garden = Curve.CreateControlPointCurve(movedHouse.GardenBound.ToList(), 1);
                     List<Polyline> currGarden = CullSmallAreas(garden, bound); //returns 0 when the garden overlaps the boundary

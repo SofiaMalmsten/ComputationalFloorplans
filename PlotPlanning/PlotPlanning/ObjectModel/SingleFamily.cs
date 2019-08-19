@@ -31,18 +31,18 @@ namespace PlotPlanning.ObjectModel
         }
 
         //====================================================================
-        public SingleFamily(string type, bool hasCarPort, Polyline gardenBound, Brep houseGeom, Vector3d orientation,
-            Point3d accessPoint, int minAmount, int maxAmount, int offset, string rowPosition)
+        public SingleFamily(string type, bool hasCarPort, Polyline gardenBound, Brep houseGeom,
+            Point3d accessPoint, int minAmount, int maxAmount, int offset)
         {
             Type = type;
             HasCarPort = hasCarPort;
             GardenBound = gardenBound;
             HouseGeom = houseGeom;
-            Orientation = orientation;
             AccessPoint = accessPoint;
             MinAmount = minAmount;
             Offset = offset;
-            RowPosition = rowPosition;
+            MidPoint = gardenBound.CenterPoint();
+            //TODO: Add orientation
         }
 
         //====================================================================

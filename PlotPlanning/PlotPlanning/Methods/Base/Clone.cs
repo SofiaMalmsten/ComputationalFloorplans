@@ -18,6 +18,13 @@ namespace PlotPlanning.Methods
 
         /***************************************************/
 
+        public static Point3d Clone(this Point3d point)
+        {
+            return new Point3d { X = point.X, Y = point.Y, Z = point.Z };
+        }
+
+        /***************************************************/
+
         public static Brep Clone(this Brep brep)
         {
             return brep.DuplicateBrep();
@@ -34,10 +41,12 @@ namespace PlotPlanning.Methods
                 GardenBound = house.GardenBound.Duplicate(),
                 HouseGeom = house.HouseGeom.Clone(),
                 Orientation = new Vector3d(house.Orientation),
-                AccessPoint = new Point3d(house.AccessPoint),
+                AccessPoint = house.AccessPoint.Clone(),
                 MinAmount = house.MinAmount,
+                MaxAmount = house.MaxAmount,
                 Offset = house.Offset,
-                RowPosition = house.RowPosition
+                RowPosition = house.RowPosition,
+                MidPoint = house.MidPoint.Clone(),                
             };
         }
 
