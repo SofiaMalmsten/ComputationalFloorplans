@@ -9,7 +9,7 @@ using PlotPlanning.ObjectModel;
 
 namespace PlotPlanning.Methods
 {
-    public static partial class Calculate
+    public static partial class Adjust
     {
             public static Polyline Translate(Rectangle3d baseRectangle, Point3d pts, Vector3d tan)
             {

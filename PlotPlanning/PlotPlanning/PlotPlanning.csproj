@@ -71,6 +71,7 @@
     <Compile Include="Components\Objects\ParkingLot.cs" />
     <Compile Include="Components\Objects\Carport.cs" />
     <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
+    <Compile Include="Components\Objects\Regulations - Copy.cs" />
     <Compile Include="Components\Objects\Site.cs" />
     <Compile Include="Components\Objects\Regulations.cs" />
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Methods\Base\GetClosestValue.cs" />
     <Compile Include="Methods\Convert\Convert.cs" />
     <Compile Include="Methods\Geometry\GetAccessLine.cs" />
+    <Compile Include="Methods\Geometry\Move.cs" />
     <Compile Include="Methods\Geometry\Translate.cs" />
     <Compile Include="Methods\Geometry\BoundingRect.cs" />
     <Compile Include="Methods\Geometry\Vector.cs" />
