@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Components\Adjust\Translate.cs" />
     <Compile Include="Components\Adjust\AccessLine.cs" />
+    <Compile Include="Components\Evaluate\ShapeFactor.cs" />
     <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
     <Compile Include="Components\Adjust\ConcaveHull2D.cs" />
     <Compile Include="Components\Objects\ParkingLot.cs" />
