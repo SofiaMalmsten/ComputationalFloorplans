@@ -75,7 +75,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            Polyline movedPline = Calculate.Translate(crv.CurveToPolyline(), basePt, boundPt, tan);
+            Polyline movedPline = Adjust.Translate(crv.CurveToPolyline(), basePt, boundPt, tan);
 
             //Set data
             DA.SetData(0, movedPline);

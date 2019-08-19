@@ -71,7 +71,6 @@
     <Compile Include="Components\Objects\ParkingLot.cs" />
     <Compile Include="Components\Objects\Carport.cs" />
     <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
-    <Compile Include="Components\Objects\Regulations - Copy.cs" />
     <Compile Include="Components\Objects\Site.cs" />
     <Compile Include="Components\Objects\Regulations.cs" />
     <Compile Include="Components\Generate\PlotLayout2D.cs" />
