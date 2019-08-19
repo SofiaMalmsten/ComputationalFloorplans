@@ -95,9 +95,6 @@ namespace PlotPlanning.Components
                 Curve c = BoundList[idx]; 
                 BoundList.RemoveAt(idx);
 
-                //pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
-                //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
-
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
                     method, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
 
