@@ -43,8 +43,10 @@ namespace PlotPlanning.Methods
                 Orientation = new Vector3d(house.Orientation),
                 AccessPoint = house.AccessPoint.Clone(),
                 MinAmount = house.MinAmount,
+                MaxAmount = house.MaxAmount,
                 Offset = house.Offset,
-                RowPosition = house.RowPosition
+                RowPosition = house.RowPosition,
+                MidPoint = house.MidPoint.Clone(),                
             };
         }
 

@@ -19,7 +19,8 @@ namespace PlotPlanning.Methods
 
             movedHouse.GardenBound.Transform(t);
             movedHouse.HouseGeom.Transform(t);
-            movedHouse.AccessPoint = movedHouse.AccessPoint + new Point3d(vector); 
+            movedHouse.AccessPoint = movedHouse.AccessPoint + new Point3d(vector);
+            movedHouse.MidPoint = movedHouse.MidPoint + new Point3d(vector);
 
             return movedHouse;
         }

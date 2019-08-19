@@ -15,6 +15,8 @@ namespace PlotPlanning.ObjectModel
         public int MaxAmount { get; set; } = 999;
         public int Offset { get; set; } = 0;
 
+        public Point3d MidPoint = new Point3d(); 
+
     }
 
     //====================================================================

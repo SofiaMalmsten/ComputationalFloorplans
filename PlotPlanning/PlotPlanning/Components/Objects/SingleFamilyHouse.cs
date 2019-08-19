@@ -87,15 +87,8 @@ namespace PlotPlanning.Components
                 return;
 
             //Set properties
-            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
-            house.Type = type;
-            house.HasCarPort = carport;
-            house.GardenBound = gardenBound.ToPolyline();
-            house.HouseGeom = houseGeom;
-            house.MinAmount = minAmount;
-            house.MaxAmount = maxAmount;
-            house.Offset = offset;
-            house.AccessPoint = accessPoint;
+            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily(type, carport, gardenBound.ToPolyline(), houseGeom, accessPoint, minAmount, maxAmount, offset); 
+            
 
             //Set data
             DA.SetData(0, house);
