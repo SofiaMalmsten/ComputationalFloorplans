@@ -36,9 +36,9 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
-            pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item, 1);
+            pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item, "roads");
             pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list);
 
         }
