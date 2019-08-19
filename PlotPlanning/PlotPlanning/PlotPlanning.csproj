@@ -110,6 +110,7 @@
     <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
     <Compile Include="Methods\PlotMethods\AccessPoints.cs" />
+    <Compile Include="ObjectModel\House.cs" />
     <Compile Include="ObjectModel\ParkingLot.cs" />
     <Compile Include="ObjectModel\Carport.cs" />
     <Compile Include="ObjectModel\MultiFamily.cs" />

@@ -7,28 +7,24 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.ObjectModel
 {
-    public class SingleFamily
+    public class SingleFamily: House
     {
 
         //====================================================================
         // Properties
         //====================================================================
-
-        public string Type { get; set; } = "";
+       
         public bool HasCarPort { get; set; } = false;
         public Polyline GardenBound { get; set; } = new Polyline();
-        public Brep HouseGeom { get; set; } = new Brep();
         public Vector3d Orientation { get; set; } = new Vector3d();
         public Point3d AccessPoint { get; set; } = new Point3d();
-        public int MinAmount { get; set; } = 0;
-        public int MaxAmount { get; set; } = 999;
-        public int Offset { get; set; } = 0;
         public string RowPosition { get; set; } = "";
 
         //====================================================================
-        // Properties
+        // Constructors
         //====================================================================
 
+        //Default constructor
         public SingleFamily()
         {
 
