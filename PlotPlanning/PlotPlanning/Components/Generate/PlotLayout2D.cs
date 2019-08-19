@@ -36,9 +36,9 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item);
-            pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item, 1);
+            pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item, "roads");
             pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list);
 
         }
@@ -50,7 +50,6 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddCurveParameter("garden", "garden", "placed house footprints", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -82,17 +81,6 @@ namespace PlotPlanning.Components
                 return;
 
 
-            //Calculate
-            /*
-            Polyline pl_bound = new Polyline();
-            bound.TryGetPolyline(out pl_bound);
-            List<Line> segmests = pl_bound.GetSegments().ToList();
-            Polyline pl_roads = new Polyline();
-            roads.TryGetPolyline(out pl_roads);
-            List<Line> road_segmests = pl_bound.GetSegments().ToList();
-            List<Line> invalid_segments = segmests.Except(road_segmests,new pp.IdComparer()).ToList(); 
-            */
-
             List<Polyline> rectangles = new List<Polyline>();
             List<SingleFamily> houseList = new List<SingleFamily>();
             Random random = new Random(seed);
@@ -107,13 +95,9 @@ namespace PlotPlanning.Components
                 Curve c = BoundList[idx]; 
                 BoundList.RemoveAt(idx);
 
-                //pp.Generate.PlaceHouseRow(baseRectangle, c, originalBound, roads, minAmount, regulations.MaxAmount, regulations.Offset, random,
-                //    method, out List<Polyline> outRecs, out List<Vector3d> tan, out List<PolylineCurve> newBound, out List<Point3d> midPts);
-
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
-                    method, out List<Polyline> outRecs, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
+                    method, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
 
-                rectangles.AddRange(outRecs);
                 BoundList.AddRange(newBound);
                 houseList.AddRange(outHouseList);
                 if (BoundList.Count == 0) break;
@@ -124,7 +108,6 @@ namespace PlotPlanning.Components
             //Set data for the outputs
             DA.SetDataList(0, houseList);
             DA.SetDataList(1, newRegions);
-            DA.SetDataList(2, rectangles);
         }
 
         /// <summary>

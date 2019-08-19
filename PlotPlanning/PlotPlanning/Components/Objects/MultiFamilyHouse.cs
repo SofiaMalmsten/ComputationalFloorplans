@@ -32,13 +32,13 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("tag", "tag", "tag", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("minFloor", "minFloor", "Minimum amount of floors", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("maxFloor", "maxFloor", "Maximum amount of floors", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("minShift", "minShift", "Minimum horisontal shift", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("maxShift", "maxShift", "Maximum horisontal shift", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("leveDifference", "levelDifference", "Difference in height between units in the same block", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("levelHeight", "levelHeight", "Height between levels", GH_ParamAccess.item);
+            pManager.AddTextParameter("tag", "tag", "tag", GH_ParamAccess.item, "");
+            pManager.AddIntegerParameter("minFloor", "minFloor", "Minimum amount of floors", GH_ParamAccess.item,1);
+            pManager.AddIntegerParameter("maxFloor", "maxFloor", "Maximum amount of floors", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("minShift", "minShift", "Minimum horisontal shift", GH_ParamAccess.item, 0);
+            pManager.AddIntegerParameter("maxShift", "maxShift", "Maximum horisontal shift", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("leveDifference", "levelDifference", "Difference in height between units in the same block", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("levelHeight", "levelHeight", "Height between levels", GH_ParamAccess.item, 3);
             pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
     }
 
@@ -58,7 +58,7 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            string tag = "";
+            string type = "";
             int minFloor = 1;
             int maxFloor = 1;
             int minShift = 1;
@@ -68,7 +68,7 @@ namespace PlotPlanning.Components
             Brep houseGeom = new Brep();
 
             //Get Data
-            if (!DA.GetData(0, ref tag))
+            if (!DA.GetData(0, ref type))
                 return;
             if (!DA.GetData(1, ref minFloor))
                 return;
@@ -88,14 +88,14 @@ namespace PlotPlanning.Components
 
             //Set properties
             PlotPlanning.ObjectModel.MultiFamily house = new ObjectModel.MultiFamily();
-            house.Tag = tag;
+            house.Type = type;
             house.minFloors = minFloor;
             house.maxFloors = maxFloor;
             house.minShift = minShift;
             house.maxShift = maxShift;
             house.levelDifference = levelDifference;
             house.levelHeight = levelHeight;
-            house.houseGeom = houseGeom;
+            house.HouseGeom = houseGeom;
 
             //Set data
             DA.SetData(0, house);

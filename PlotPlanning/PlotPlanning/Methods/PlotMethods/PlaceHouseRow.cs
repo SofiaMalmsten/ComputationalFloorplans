@@ -64,68 +64,46 @@ namespace PlotPlanning.Methods
         }
         //====================================================================
 
-        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method,
-            out List<Polyline> outRecs, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound)
+        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound)
         {
-            //1. Declare list
-            houseList = new List<SingleFamily>();
-            List<Polyline> rectangles = new List<Polyline>();
+            //1. pick house type to place
+            SingleFamily baseHouse = baseHouses[random.Next(baseHouses.Count)];
 
-            //2. pick random house type to place
-            int index = random.Next(baseHouses.Count);
-            SingleFamily baseHouse = baseHouses[index];
-
-            //3. Get boundaries
-            bound.TryGetPolyline(out Polyline boundPL);
-            List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse.gardenBound, 1, baseHouse.MinAmount); //1 is just a seed to make it work for now                                                                                                                                                    
-
-            //3. Could we have a while loop here testing all the lines in the list??
-            // Could we shuffle the list in the pick line method and then pick the first item we can itterate over the list of lines?
             try
-            {
+            {//2. Get boundaries. 
+                bound.TryGetPolyline(out Polyline boundPL);
+                List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse);                                                                                                                                          
                 Line currLine = lines.PickLine(method, random, roads, originalBound);
                 currLine.Extend(-FilletOffset(), -FilletOffset());
-                List<Point3d> pos = AccessPoints(currLine, baseHouse.MinAmount, baseHouse.MaxAmount, baseHouse.gardenBound, random);
+
+                houseList = new List<SingleFamily>();
+            
+                List<Point3d> pos = AccessPoints(currLine, baseHouse, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
             
-                //4. Create gardens for each position. if the garden overlaps the boundary it will not be created
+                //4. Create gardens for each position
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    Polyline pLines = Calculate.Translate(baseHouse.gardenBound, pos[i], tan[i]);
-                    Curve rec = Curve.CreateControlPointCurve(pLines.ToList(), 1);
-                    List<Polyline> currGarden = CullSmallAreas(rec, bound); //returns 0 when the garden overlaps the boundary
+                    SingleFamily movedHouse = Calculate.Translate(baseHouse, pos[i], tan[i]);
+
+                    Curve garden = Curve.CreateControlPointCurve(movedHouse.GardenBound.ToList(), 1);
+                    List<Polyline> currGarden = CullSmallAreas(garden, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
-                    {
-                        SingleFamily outHouse = new SingleFamily();
-                        outHouse.gardenBound = pp.Calculate.BoundingRect(currGarden[0]);
-                        outHouse.Type = baseHouse.Type;
-                        outHouse.orientation = tan[i];
-                        outHouse.houseGeom = baseHouse.houseGeom.DuplicateBrep();
-                        outHouse.houseGeom.Translate(Calculate.createVector(pLines.CenterPoint(), baseHouse.gardenBound.Center));
-                        outHouse.accessPoint = pLines.CenterPoint();
-                        outHouse.HasCarPort = baseHouse.HasCarPort;
-                        houseList.Add(outHouse);
-                        rectangles.Add(currGarden[0]);
-                    }
+                        houseList.Add(movedHouse);
                 }
 
-                if (rectangles.Count < baseHouse.MinAmount)
-                {
-                    //Test another line in the set. If it still doesnt work after all the lines are tested we return an empty list of rectangles. 
-                        rectangles = new List<Polyline>();
-                }
+                if (houseList.Count < baseHouse.MinAmount)
+                    houseList = new List<SingleFamily>();
                 
-                Polyline cutRegion = PlotPlanning.Methods.Calculate.ConvexHull(rectangles); //Här blir det fel eftersom vi har rectangles.count == 0 ibland
+                Polyline cutRegion = Calculate.ConvexHull(houseList.Select(x => x.GardenBound).ToList()); //Här blir det fel eftersom vi har rectangles.count == 0 ibland
                 Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
                 Curve offsetRegion = cutCrv.OffsetOut(baseHouse.Offset, Plane.WorldXY);
                 List<Curve> cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, DistanceTol()).ToList();
-                cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.gardenBound.ToNurbsCurve())).ToList();
+                cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.GardenBound.ToNurbsCurve())).ToList();
                 cutBound = cutRegions.CurvesToPolylineCurves();
-                outRecs = rectangles;
             }
             catch
             {
-                outRecs = new List<Polyline>();
                 cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
                 houseList = new List<SingleFamily>();
             }

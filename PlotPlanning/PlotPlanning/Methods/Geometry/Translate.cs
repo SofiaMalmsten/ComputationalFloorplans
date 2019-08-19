@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
+using PlotPlanning.ObjectModel;
 
 
 namespace PlotPlanning.Methods
@@ -39,5 +40,45 @@ namespace PlotPlanning.Methods
 
                 return pLine;
             }
+
+        //================================
+
+        public static Polyline Translate(Polyline pline, Point3d basePt, Point3d boundPt, Vector3d tan)
+        {
+            Line accessLine = GetAccessLine(basePt, pline);
+            Vector3d accessVec = createVector(accessLine.To, accessLine.From);
+
+
+            Polyline pLineToMove = new Polyline(pline);
+            pLineToMove.Transform(Transform.Translation(createVector(basePt, boundPt)));
+
+            pLineToMove.Transform(Transform.Rotation(accessVec, tan, boundPt));
+
+
+            return pLineToMove;
+        }
+
+        //================================
+
+        public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
+        {
+            Point3d basePt = house.AccessPoint;
+            Line accessLine = GetAccessLine(basePt, house.GardenBound);
+            Vector3d accessVec = createVector(accessLine.To, accessLine.From);
+
+            SingleFamily movedHouse = house.Clone();
+
+            movedHouse.GardenBound.Transform(Transform.Translation(createVector(basePt, boundPt)));
+            movedHouse.GardenBound.Transform(Transform.Rotation(accessVec, tan, boundPt));
+
+            movedHouse.HouseGeom.Transform(Transform.Translation(createVector(basePt, boundPt)));
+            movedHouse.HouseGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
+
+            movedHouse.AccessPoint = boundPt;
+
+            return movedHouse;
+        }
+
+        //================================
     }
 }
