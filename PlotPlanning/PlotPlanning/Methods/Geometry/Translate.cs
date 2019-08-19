@@ -73,6 +73,7 @@ namespace PlotPlanning.Methods
 
             movedHouse.HouseGeom.Transform(Transform.Translation(createVector(basePt, boundPt)));
             movedHouse.HouseGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
+            movedHouse.Orientation = CrossProduct(new Vector3d(0,0,1), tan);
 
             movedHouse.AccessPoint = boundPt;
 
