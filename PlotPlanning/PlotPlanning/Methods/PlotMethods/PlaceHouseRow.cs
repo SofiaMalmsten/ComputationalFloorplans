@@ -69,15 +69,15 @@ namespace PlotPlanning.Methods
             //1. pick house type to place
             SingleFamily baseHouse = baseHouses[random.Next(baseHouses.Count)];
 
-            //2. Get boundaries. 
-            bound.TryGetPolyline(out Polyline boundPL);
-            List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse);                                                                                                                                          
-            Line currLine = lines.PickLine(method, random, roads, originalBound);
-            currLine.Extend(-FilletOffset(), -FilletOffset());
-
-            houseList = new List<SingleFamily>();
             try
-            {
+            {//2. Get boundaries. 
+                bound.TryGetPolyline(out Polyline boundPL);
+                List<Line> lines = SegmentBounds(boundPL.ClosePolyline(), baseHouse);                                                                                                                                          
+                Line currLine = lines.PickLine(method, random, roads, originalBound);
+                currLine.Extend(-FilletOffset(), -FilletOffset());
+
+                houseList = new List<SingleFamily>();
+            
                 List<Point3d> pos = AccessPoints(currLine, baseHouse, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
             
