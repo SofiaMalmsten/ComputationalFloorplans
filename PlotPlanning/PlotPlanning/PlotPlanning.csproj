@@ -62,7 +62,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Adjust\Translate.cs" />
+    <Compile Include="Components\Adjust\Move.cs" />
     <Compile Include="Components\Adjust\AccessLine.cs" />
     <Compile Include="Components\Evaluate\Orientation.cs" />
     <Compile Include="Components\Evaluate\ShapeFactor.cs" />
