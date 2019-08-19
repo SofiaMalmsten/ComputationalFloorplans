@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Methods;
+using PlotPlanning.ObjectModel; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -12,7 +13,7 @@ using PlotPlanning.Methods;
 
 namespace PlotPlanning.Components
 {
-    public class TranslateTest : GH_Component
+    public class MoveHouse : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,9 +22,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public TranslateTest()
-          : base("Translate", "Translate",
-              "Translate",
+        public MoveHouse()
+          : base("MoveHouse", "MoveHouse",
+              "MoveHouse",
               "PlotPlanningTool", "Adjust")
         {
         }
@@ -34,10 +35,8 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             
-            pManager.AddCurveParameter("pline", "pline", "pline", GH_ParamAccess.item);
-            pManager.AddPointParameter("basePt", "basePt", "pt1", GH_ParamAccess.item);
-            pManager.AddPointParameter("boundPt", "boundPt", "pt2", GH_ParamAccess.item);
-            pManager.AddVectorParameter("tan", "tan", "tan", GH_ParamAccess.item);
+            pManager.AddGenericParameter("house", "house", "house", GH_ParamAccess.item);
+            pManager.AddVectorParameter("vector", "vector", "vector", GH_ParamAccess.item);            
 
         }
 
@@ -46,7 +45,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("pline", "plien", "pline", GH_ParamAccess.item);
+            pManager.AddGenericParameter("house", "house", "house", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -58,27 +57,20 @@ namespace PlotPlanning.Components
         {
 
             //define instances
-            Point3d basePt = new Point3d();
-            Point3d boundPt = new Point3d();
-            Curve crv = new PolylineCurve();
-            Vector3d tan = new Vector3d();
-
+            SingleFamily house = new SingleFamily();
+            Vector3d vec = new Vector3d(); 
             
             //Get data
-            if (!DA.GetData(0, ref crv))
+            if (!DA.GetData(0, ref house))
                 return;
-            if (!DA.GetData(1, ref basePt))
+            if (!DA.GetData(1, ref vec))
                 return;
-            if (!DA.GetData(2, ref boundPt))
-                return;
-            if (!DA.GetData(3, ref tan))
-                return;
-
+            
             //Calculate
-            Polyline movedPline = Adjust.Translate(crv.CurveToPolyline(), basePt, boundPt, tan);
+            SingleFamily movedHouse = Adjust.Move(house, vec);
 
             //Set data
-            DA.SetData(0, movedPline);
+            DA.SetData(0, movedHouse);
 
         }
 
