@@ -10,7 +10,7 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-        public static List<Point3d> AccessPoints(Line line, SingleFamily house, Random random)
+        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random)
         {
             Polyline pline = house.GardenBound;
             Point3d refPt = house.AccessPoint;

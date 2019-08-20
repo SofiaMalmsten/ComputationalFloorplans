@@ -26,13 +26,12 @@ namespace PlotPlanning.Methods
                 houseList = new List<SingleFamily>();
                 carportList = new List<Carport>();
             
-                List<Point3d> pos = AccessPoints(currLine, baseHouse, random);
-                List<Vector3d> tan = Tangent(pos, currLine);
+                List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random);
 
-                //4. Create gardens for each position
-                for (int i = 0; i < pos.Count; i++)
+                //4. Place houses for each position
+                for (int i = 0; i < possiblePts.Count; i++)
                 {
-                    SingleFamily movedHouse = Adjust.Translate(baseHouse, pos[i], tan[i]);
+                    SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
 
                     if (IsInside(movedHouse, bound))
                         houseList.Add(movedHouse);
@@ -42,20 +41,15 @@ namespace PlotPlanning.Methods
                     if (movedHouse.HasCarPort)
                     {
                         i++;
-                        Carport movedCarport = Adjust.Translate(carport, pos[i], tan[i]);
+                        Carport movedCarport = Adjust.Translate(carport, possiblePts[i], currLine.Direction);
                         carportList.Add(movedCarport);
                     }
                 }
 
                 if (houseList.Count < baseHouse.MinAmount)
                     houseList = new List<SingleFamily>();
-                
-                Polyline cutRegion = Calculate.ConvexHull(houseList.Select(x => x.GardenBound).ToList()); //Här blir det fel eftersom vi har rectangles.count == 0 ibland
-                Curve cutCrv = Curve.CreateControlPointCurve(cutRegion.ToList(), 1);
-                Curve offsetRegion = cutCrv.OffsetOut(baseHouse.Offset, Plane.WorldXY);
-                List<Curve> cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, DistanceTol()).ToList();
-                cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.GardenBound.ToNurbsCurve())).ToList();
-                cutBound = cutRegions.CurvesToPolylineCurves();
+
+                cutBound = UpdateBoundaries(houseList, baseHouse, bound);
             }
             catch
             {
