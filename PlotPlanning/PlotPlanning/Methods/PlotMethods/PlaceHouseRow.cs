@@ -15,7 +15,7 @@ namespace PlotPlanning.Methods
         {
             houseList = new List<SingleFamily>();
             carportList = new List<Carport>();
-            
+
             SingleFamily baseHouse = baseHouses[random.Next(baseHouses.Count)]; //1. pick house type to place
 
             //2. Get boundaries. 
@@ -27,36 +27,36 @@ namespace PlotPlanning.Methods
 
             Line currLine = lines.PickLine(method, random, roads, originalBound);
             currLine.Extend(-FilletOffset(), -FilletOffset());
-             List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random);
+            List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random);
 
-                //4. Place houses for each position
-                for (int i = 0; i < possiblePts.Count; i++)
+            //4. Place houses for each position
+            for (int i = 0; i < possiblePts.Count; i++)
+            {
+                SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
+
+                if (IsInside(movedHouse, bound))
+                    houseList.Add(movedHouse);
+                else if (houseList.Count != 0) //already places houses
+                    break;
+
+                if (movedHouse.HasCarPort)
                 {
-                    SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
-
-                    if (IsInside(movedHouse, bound))
-                        houseList.Add(movedHouse);
-                    else if (houseList.Count != 0) //already places houses
-                        break;
-
-                    if (movedHouse.HasCarPort)
-                    {
-                        i++;
-                        Carport movedCarport = Adjust.Translate(carport, possiblePts[i], currLine.Direction);
-                        carportList.Add(movedCarport);
-                    }
-                }
-
-                end:
-                if (houseList.Count >= baseHouse.MinAmount)
-                    cutBound = UpdateBoundaries(houseList, baseHouse, bound);
-                else
-                {
-                    
-                    cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
-                    houseList = new List<SingleFamily>();
-                    carportList = new List<Carport>();
+                    i++;
+                    Carport movedCarport = Adjust.Translate(carport, possiblePts[i], currLine.Direction);
+                    carportList.Add(movedCarport);
                 }
             }
+
+        end:
+            if (houseList.Count >= baseHouse.MinAmount)
+                cutBound = UpdateBoundaries(houseList, baseHouse, bound);
+            else
+            {
+
+                cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
+                houseList = new List<SingleFamily>();
+                carportList = new List<Carport>();
+            }
+        }
     }
 }
