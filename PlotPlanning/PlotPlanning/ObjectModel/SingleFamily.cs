@@ -42,6 +42,7 @@ namespace PlotPlanning.ObjectModel
             MinAmount = minAmount;
             Offset = offset;
             MidPoint = gardenBound.CenterPoint();
+            MaxAmount = maxAmount;
             //TODO: Add orientation
         }
 

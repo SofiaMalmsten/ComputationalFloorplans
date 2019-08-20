@@ -81,8 +81,9 @@ namespace PlotPlanning.Methods
             
                 List<Point3d> pos = AccessPoints(currLine, baseHouse, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
-            
+
                 //4. Create gardens for each position
+                bool hasPlaced = false;
                 for (int i = 0; i < pos.Count; i++)
                 {
                     SingleFamily movedHouse = Adjust.Translate(baseHouse, pos[i], tan[i]);
@@ -90,9 +91,18 @@ namespace PlotPlanning.Methods
                     Curve garden = Curve.CreateControlPointCurve(movedHouse.GardenBound.ToList(), 1);
                     List<Polyline> currGarden = CullSmallAreas(garden, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
+                    {
                         houseList.Add(movedHouse);
+                        hasPlaced = true;
+                    }
+                    else if (hasPlaced)
+                    {
+                        break;
+                    }
+                    //else
+                    //    break;
 
-                    if (movedHouse.HasCarPort == true)
+                    if (movedHouse.HasCarPort)
                     {
                         i++;
                         Carport movedCarport = Adjust.Translate(carport, pos[i], tan[i]);
