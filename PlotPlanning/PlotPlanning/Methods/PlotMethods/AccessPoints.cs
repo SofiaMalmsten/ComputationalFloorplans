@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using PlotPlanning.ObjectModel;
 
 
 namespace PlotPlanning.Methods
@@ -106,11 +107,8 @@ namespace PlotPlanning.Methods
 
         //====================================================================
 
-        public static List<Point3d> AccessPoints(Line line, ObjectModel.SingleFamily house, Random random)
+        public static List<Point3d> AccessPoints(Line line, SingleFamily house, Random random)
         {
-
-            double minAmount = house.MinAmount;
-            double maxAmount = house.MaxAmount;
             Polyline pline = house.GardenBound;
             Point3d refPt = house.AccessPoint;
 
@@ -127,34 +125,28 @@ namespace PlotPlanning.Methods
             //========================================================
             //Declaration - lists and new objects
             //========================================================
-            Line currLine = new Line();
-            Point3d currPt = new Point3d();
-            List<Point3d> pointPos = new List<Point3d>();
-            List<Line> lineCombination = new List<Line>();
 
-            currPt = startPt;
+            List<Point3d> pointPos = new List<Point3d>();
+
+            Point3d currPt = startPt;
             double currLength = segmentLength;
             int i = 0;
 
             while (currLength < lineLength)
             {
-                currLine = new Line(currPt, husVec);
+                Line currLine = new Line(currPt, husVec);
                 currPt = currLine.To;
                 pointPos.Add(currPt);
-                lineCombination.Add(currLine);
-                currLength = currLength + segmentLength;
-                i = i + 1;
+                currLength += segmentLength;
+                i ++;
 
-                if (i == maxAmount)
-                {
-                    i = 0;
+                if (i == house.MaxAmount)
                     break;
-                }
             }
 
             Vector3d move_vec = random.NextDouble() * (lineLength - currLength) * vec.Normalise();
             List<Point3d> move_pts = new List<Point3d>();
-            foreach (Point3d p in pointPos) move_pts.Add(Rhino.Geometry.Point3d.Add(p, move_vec));
+            foreach (Point3d p in pointPos) move_pts.Add(Point3d.Add(p, move_vec));
 
             return move_pts;
         }

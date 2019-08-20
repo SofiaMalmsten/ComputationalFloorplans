@@ -64,7 +64,7 @@ namespace PlotPlanning.Methods
         }
         //====================================================================
 
-        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound)
+        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
         {
             //1. pick house type to place
             SingleFamily baseHouse = baseHouses[random.Next(baseHouses.Count)];
@@ -77,11 +77,13 @@ namespace PlotPlanning.Methods
                 currLine.Extend(-FilletOffset(), -FilletOffset());
 
                 houseList = new List<SingleFamily>();
+                carportList = new List<Carport>();
             
                 List<Point3d> pos = AccessPoints(currLine, baseHouse, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
-            
+
                 //4. Create gardens for each position
+                bool hasPlaced = false;
                 for (int i = 0; i < pos.Count; i++)
                 {
                     SingleFamily movedHouse = Adjust.Translate(baseHouse, pos[i], tan[i]);
@@ -89,7 +91,25 @@ namespace PlotPlanning.Methods
                     Curve garden = Curve.CreateControlPointCurve(movedHouse.GardenBound.ToList(), 1);
                     List<Polyline> currGarden = CullSmallAreas(garden, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
+                    {
                         houseList.Add(movedHouse);
+                        hasPlaced = true;
+                    }
+                    else if (hasPlaced)
+                    {
+                        break;
+                    }
+                    //else
+                    //    break;
+
+                    if (movedHouse.HasCarPort)
+                    {
+                        i++;
+                        Carport movedCarport = Adjust.Translate(carport, pos[i], tan[i]);
+                        carportList.Add(movedCarport);
+                        
+                    }
+
                 }
 
                 if (houseList.Count < baseHouse.MinAmount)
@@ -106,6 +126,7 @@ namespace PlotPlanning.Methods
             {
                 cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
                 houseList = new List<SingleFamily>();
+                carportList = new List<Carport>();
             }
         }
     }

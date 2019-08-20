@@ -51,5 +51,15 @@ namespace PlotPlanning.Methods
         }
 
         /***************************************************/
+
+        public static ObjectModel.Carport Clone(this ObjectModel.Carport carport)
+        {
+            return new ObjectModel.Carport
+            {
+                accessPoint = carport.accessPoint,
+                gardenBound = carport.gardenBound.Duplicate(),
+                carportGeom = carport.carportGeom.Clone(),
+            };
+        }
     }
 }
