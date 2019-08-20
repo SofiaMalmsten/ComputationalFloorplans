@@ -33,9 +33,9 @@ namespace PlotPlanning.Methods
             Carport movedCarport = carport.Clone();
             Transform t = Transform.Translation(vector);
 
-            movedCarport.gardenBound.Transform(t);
-            movedCarport.carportGeom.Transform(t);
-            movedCarport.accessPoint = movedCarport.accessPoint + new Point3d(vector);
+            movedCarport.GardenBound.Transform(t);
+            movedCarport.CarportGeom.Transform(t);
+            movedCarport.AccessPoint = movedCarport.AccessPoint + new Point3d(vector);
 
             return movedCarport;
         }

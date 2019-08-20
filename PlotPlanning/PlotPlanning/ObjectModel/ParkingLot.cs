@@ -9,9 +9,9 @@ namespace PlotPlanning.ObjectModel
 {
     public class ParkingLot
     {
-        public string type { get; set; } = "";
-        public Curve parkingBound { get; set; } = new PolylineCurve();
-        public int floors { get; set; } = 0;
+        public string Type { get; set; } = "";
+        public Curve ParkingBound { get; set; } = new PolylineCurve();
+        public int Floors { get; set; } = 0;
 
     }
 

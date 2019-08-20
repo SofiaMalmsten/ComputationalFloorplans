@@ -89,12 +89,12 @@ namespace PlotPlanning.Components
             //Set properties
             PlotPlanning.ObjectModel.MultiFamily house = new ObjectModel.MultiFamily();
             house.Type = type;
-            house.minFloors = minFloor;
-            house.maxFloors = maxFloor;
-            house.minShift = minShift;
-            house.maxShift = maxShift;
-            house.levelDifference = levelDifference;
-            house.levelHeight = levelHeight;
+            house.MinFloors = minFloor;
+            house.MaxFloors = maxFloor;
+            house.MinShift = minShift;
+            house.MaxShift = maxShift;
+            house.LevelDifference = levelDifference;
+            house.LevelHeight = levelHeight;
             house.HouseGeom = houseGeom;
 
             //Set data

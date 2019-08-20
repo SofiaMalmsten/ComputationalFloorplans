@@ -68,9 +68,9 @@ namespace PlotPlanning.Components
 
             //Set properties
             PlotPlanning.ObjectModel.Carport carport = new ObjectModel.Carport();
-            carport.accessPoint = accessPoint;
-            carport.carportGeom = carportGeom;
-            carport.gardenBound = gardenBound.ToPolyline();
+            carport.AccessPoint = accessPoint;
+            carport.CarportGeom = carportGeom;
+            carport.GardenBound = gardenBound.ToPolyline();
 
             //Set data
             DA.SetData(0, carport);

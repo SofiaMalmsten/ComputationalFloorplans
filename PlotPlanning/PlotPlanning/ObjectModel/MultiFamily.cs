@@ -9,12 +9,12 @@ namespace PlotPlanning.ObjectModel
 {
     public class MultiFamily: House
     {
-        public int minFloors { get; set; } = 1;
-        public int maxFloors { get; set; } = 2;
-        public int minShift { get; set; } = 0;
-        public int maxShift { get; set; } = 1;
-        public int levelDifference { get; set; } = 1;
-        public int levelHeight { get; set; } = 3;
+        public int MinFloors { get; set; } = 1;
+        public int MaxFloors { get; set; } = 2;
+        public int MinShift { get; set; } = 0;
+        public int MaxShift { get; set; } = 1;
+        public int LevelDifference { get; set; } = 1;
+        public int LevelHeight { get; set; } = 3;
 
     }
 

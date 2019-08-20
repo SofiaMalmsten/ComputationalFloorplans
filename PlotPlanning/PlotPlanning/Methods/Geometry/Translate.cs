@@ -81,19 +81,19 @@ namespace PlotPlanning.Methods
 
         public static ObjectModel.Carport Translate(Carport carport, Point3d boundPt, Vector3d tan)
         {
-            Point3d basePt = carport.accessPoint;
-            Line accessLine = Calculate.GetAccessLine(basePt, carport.gardenBound);
+            Point3d basePt = carport.AccessPoint;
+            Line accessLine = Calculate.GetAccessLine(basePt, carport.GardenBound);
             Vector3d accessVec = Calculate.createVector(accessLine.To, accessLine.From);
 
             Carport movedCarport = carport.Clone();
 
-            movedCarport.gardenBound.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
-            movedCarport.gardenBound.Transform(Transform.Rotation(accessVec, tan, boundPt));
+            movedCarport.GardenBound.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
+            movedCarport.GardenBound.Transform(Transform.Rotation(accessVec, tan, boundPt));
 
-            movedCarport.carportGeom.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
-            movedCarport.carportGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
+            movedCarport.CarportGeom.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
+            movedCarport.CarportGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
 
-            movedCarport.accessPoint = boundPt;
+            movedCarport.AccessPoint = boundPt;
 
             return movedCarport;
         }

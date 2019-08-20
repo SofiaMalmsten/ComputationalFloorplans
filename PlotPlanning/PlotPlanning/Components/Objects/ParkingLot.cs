@@ -68,9 +68,9 @@ namespace PlotPlanning.Components
 
             //Set properties
             PlotPlanning.ObjectModel.ParkingLot parking = new ObjectModel.ParkingLot();
-            parking.type = type;
-            parking.parkingBound = parkingBound;
-            parking.floors = floors;
+            parking.Type = type;
+            parking.ParkingBound = parkingBound;
+            parking.Floors = floors;
 
             //Set data
             DA.SetData(0, parking);

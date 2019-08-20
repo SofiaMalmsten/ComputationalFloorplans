@@ -69,7 +69,7 @@ namespace PlotPlanning.Components
                 };
             }
 
-            double shapefactor = envelopArea / (floorArea * MFH.maxFloors); //Should be the actual number of floors. 
+            double shapefactor = envelopArea / (floorArea * MFH.MaxFloors); //Should be the actual number of floors. 
 
 
             //Set data
