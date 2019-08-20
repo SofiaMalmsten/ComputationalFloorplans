@@ -53,7 +53,7 @@ namespace PlotPlanning.Methods
             Point3d pt = house.AccessPoint;
 
             //Check if clockwise
-            if (!PlotPlanning.Methods.Calculate.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
+            if (!Calculate.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
             {
                 siteBound.Reverse();
             }
