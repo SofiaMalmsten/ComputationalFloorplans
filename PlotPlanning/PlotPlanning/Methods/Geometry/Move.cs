@@ -26,5 +26,18 @@ namespace PlotPlanning.Methods
         }
 
         //================================
+
+        public static ObjectModel.Carport Move(Carport carport, Vector3d vector)
+        {
+
+            Carport movedCarport = carport.Clone();
+            Transform t = Transform.Translation(vector);
+
+            movedCarport.gardenBound.Transform(t);
+            movedCarport.carportGeom.Transform(t);
+            movedCarport.accessPoint = movedCarport.accessPoint + new Point3d(vector);
+
+            return movedCarport;
+        }
     }
 }

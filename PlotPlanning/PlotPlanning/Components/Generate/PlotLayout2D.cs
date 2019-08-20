@@ -40,6 +40,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item, 1);
             pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item, "roads");
             pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list);
+            pManager.AddGenericParameter("carport", "carport", "carport object", GH_ParamAccess.item);
 
         }
 
@@ -50,6 +51,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("carport", "carport", "carport object", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -65,6 +67,7 @@ namespace PlotPlanning.Components
             int seed = 1;
             string method = "";
             List<Curve> roads = new List<Curve>();
+            ObjectModel.Carport carport = new ObjectModel.Carport();
 
             //Get Data
             if (!DA.GetDataList(0, houses))
@@ -79,12 +82,16 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetDataList(5, roads))
                 return;
+            if (!DA.GetData(6, ref carport))
+                return;
 
 
             List<Polyline> rectangles = new List<Polyline>();
             List<SingleFamily> houseList = new List<SingleFamily>();
+            List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
             Random random = new Random(seed);
             Curve originalBound = bound;
+            
 
             List<Curve> BoundList = new List<Curve>() { bound };
 
@@ -96,11 +103,18 @@ namespace PlotPlanning.Components
                 BoundList.RemoveAt(idx);
 
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
-                    method, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound);
+                    method, carport, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound, out List<ObjectModel.Carport> carportList);
+
+                //if (AreaMassProperties.Compute(newBound).Area < AreaMassProperties.Compute(houses[0].GardenBound.ToPolylineCurve()).Area)
+                //   break;
 
                 BoundList.AddRange(newBound);
                 houseList.AddRange(outHouseList);
+                carports.AddRange(carportList);
                 if (BoundList.Count == 0) break;
+
+                
+                
             }
 
             List<Curve> newRegions = BoundList;
@@ -108,6 +122,7 @@ namespace PlotPlanning.Components
             //Set data for the outputs
             DA.SetDataList(0, houseList);
             DA.SetDataList(1, newRegions);
+            DA.SetDataList(2, carports);
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace PlotPlanning.ObjectModel
 {
     public class Carport
     {
-        public Rectangle3d gardenBound { get; set; } = new Rectangle3d();
+        public Polyline gardenBound { get; set; } = new Polyline();
         public Brep carportGeom { get; set; } = new Brep();
         public Point3d accessPoint { get; set; } = new Point3d();
 

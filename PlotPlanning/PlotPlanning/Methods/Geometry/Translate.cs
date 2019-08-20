@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
+﻿using PlotPlanning.ObjectModel;
 using Rhino.Geometry;
-using System.Linq;
-using PlotPlanning.ObjectModel;
+using System.Collections.Generic;
 
 
 namespace PlotPlanning.Methods
@@ -82,5 +78,24 @@ namespace PlotPlanning.Methods
         }
 
         //================================
+
+        public static ObjectModel.Carport Translate(Carport carport, Point3d boundPt, Vector3d tan)
+        {
+            Point3d basePt = carport.accessPoint;
+            Line accessLine = Calculate.GetAccessLine(basePt, carport.gardenBound);
+            Vector3d accessVec = Calculate.createVector(accessLine.To, accessLine.From);
+
+            Carport movedCarport = carport.Clone();
+
+            movedCarport.gardenBound.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
+            movedCarport.gardenBound.Transform(Transform.Rotation(accessVec, tan, boundPt));
+
+            movedCarport.carportGeom.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
+            movedCarport.carportGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
+
+            movedCarport.accessPoint = boundPt;
+
+            return movedCarport;
+        }
     }
 }

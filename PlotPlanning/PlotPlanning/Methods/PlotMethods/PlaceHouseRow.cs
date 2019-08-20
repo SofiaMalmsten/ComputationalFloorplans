@@ -64,7 +64,7 @@ namespace PlotPlanning.Methods
         }
         //====================================================================
 
-        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound)
+        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
         {
             //1. pick house type to place
             SingleFamily baseHouse = baseHouses[random.Next(baseHouses.Count)];
@@ -77,6 +77,7 @@ namespace PlotPlanning.Methods
                 currLine.Extend(-FilletOffset(), -FilletOffset());
 
                 houseList = new List<SingleFamily>();
+                carportList = new List<Carport>();
             
                 List<Point3d> pos = AccessPoints(currLine, baseHouse, random);
                 List<Vector3d> tan = Tangent(pos, currLine);
@@ -90,6 +91,15 @@ namespace PlotPlanning.Methods
                     List<Polyline> currGarden = CullSmallAreas(garden, bound); //returns 0 when the garden overlaps the boundary
                     if (currGarden.Count != 0)
                         houseList.Add(movedHouse);
+
+                    if (movedHouse.HasCarPort == true)
+                    {
+                        i++;
+                        Carport movedCarport = Adjust.Translate(carport, pos[i], tan[i]);
+                        carportList.Add(movedCarport);
+                        
+                    }
+
                 }
 
                 if (houseList.Count < baseHouse.MinAmount)
@@ -106,6 +116,7 @@ namespace PlotPlanning.Methods
             {
                 cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
                 houseList = new List<SingleFamily>();
+                carportList = new List<Carport>();
             }
         }
     }
