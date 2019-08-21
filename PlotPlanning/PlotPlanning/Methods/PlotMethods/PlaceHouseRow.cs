@@ -34,7 +34,7 @@ namespace PlotPlanning.Methods
             {
                 SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
 
-                if (IsInside(movedHouse, bound))
+                if (IsInside(movedHouse, bound)) //TODO: Include carport
                     houseList.Add(movedHouse);
                 else if (houseList.Count != 0) //already places houses
                     break;
@@ -49,7 +49,7 @@ namespace PlotPlanning.Methods
 
         end:
             if (houseList.Count >= baseHouse.MinAmount)
-                cutBound = UpdateBoundaries(houseList, baseHouse, bound);
+                cutBound = UpdateBoundaries(houseList, baseHouse, bound); //TODO: Include carport
             else
             {
 
