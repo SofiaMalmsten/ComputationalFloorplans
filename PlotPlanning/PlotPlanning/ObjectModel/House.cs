@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.ObjectModel
 {
-    public class House
+    public class House : IHouse
     {
         public string Type { get; set; } = "";
         public Brep HouseGeom { get; set; } = new Brep();
@@ -19,7 +19,6 @@ namespace PlotPlanning.ObjectModel
         public Point3d AccessPoint { get; set; } = new Point3d();
 
         public Polyline GardenBound { get; set; } = new Polyline();
-
     }
 
     //====================================================================

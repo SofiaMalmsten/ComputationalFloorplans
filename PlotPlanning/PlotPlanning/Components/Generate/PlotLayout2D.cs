@@ -71,7 +71,8 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<SingleFamily> houses = new List<SingleFamily>();
+            //List<SingleFamily> houses = new List<SingleFamily>();
+            List<IHouse> houses = new List<IHouse>();
             Curve bound = new PolylineCurve();
             int itts = 1;
             int seed = 1;
@@ -106,8 +107,7 @@ namespace PlotPlanning.Components
             else method = "random";
 
 
-            List<Polyline> rectangles = new List<Polyline>();
-            List<SingleFamily> houseList = new List<SingleFamily>();
+            List<IHouse> houseList = new List<IHouse>();
             List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
             Random random = new Random(seed);
             Curve originalBound = bound;
@@ -122,8 +122,9 @@ namespace PlotPlanning.Components
                 Curve c = BoundList[idx];
                 BoundList.RemoveAt(idx);
 
-                pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
-                    method, carport, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound, out List<ObjectModel.Carport> carportList);
+                pp.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random,
+                    method, carport, out List<IHouse> outHouseList, out List<PolylineCurve> newBound, out List<ObjectModel.Carport> carportList);
+
 
                 BoundList.AddRange(newBound);
                 houseList.AddRange(outHouseList);

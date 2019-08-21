@@ -114,6 +114,7 @@
     <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
     <Compile Include="Methods\PlotMethods\PossiblePoints.cs" />
+    <Compile Include="ObjectModel\IHouse.cs" />
     <Compile Include="ObjectModel\House.cs" />
     <Compile Include="ObjectModel\ParkingLot.cs" />
     <Compile Include="ObjectModel\Carport.cs" />

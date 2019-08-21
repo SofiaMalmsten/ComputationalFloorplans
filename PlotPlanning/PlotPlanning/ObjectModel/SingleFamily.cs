@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.ObjectModel
 {
-    public class SingleFamily: House
+    public class SingleFamily: House, IHouse
     {
 
         //====================================================================

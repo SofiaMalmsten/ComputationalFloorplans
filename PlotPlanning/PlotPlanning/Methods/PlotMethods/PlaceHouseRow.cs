@@ -11,6 +11,17 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
+        //IHouse
+        public static void IPlaceHouseRow(List<IHouse> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<IHouse> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
+        {
+            //Type t = baseHouses.GetType();
+            List<T> houseTypes = (baseHouses[0].GetType()) baseHouses;
+            IEnumerable<T> test = baseHouses.OfType<T>;
+
+            PlaceHouseRow(baseHouses, bound, originalBound, roads, random, method, carport, out houseList, out cutBound, out carportList);
+        }
+
+        
         //SFH
         public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
         {

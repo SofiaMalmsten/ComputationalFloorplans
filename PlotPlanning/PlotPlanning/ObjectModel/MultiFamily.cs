@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.ObjectModel
 {
-    public class MultiFamily: House
+    public class MultiFamily: House, IHouse
     {
         public int MinFloors { get; set; } = 1;
         public int MaxFloors { get; set; } = 2;
