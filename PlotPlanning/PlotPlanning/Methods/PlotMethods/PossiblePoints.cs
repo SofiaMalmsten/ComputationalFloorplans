@@ -10,20 +10,21 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random)
+        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random, Carport carport) //we want to have carport as an optional parameter later
         {
-            Polyline pline = house.GardenBound;
-            Point3d refPt = house.AccessPoint;
+            Polyline houseGardenBoundary = house.GardenBound;
+            Point3d houseAccessPt = house.AccessPoint;
+            bool hasCarPort = house.HasCarPort; 
 
             //========================================================
             //Declaration - fixed values
             //========================================================
             double lineLength = line.Length;
-            double segmentLength = Calculate.GetAccessLine(refPt, pline).Length;
+            double houseWidth = Calculate.GetAccessLine(houseAccessPt, houseGardenBoundary).Length;
 
             Point3d startPt = line.From;
             Vector3d vec = (line.Direction) / lineLength;
-            Vector3d husVec = vec * segmentLength;
+            Vector3d husVec = vec * houseWidth;
 
             //========================================================
             //Declaration - lists and new objects
@@ -32,7 +33,7 @@ namespace PlotPlanning.Methods
             List<Point3d> pointPos = new List<Point3d>();
 
             Point3d currPt = startPt;
-            double currLength = segmentLength;
+            double currLength = houseWidth;
             int i = 0;
 
             while (currLength < lineLength)
@@ -40,7 +41,7 @@ namespace PlotPlanning.Methods
                 Line currLine = new Line(currPt, husVec);
                 currPt = currLine.To;
                 pointPos.Add(currPt);
-                currLength += segmentLength;
+                currLength += houseWidth;
                 i ++;
 
                 if (i == house.MaxAmount)

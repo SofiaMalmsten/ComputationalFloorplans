@@ -29,7 +29,7 @@ namespace PlotPlanning.Methods
             currLine.Extend(-FilletOffset(), -FilletOffset());
             List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random);
 
-            //4. Place houses for each position
+            //3. Place houses for each position
             for (int i = 0; i < possiblePts.Count; i++)
             {
                 SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
