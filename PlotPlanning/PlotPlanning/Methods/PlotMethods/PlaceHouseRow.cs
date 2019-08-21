@@ -14,11 +14,10 @@ namespace PlotPlanning.Methods
         //IHouse
         public static void IPlaceHouseRow(List<IHouse> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<IHouse> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
         {
-            //Type t = baseHouses.GetType();
-            List<T> houseTypes = (baseHouses[0].GetType()) baseHouses;
-            IEnumerable<T> test = baseHouses.OfType<T>;
 
-            PlaceHouseRow(baseHouses, bound, originalBound, roads, random, method, carport, out houseList, out cutBound, out carportList);
+            PlaceHouseRow(baseHouses as dynamic, bound, originalBound, roads, random, method, carport, out houseList, out cutBound, out carportList);
+            //throw new NotImplementedException();
+
         }
 
         
