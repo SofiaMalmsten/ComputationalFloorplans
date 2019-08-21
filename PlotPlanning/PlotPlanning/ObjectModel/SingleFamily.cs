@@ -25,10 +25,7 @@ namespace PlotPlanning.ObjectModel
         //====================================================================
 
         //Default constructor
-        public SingleFamily()
-        {
-
-        }
+        public SingleFamily() { }
 
         //====================================================================
         public SingleFamily(string type, bool hasCarPort, Polyline gardenBound, Brep houseGeom,

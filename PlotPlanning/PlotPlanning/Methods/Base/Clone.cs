@@ -56,9 +56,9 @@ namespace PlotPlanning.Methods
         {
             return new ObjectModel.Carport
             {
-                accessPoint = carport.accessPoint,
-                gardenBound = carport.gardenBound.Duplicate(),
-                carportGeom = carport.carportGeom.Clone(),
+                AccessPoint = carport.AccessPoint,
+                GardenBound = carport.GardenBound.Duplicate(),
+                CarportGeom = carport.CarportGeom.Clone(),
             };
         }
     }

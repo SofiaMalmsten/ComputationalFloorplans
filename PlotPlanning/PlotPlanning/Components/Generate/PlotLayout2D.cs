@@ -85,16 +85,12 @@ namespace PlotPlanning.Components
             if (!DA.GetData(6, ref carport))
                 return;
 
-
-            List<Polyline> rectangles = new List<Polyline>();
             List<SingleFamily> houseList = new List<SingleFamily>();
             List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
             Random random = new Random(seed);
             Curve originalBound = bound;
             
-
             List<Curve> BoundList = new List<Curve>() { bound };
-
 
             for (int i = 0; i < itts; i++)
             {
@@ -105,16 +101,10 @@ namespace PlotPlanning.Components
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
                     method, carport, out List<SingleFamily> outHouseList, out List<PolylineCurve> newBound, out List<ObjectModel.Carport> carportList);
 
-                //if (AreaMassProperties.Compute(newBound).Area < AreaMassProperties.Compute(houses[0].GardenBound.ToPolylineCurve()).Area)
-                //   break;
-
                 BoundList.AddRange(newBound);
                 houseList.AddRange(outHouseList);
                 carports.AddRange(carportList);
                 if (BoundList.Count == 0) break;
-
-                
-                
             }
 
             List<Curve> newRegions = BoundList;
@@ -133,7 +123,6 @@ namespace PlotPlanning.Components
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
                 return Properties.Resources.RandomHouses;
             }
         }

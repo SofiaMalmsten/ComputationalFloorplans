@@ -16,11 +16,19 @@ namespace PlotPlanning.Methods
 
         public static Line PickLine(this List<Line> lines, string method, Random random = null, List<Curve> roads = null, Curve originalBound = null)
         {
-            if (method == "random") //selects line randomly
+            if (lines.Count == 0)
+            {
+                return new Line();
+            }
+
+            //====================================================================
+
+            else if (method == "random") //selects line randomly
             {
                 Line line = lines[random.Next(lines.Count)];
                 return line;
             }
+
 
             //====================================================================
 
