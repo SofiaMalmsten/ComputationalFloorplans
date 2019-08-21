@@ -76,6 +76,38 @@ namespace PlotPlanning.Methods
 
             return shuffledSegments.ToList();
         }
+
+        public static List<Line> SegmentBounds(Polyline siteBound, ObjectModel.MultiFamily house)
+        {
+
+            double minAmount = house.MinAmount;
+            Polyline pline = house.GardenBound;
+            Point3d pt = house.AccessPoint;
+
+            //Check if clockwise
+            if (!Calculate.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
+            {
+                siteBound.Reverse();
+            }
+
+            List<double> lengths = new List<double>();
+            List<Line> segments = new List<Line>();
+
+            double gardenLength = PlotPlanning.Methods.Calculate.GetAccessLine(pt, pline).Length;
+
+            foreach (var segm in siteBound.GetSegments())
+            {
+                if (segm.Length > gardenLength * minAmount)
+                {
+                    segments.Add(segm);
+                }
+
+            }
+
+            IEnumerable<Line> shuffledSegments = segments.OrderBy(x => x.Length).ToList();
+
+            return shuffledSegments.ToList();
+        }
     }
 
     //====================================================================

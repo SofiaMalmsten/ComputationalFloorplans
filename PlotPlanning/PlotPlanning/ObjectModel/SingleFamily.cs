@@ -15,9 +15,7 @@ namespace PlotPlanning.ObjectModel
         //====================================================================
        
         public bool HasCarPort { get; set; } = false;
-        public Polyline GardenBound { get; set; } = new Polyline();
         public Vector3d Orientation { get; set; } = new Vector3d();
-        public Point3d AccessPoint { get; set; } = new Point3d();
         public string RowPosition { get; set; } = "";
 
         //====================================================================

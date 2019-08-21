@@ -48,6 +48,11 @@ namespace PlotPlanning.Methods
             return IsInside(garden, bound);
         }
 
+        public static bool IsInside(ObjectModel.MultiFamily mfh, Curve bound)
+        {
+            Curve garden = Curve.CreateControlPointCurve(mfh.GardenBound.ToList(), 1);
+            return IsInside(garden, bound);
+        }
     }
 
     //====================================================================

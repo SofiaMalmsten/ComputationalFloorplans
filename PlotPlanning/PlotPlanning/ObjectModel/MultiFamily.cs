@@ -16,6 +16,9 @@ namespace PlotPlanning.ObjectModel
         public int LevelDifference { get; set; } = 1;
         public int LevelHeight { get; set; } = 3;
 
+        public Vector3d Orientation { get; set; } = new Vector3d();
+
+
     }
 
     //====================================================================

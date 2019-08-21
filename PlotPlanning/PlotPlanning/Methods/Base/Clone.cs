@@ -52,6 +52,25 @@ namespace PlotPlanning.Methods
 
         /***************************************************/
 
+        public static ObjectModel.MultiFamily Clone(this ObjectModel.MultiFamily house)
+        {
+            return new ObjectModel.MultiFamily
+            {
+                Type = house.Type,
+                GardenBound = house.GardenBound.Duplicate(),
+                HouseGeom = house.HouseGeom.Clone(),
+                Orientation = new Vector3d(house.Orientation),
+                AccessPoint = house.AccessPoint.Clone(),
+                MinAmount = house.MinAmount,
+                MaxAmount = house.MaxAmount,
+                Offset = house.Offset,
+                MidPoint = house.MidPoint.Clone(),
+            };
+        }
+
+        /***************************************************/
+
+
         public static ObjectModel.Carport Clone(this ObjectModel.Carport carport)
         {
             return new ObjectModel.Carport

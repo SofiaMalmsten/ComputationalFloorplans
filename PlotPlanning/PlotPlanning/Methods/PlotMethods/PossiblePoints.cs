@@ -73,6 +73,51 @@ namespace PlotPlanning.Methods
         }
 
         //====================================================================
+
+        public static List<Point3d> PossiblePoints(Line line, MultiFamily house, Random random, Carport carport) //we want to have carport as an optional parameter later
+        {
+            Polyline houseGardenBoundary = house.GardenBound;
+            Point3d houseAccessPt = house.AccessPoint;
+
+            //========================================================
+            //Declaration - fixed values
+            //========================================================
+            double lineLength = line.Length;
+            double houseWidth = Calculate.GetAccessLine(houseAccessPt, houseGardenBoundary).Length;
+
+            Point3d startPt = line.From;
+            Vector3d vec = (line.Direction) / lineLength;
+            Vector3d husVec = vec * houseWidth;
+
+            //========================================================
+            //Declaration - lists and new objects
+            //========================================================
+
+            List<Point3d> pointPos = new List<Point3d>();
+
+            Point3d currPt = startPt;
+            double currLength = houseWidth;
+            Line currLine = new Line();
+            int i = 0;
+
+            while (currLength < lineLength)
+            {
+                currLine = new Line(currPt, husVec);
+                currPt = currLine.To;
+                pointPos.Add(currPt);
+                currLength += houseWidth;
+                i++;
+
+                if (i == house.MaxAmount)
+                    break;
+            }
+
+            Vector3d move_vec = random.NextDouble() * (lineLength - currLength) * vec.Normalise();
+            List<Point3d> move_pts = new List<Point3d>();
+            foreach (Point3d p in pointPos) move_pts.Add(Point3d.Add(p, move_vec));
+
+            return move_pts;
+        }
     }
 }
 

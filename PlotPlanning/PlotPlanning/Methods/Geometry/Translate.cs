@@ -106,5 +106,36 @@ namespace PlotPlanning.Methods
 
             return movedCarport;
         }
+
+        //================================
+
+        public static ObjectModel.MultiFamily Translate(MultiFamily house, Point3d boundPt, Vector3d tan)
+        {
+            Point3d basePt = house.AccessPoint;
+            Line accessLine = Calculate.GetAccessLine(basePt, house.GardenBound);
+            Vector3d accessVec = Calculate.createVector(accessLine.To, accessLine.From);
+
+            MultiFamily movedHouse = house.Clone();
+
+            Transform t = Transform.Translation(Calculate.createVector(basePt, boundPt));
+            Transform r = Transform.Rotation(accessVec, tan, boundPt);
+
+            movedHouse.GardenBound.Transform(t);
+            movedHouse.GardenBound.Transform(r);
+
+            movedHouse.HouseGeom.Transform(t);
+            movedHouse.HouseGeom.Transform(r);
+
+            movedHouse.Orientation = Calculate.CrossProduct(Vector3d.ZAxis, tan);
+
+            movedHouse.MidPoint = movedHouse.GardenBound.CenterPoint(); // add a real translation here maybe? 
+                                                                        //movedHouse.MidPoint = movedHouse.MidPoint + new Point3d(Calculate.createVector(basePt, boundPt));
+                                                                        // movedHouse.MidPoint.Transform(r); 
+
+
+            movedHouse.AccessPoint = boundPt;
+
+            return movedHouse;
+        }
     }
 }
