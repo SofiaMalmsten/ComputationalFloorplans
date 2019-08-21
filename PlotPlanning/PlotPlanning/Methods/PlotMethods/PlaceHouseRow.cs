@@ -27,7 +27,7 @@ namespace PlotPlanning.Methods
 
             Line currLine = lines.PickLine(method, random, roads, originalBound);
             currLine.Extend(-FilletOffset(), -FilletOffset());
-            List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random);
+            List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random, carport);
 
             //3. Place houses for each position
             for (int i = 0; i < possiblePts.Count; i++)

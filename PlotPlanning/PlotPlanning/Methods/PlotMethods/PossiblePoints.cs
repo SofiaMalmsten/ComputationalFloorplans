@@ -46,7 +46,13 @@ namespace PlotPlanning.Methods
             int i = 0;
 
             while (currLength < lineLength)
-            {
+            {               
+                currLine = new Line(currPt, husVec);
+                currPt = currLine.To;
+                pointPos.Add(currPt);
+                currLength += houseWidth;
+                i ++;
+
                 if (hasCarPort)
                 {
                     currLine = new Line(currPt, cpVec);
@@ -54,12 +60,6 @@ namespace PlotPlanning.Methods
                     pointPos.Add(currPt);
                     currLength += cpWidth;
                 }
-                
-                currLine = new Line(currPt, husVec);
-                currPt = currLine.To;
-                pointPos.Add(currPt);
-                currLength += houseWidth;
-                i ++;
 
                 if (i == house.MaxAmount)
                     break;
