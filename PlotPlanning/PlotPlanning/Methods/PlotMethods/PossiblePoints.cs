@@ -11,7 +11,7 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
         public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random, Carport carport) //we want to have carport as an optional parameter later
-        {
+        {           
             Polyline houseGardenBoundary = house.GardenBound;
             Point3d houseAccessPt = house.AccessPoint;
             bool hasCarPort = house.HasCarPort; 
@@ -26,6 +26,14 @@ namespace PlotPlanning.Methods
             Vector3d vec = (line.Direction) / lineLength;
             Vector3d husVec = vec * houseWidth;
 
+            Vector3d cpVec = new Vector3d();
+            double cpWidth = 0; 
+            if(hasCarPort)
+            {
+                cpWidth = Calculate.GetAccessLine(carport.AccessPoint, carport.GardenBound).Length;
+                cpVec = vec * cpWidth; 
+            }
+
             //========================================================
             //Declaration - lists and new objects
             //========================================================
@@ -34,11 +42,20 @@ namespace PlotPlanning.Methods
 
             Point3d currPt = startPt;
             double currLength = houseWidth;
+            Line currLine = new Line(); 
             int i = 0;
 
             while (currLength < lineLength)
             {
-                Line currLine = new Line(currPt, husVec);
+                if (hasCarPort)
+                {
+                    currLine = new Line(currPt, cpVec);
+                    currPt = currLine.To;
+                    pointPos.Add(currPt);
+                    currLength += cpWidth;
+                }
+                
+                currLine = new Line(currPt, husVec);
                 currPt = currLine.To;
                 pointPos.Add(currPt);
                 currLength += houseWidth;
