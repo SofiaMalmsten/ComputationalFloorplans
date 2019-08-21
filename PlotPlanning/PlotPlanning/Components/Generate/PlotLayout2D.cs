@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PlotPlanning.ObjectModel;
+using Grasshopper.Kernel.Parameters;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -38,11 +39,20 @@ namespace PlotPlanning.Components
             pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
             pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item, 10);
             pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item, 1);
-            pManager.AddTextParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item, "roads");
+            pManager.AddIntegerParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item, 1);
             pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list);
             pManager.AddGenericParameter("carport", "carport", "carport object", GH_ParamAccess.item);
 
+            //add dropdown list for method input
+            Param_Integer param = pManager[4] as Param_Integer;
+            param.AddNamedValue("random", 0);
+            param.AddNamedValue("roads", 1);
+            param.AddNamedValue("boundary", 2);
+            param.AddNamedValue("shortest", 3);
+            param.AddNamedValue("longest", 4);
+            param.AddNamedValue("boundary first", 5);
         }
+
 
         /// <summary>
         /// Registers all the output parameters for this component.
@@ -65,7 +75,7 @@ namespace PlotPlanning.Components
             Curve bound = new PolylineCurve();
             int itts = 1;
             int seed = 1;
-            string method = "";
+            int methodIdx = 1;
             List<Curve> roads = new List<Curve>();
             ObjectModel.Carport carport = new ObjectModel.Carport();
 
@@ -78,24 +88,38 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(3, ref seed))
                 return;
-            if (!DA.GetData(4, ref method))
+            if (!DA.GetData(4, ref methodIdx))
                 return;
             if (!DA.GetDataList(5, roads))
                 return;
             if (!DA.GetData(6, ref carport))
                 return;
 
+            //set the method to the correct string
+            string method = "";
+            if (methodIdx == 0) method = "random";
+            else if (methodIdx == 1) method = "roads";
+            else if (methodIdx == 2) method = "boundary";
+            else if (methodIdx == 3) method = "shortest";
+            else if (methodIdx == 4) method = "longest";
+            else if (methodIdx == 5) method = "boundary first";
+            else method = "random";
+
+
+            List<Polyline> rectangles = new List<Polyline>();
             List<SingleFamily> houseList = new List<SingleFamily>();
             List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
             Random random = new Random(seed);
             Curve originalBound = bound;
-            
+
+
             List<Curve> BoundList = new List<Curve>() { bound };
+
 
             for (int i = 0; i < itts; i++)
             {
                 int idx = random.Next(BoundList.Count);
-                Curve c = BoundList[idx]; 
+                Curve c = BoundList[idx];
                 BoundList.RemoveAt(idx);
 
                 pp.Generate.PlaceHouseRow(houses, c, originalBound, roads, random,
@@ -123,6 +147,7 @@ namespace PlotPlanning.Components
         {
             get
             {
+                // You can add image files to your project resources and access them like this:
                 return Properties.Resources.RandomHouses;
             }
         }
