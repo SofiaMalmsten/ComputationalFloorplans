@@ -10,20 +10,29 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random)
-        {
-            Polyline pline = house.GardenBound;
-            Point3d refPt = house.AccessPoint;
+        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random, Carport carport) //we want to have carport as an optional parameter later
+        {           
+            Polyline houseGardenBoundary = house.GardenBound;
+            Point3d houseAccessPt = house.AccessPoint;
+            bool hasCarPort = house.HasCarPort; 
 
             //========================================================
             //Declaration - fixed values
             //========================================================
             double lineLength = line.Length;
-            double segmentLength = Calculate.GetAccessLine(refPt, pline).Length;
+            double houseWidth = Calculate.GetAccessLine(houseAccessPt, houseGardenBoundary).Length;
 
             Point3d startPt = line.From;
             Vector3d vec = (line.Direction) / lineLength;
-            Vector3d husVec = vec * segmentLength;
+            Vector3d husVec = vec * houseWidth;
+
+            Vector3d cpVec = new Vector3d();
+            double cpWidth = 0; 
+            if(hasCarPort)
+            {
+                cpWidth = Calculate.GetAccessLine(carport.AccessPoint, carport.GardenBound).Length;
+                cpVec = vec * cpWidth; 
+            }
 
             //========================================================
             //Declaration - lists and new objects
@@ -32,16 +41,25 @@ namespace PlotPlanning.Methods
             List<Point3d> pointPos = new List<Point3d>();
 
             Point3d currPt = startPt;
-            double currLength = segmentLength;
+            double currLength = houseWidth;
+            Line currLine = new Line(); 
             int i = 0;
 
             while (currLength < lineLength)
-            {
-                Line currLine = new Line(currPt, husVec);
+            {               
+                currLine = new Line(currPt, husVec);
                 currPt = currLine.To;
                 pointPos.Add(currPt);
-                currLength += segmentLength;
+                currLength += houseWidth;
                 i ++;
+
+                if (hasCarPort)
+                {
+                    currLine = new Line(currPt, cpVec);
+                    currPt = currLine.To;
+                    pointPos.Add(currPt);
+                    currLength += cpWidth;
+                }
 
                 if (i == house.MaxAmount)
                     break;

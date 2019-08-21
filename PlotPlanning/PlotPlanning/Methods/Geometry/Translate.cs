@@ -46,11 +46,9 @@ namespace PlotPlanning.Methods
 
 
             Polyline pLineToMove = new Polyline(pline);
+
             pLineToMove.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
-
             pLineToMove.Transform(Transform.Rotation(accessVec, tan, boundPt));
-
-
             return pLineToMove;
         }
 
@@ -64,13 +62,21 @@ namespace PlotPlanning.Methods
 
             SingleFamily movedHouse = house.Clone();
 
-            movedHouse.GardenBound.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
-            movedHouse.GardenBound.Transform(Transform.Rotation(accessVec, tan, boundPt));
+            Transform t = Transform.Translation(Calculate.createVector(basePt, boundPt));
+            Transform r = Transform.Rotation(accessVec, tan, boundPt); 
 
-            movedHouse.HouseGeom.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
-            movedHouse.HouseGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
+            movedHouse.GardenBound.Transform(t);
+            movedHouse.GardenBound.Transform(r);
+
+            movedHouse.HouseGeom.Transform(t);
+            movedHouse.HouseGeom.Transform(r);
+
             movedHouse.Orientation = Calculate.CrossProduct(Vector3d.ZAxis, tan);
-            movedHouse.MidPoint = movedHouse.MidPoint + new Point3d(Calculate.createVector(basePt, boundPt)); 
+
+            movedHouse.MidPoint = movedHouse.GardenBound.CenterPoint(); // add a real translation here maybe? 
+            //movedHouse.MidPoint = movedHouse.MidPoint + new Point3d(Calculate.createVector(basePt, boundPt));
+           // movedHouse.MidPoint.Transform(r); 
+            
 
             movedHouse.AccessPoint = boundPt;
 
@@ -87,11 +93,14 @@ namespace PlotPlanning.Methods
 
             Carport movedCarport = carport.Clone();
 
-            movedCarport.GardenBound.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
-            movedCarport.GardenBound.Transform(Transform.Rotation(accessVec, tan, boundPt));
+            Transform t = Transform.Translation(Calculate.createVector(basePt, boundPt));
+            Transform r = Transform.Rotation(accessVec, tan, boundPt);
 
-            movedCarport.CarportGeom.Transform(Transform.Translation(Calculate.createVector(basePt, boundPt)));
-            movedCarport.CarportGeom.Transform(Transform.Rotation(accessVec, tan, boundPt));
+            movedCarport.GardenBound.Transform(t);
+            movedCarport.GardenBound.Transform(r);
+
+            movedCarport.CarportGeom.Transform(t);
+            movedCarport.CarportGeom.Transform(r);
 
             movedCarport.AccessPoint = boundPt;
 

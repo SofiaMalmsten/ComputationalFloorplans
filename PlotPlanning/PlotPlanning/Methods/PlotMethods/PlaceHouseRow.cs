@@ -27,14 +27,14 @@ namespace PlotPlanning.Methods
 
             Line currLine = lines.PickLine(method, random, roads, originalBound);
             currLine.Extend(-FilletOffset(), -FilletOffset());
-            List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random);
+            List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random, carport);
 
-            //4. Place houses for each position
+            //3. Place houses for each position
             for (int i = 0; i < possiblePts.Count; i++)
             {
                 SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
 
-                if (IsInside(movedHouse, bound))
+                if (IsInside(movedHouse, bound)) //TODO: Include carport
                     houseList.Add(movedHouse);
                 else if (houseList.Count != 0) //already places houses
                     break;
@@ -49,7 +49,7 @@ namespace PlotPlanning.Methods
 
         end:
             if (houseList.Count >= baseHouse.MinAmount)
-                cutBound = UpdateBoundaries(houseList, baseHouse, bound);
+                cutBound = UpdateBoundaries(houseList, baseHouse, bound); //TODO: Include carport
             else
             {
 
