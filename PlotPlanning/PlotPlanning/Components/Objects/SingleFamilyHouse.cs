@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Methods;
+using PlotPlanning.ObjectModel.Geometry; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -87,7 +88,8 @@ namespace PlotPlanning.Components
                 return;
 
             //Set properties
-            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily(type, carport, gardenBound.ToPolyline(), houseGeom, accessPoint, minAmount, maxAmount, offset); 
+            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily(type, carport, gardenBound.ToPolyline(), houseGeom, accessPoint, minAmount, maxAmount, offset);
+            house.HouseGeom = ReadGeometry.ReadHouseGeometry("A1"); 
             
 
             //Set data

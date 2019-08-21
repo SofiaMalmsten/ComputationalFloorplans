@@ -114,6 +114,7 @@
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
     <Compile Include="Methods\PlotMethods\AccessPoints.cs" />
     <Compile Include="ObjectModel\House.cs" />
+    <Compile Include="ObjectModel\ObjectGeometry\ReadGeometry.cs" />
     <Compile Include="ObjectModel\ParkingLot.cs" />
     <Compile Include="ObjectModel\Carport.cs" />
     <Compile Include="ObjectModel\MultiFamily.cs" />
@@ -219,6 +220,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Timer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ObjectModel\ObjectGeometry\A1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
