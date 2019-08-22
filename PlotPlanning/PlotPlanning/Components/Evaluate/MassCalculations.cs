@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -12,7 +11,7 @@ using System.Linq;
 
 namespace PlotPlanning.Components
 {
-    public class Orientation : GH_Component
+    public class MassCalculations : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,9 +20,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Orientation()
-          : base("Orientation", "Orientation",
-              "Calculates the orentation for each house on the plot",
+        public MassCalculations()
+          : base("MassCalculations", "MassCalcualtions",
+              "Calculates the amount of SFH on a site",
               "PlotPlanningTool", "Evaluate")
         {
         }
@@ -34,8 +33,6 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
-            pManager.AddVectorParameter("ReferenceVector", "RefVec", "RefVec", GH_ParamAccess.item);
-            pManager.AddVectorParameter("NorthVector", "NorthVec", "NorthVEc", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,9 +40,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Mean", "Mean", "Mean", GH_ParamAccess.item); //mean value of dot product
-            pManager.AddNumberParameter("Variance", "Variance", "Variance", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Distubution", "Distrubution", "Distrubution", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("NumberOfHOuses", "NuberOfHouses", "NumberOfHouses", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -57,34 +52,16 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
-            Vector3d nortVec = new Vector3d();
-            Vector3d refVec = new Vector3d();
 
             //Get Data
             if (!DA.GetDataList(0, SFH))
                 return;
-            if (!DA.GetData(1, ref refVec))
-                return;
-            if (!DA.GetData(2, ref nortVec))
-                return;
 
             //Calculate
-            List<double> distrList = new List<double>();
-            List<double> dotProdList = new List<double>();
-
-            foreach (var s in SFH)
-            {
-                Vector3d houseVec = s.Orientation;
-                double angle = Methods.Calculate.DotProduct(houseVec, refVec);
-                dotProdList.Add(angle);
-            }
-
-            double average = dotProdList.Average();
-            double variance = dotProdList.Average(v=>Math.Pow(v-average,2));
-
+            int numerOfHouses = SFH.Count;
+           
             //Set data
-            DA.SetData(0, average);
-            DA.SetData(1, variance);
+            DA.SetData(0, numerOfHouses);
         }
 
         /// <summary>
@@ -95,9 +72,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
                 return Properties.Resources.Houses;
-                //return null;
             }
         }
 
@@ -108,7 +83,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("b02e53b7-ec4b-479d-bc48-7e43e1799c0f"); }
+            get { return new Guid("dfd8d506-3ac5-4785-8515-472179549439"); }
         }
     }
 
