@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Carport : GH_Component
+    public class Carport : GH_Component //change the name of the component so it doesn't collide with the name of the object
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
