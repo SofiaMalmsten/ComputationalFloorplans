@@ -12,11 +12,11 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
         //IHouse
-        public static void IPlaceHouseRow(List<IHouse> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<IHouse> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
+        public static Tuple<IHouse,PolylineCurve,Carport> IPlaceHouseRow(List<IHouse> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
         {
 
-            PlaceHouseRow(baseHouses as dynamic, bound, originalBound, roads, random, method, carport, out houseList, out cutBound, out carportList);
-            //throw new NotImplementedException();
+            var returnTuple = PlaceHouseRow(baseHouses as dynamic, bound, originalBound, roads, random, method, carport);
+            return returnTuple; 
 
         }
 
