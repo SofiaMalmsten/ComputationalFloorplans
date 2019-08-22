@@ -40,7 +40,9 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("leveDifference", "levelDifference", "Difference in height between units in the same block", GH_ParamAccess.item, 1);
             pManager.AddIntegerParameter("levelHeight", "levelHeight", "Height between levels", GH_ParamAccess.item, 3);
             pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
-    }
+            pManager.AddRectangleParameter("garden", "garden", "garden", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
+        }
 
         /// <summary>
         /// Registers all the output parameters for this component.
@@ -66,6 +68,8 @@ namespace PlotPlanning.Components
             int levelDifference = 1;
             int levelHeight = 1;
             Brep houseGeom = new Brep();
+            Rectangle3d garden = new Rectangle3d();
+            Point3d accessPt = new Point3d();
 
             //Get Data
             if (!DA.GetData(0, ref type))
@@ -84,6 +88,10 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(7, ref houseGeom))
                 return;
+            if (!DA.GetData(8, ref garden))
+                return;
+            if (!DA.GetData(9, ref accessPt))
+                return;
 
 
             //Set properties
@@ -96,6 +104,8 @@ namespace PlotPlanning.Components
             house.LevelDifference = levelDifference;
             house.LevelHeight = levelHeight;
             house.HouseGeom = houseGeom;
+            house.GardenBound = garden.ToPolyline();
+            house.AccessPoint = accessPt;
 
             //Set data
             DA.SetData(0, house);
