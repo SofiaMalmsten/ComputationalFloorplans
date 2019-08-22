@@ -22,10 +22,11 @@ namespace PlotPlanning.Methods
 
         
         //SFH
-        public static void PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<SingleFamily> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
+        public static (List<SingleFamily>, List<PolylineCurve>, List<Carport>) PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
         {
-            houseList = new List<SingleFamily>();
-            carportList = new List<Carport>();
+            List<SingleFamily> houseList = new List<SingleFamily>();
+            List<Carport> carportList = new List<Carport>();
+            List<PolylineCurve> cutBound = new List<PolylineCurve>(); 
 
             SingleFamily baseHouse = baseHouses[random.Next(baseHouses.Count)]; //1. pick house type to place
 
@@ -68,6 +69,7 @@ namespace PlotPlanning.Methods
                 houseList = new List<SingleFamily>();
                 carportList = new List<Carport>();
             }
+            return (houseList, cutBound, carportList); 
         }
 
         //==============
