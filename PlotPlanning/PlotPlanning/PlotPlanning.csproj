@@ -47,6 +47,7 @@
     <Reference Include="Grasshopper, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803, processorArchitecture=MSIL">
       <HintPath>..\packages\Grasshopper.6.13.19058.371\lib\net45\Grasshopper.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Rhino.UI, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\Rhino.UI.dll</HintPath>
     </Reference>
@@ -56,6 +57,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -114,6 +118,7 @@
     <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
     <Compile Include="Methods\PlotMethods\PossiblePoints.cs" />
+    <Compile Include="ObjectModel\IHouse.cs" />
     <Compile Include="ObjectModel\House.cs" />
     <Compile Include="ObjectModel\ParkingLot.cs" />
     <Compile Include="ObjectModel\Carport.cs" />
