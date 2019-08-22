@@ -14,9 +14,12 @@ namespace PlotPlanning.Methods
         //IHouse
         public static (List<IHouse>, List<PolylineCurve>, List<Carport>) IPlaceHouseRow(List<IHouse> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
         {
-
-            var returnTuple = PlaceHouseRow(baseHouses as dynamic, bound, originalBound, roads, random, method, carport);
-            return returnTuple; 
+            //L<IHouse> a = baseHouses.ToList(); 
+            if (baseHouses[0].GetType() == new SingleFamily().GetType())
+            {
+                baseHouses.ConvertAll(obj => obj.(new SingleFamily().GetType()));
+            }
+            return PlaceHouseRow(baseHouses as dynamic, bound, originalBound, roads, random, method, carport);           
 
         }
 
@@ -24,7 +27,7 @@ namespace PlotPlanning.Methods
         //SFH
 
 
-        public static (List<SingleFamily>, List<PolylineCurve>, List<Carport>) PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
+        public static (List<IHouse>, List<PolylineCurve>, List<Carport>) PlaceHouseRow(List<SingleFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
         {
             List<SingleFamily> houseList = new List<SingleFamily>();
             List<Carport> carportList = new List<Carport>();
@@ -71,9 +74,12 @@ namespace PlotPlanning.Methods
                 houseList = new List<SingleFamily>();
                 carportList = new List<Carport>();
             }
-            return (houseList, cutBound, carportList); 
+            List<IHouse> IHouseList = houseList.Cast<IHouse>().ToList(); 
+            return (IHouseList, cutBound, carportList);
         }
 
+
+       
         //MFH
 
         //public static void PlaceHouseRow(List<MultiFamily> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport, out List<MultiFamily> houseList, out List<PolylineCurve> cutBound, out List<Carport> carportList)
