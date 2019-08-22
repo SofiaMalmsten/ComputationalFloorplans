@@ -13,16 +13,14 @@ namespace PlotPlanning.Methods
     {
         //IHouse
         public static (List<IHouse>, List<PolylineCurve>, List<Carport>) IPlaceHouseRow(List<IHouse> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
-        {
-            //L<IHouse> a = baseHouses.ToList(); 
+        {            
             if (baseHouses[0].GetType() == new SingleFamily().GetType())
 
                 return PlaceHouseRow(baseHouses.Cast<SingleFamily>().ToList(), bound, originalBound, roads, random, method, carport);
             
             else
                 
-                return PlaceHouseRow(baseHouses.Cast<MultiFamily>().ToList(), bound, originalBound, roads, random, method, carport);
-                     
+                return PlaceHouseRow(baseHouses.Cast<MultiFamily>().ToList(), bound, originalBound, roads, random, method, carport);                     
         }
         
         //SFH

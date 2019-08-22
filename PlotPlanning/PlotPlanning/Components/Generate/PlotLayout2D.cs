@@ -124,7 +124,6 @@ namespace PlotPlanning.Components
 
                 (List<IHouse>, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = pp.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random, method, carport); 
 
-
                 houseList.AddRange(objectTuple.Item1);
                 boundList.AddRange(objectTuple.Item2);                
                 carports.AddRange(objectTuple.Item3);
