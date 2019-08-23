@@ -48,6 +48,11 @@ namespace PlotPlanning.Methods
             for (int i = 0; i < possiblePts.Count; i++)
             {
                 SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
+                if (i == 0) movedHouse.RowPosition = "left"; 
+                
+
+                
+
 
                 if (IsInside(movedHouse, bound)) //TODO: Include carport
                     houseList.Add(movedHouse);
@@ -72,6 +77,7 @@ namespace PlotPlanning.Methods
                 houseList = new List<SingleFamily>();
                 carportList = new List<Carport>();
             }
+            houseList.AddRowPos(); 
             List<IHouse> IHouseList = houseList.Cast<IHouse>().ToList(); 
             return (IHouseList, cutBound, carportList);
         }

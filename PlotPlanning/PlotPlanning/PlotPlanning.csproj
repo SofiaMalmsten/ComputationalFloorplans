@@ -114,6 +114,7 @@
     <Compile Include="Methods\Geometry\IsClockwise.cs" />
     <Compile Include="Methods\PlotMethods\IsInside.cs" />
     <Compile Include="Methods\Base\Shuffle.cs" />
+    <Compile Include="Methods\PlotMethods\AddRowPosition.cs" />
     <Compile Include="Methods\PlotMethods\UpdateBoundaries.cs" />
     <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
     <Compile Include="Methods\Geometry\ConvexHull.cs" />
