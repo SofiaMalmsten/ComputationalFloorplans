@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -12,7 +11,7 @@ using System.Linq;
 
 namespace PlotPlanning.Components
 {
-    public class Orientation : GH_Component
+    public class MassCalculations : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,9 +20,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Orientation()
-          : base("Orientation", "Orientation",
-              "Calculates the orentation for each house on the plot",
+        public MassCalculations()
+          : base("MassCalculations", "MassCalcualtions",
+              "Calculates the amount of SFH on a site",
               "PlotPlanningTool", "Evaluate")
         {
         }
@@ -34,8 +33,6 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
-            pManager.AddVectorParameter("ReferenceVector", "RefVec", "RefVec", GH_ParamAccess.item);
-            pManager.AddVectorParameter("NorthVector", "NorthVec", "NorthVEc", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,9 +40,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Mean", "Mean", "-1 represents 180 deg from ref vector, 1 represents the ref vec", GH_ParamAccess.item); //mean value of dot product
-            pManager.AddNumberParameter("Variance", "Variance", "Variance", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Distubution", "Distrubution", "Distrubution", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("NumberOfHOuses", "NuberOfHouses", "NumberOfHouses", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -57,54 +52,16 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
-            Vector3d nortVec = new Vector3d();
-            Vector3d refVec = new Vector3d();
 
             //Get Data
             if (!DA.GetDataList(0, SFH))
                 return;
-            if (!DA.GetData(1, ref refVec))
-                return;
-            if (!DA.GetData(2, ref nortVec))
-                return;
 
             //Calculate
-            int[] distrList = new int[8];
-            List<double> dotProdList = new List<double>();
-
-            List<double> domain = new List<double>();
-                for (int i = 1; i <= 8; i++)
-                {
-                    domain.Add(360 / 8 * i);
-                }
-
-            foreach (var s in SFH)
-            {
-                Vector3d houseVec = s.Orientation;
-                double dotProd = Methods.Calculate.DotProduct(houseVec/houseVec.Length, refVec/refVec.Length);
-                dotProdList.Add(dotProd);
-
-                //angle between house vecotrs and north vector in order to create intervals for orientations
-                double angle = Vector3d.VectorAngle(houseVec, nortVec, Plane.WorldXY)* 360 / (2 * Math.PI);
-
-                //Group the angle list per weather direction. 8 groups.
-                for (int i = 0; i < 8; i++)
-                {
-                    if (angle <= domain[i])
-                    {
-                        distrList[i]= distrList[i]+1;
-                        break;
-                    }
-                }
-            }
-
-            double average = dotProdList.Average();
-            double variance = distrList.Average(v=>Math.Pow(v-distrList.Average(),2));
-
+            int numerOfHouses = SFH.Count;
+           
             //Set data
-            DA.SetData(0, average);
-            DA.SetData(1, variance);
-            DA.SetDataList(2, distrList.ToList());
+            DA.SetData(0, numerOfHouses);
         }
 
         /// <summary>
@@ -115,9 +72,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
                 return Properties.Resources.Houses;
-                //return null;
             }
         }
 
@@ -128,7 +83,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("b02e53b7-ec4b-479d-bc48-7e43e1799c0f"); }
+            get { return new Guid("dfd8d506-3ac5-4785-8515-472179549439"); }
         }
     }
 
