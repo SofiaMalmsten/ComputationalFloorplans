@@ -43,9 +43,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Mean", "Mean", "Mean", GH_ParamAccess.item); //mean value of dot product
+            pManager.AddNumberParameter("Mean", "Mean", "-1 represents 180 deg from ref vector, 1 represents the ref vec", GH_ParamAccess.item); //mean value of dot product
             pManager.AddNumberParameter("Variance", "Variance", "Variance", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Distubution", "Distrubution", "Distrubution", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Distubution", "Distrubution", "Distrubution", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -69,22 +69,42 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            List<double> distrList = new List<double>();
+            int[] distrList = new int[8];
             List<double> dotProdList = new List<double>();
+
+            List<double> domain = new List<double>();
+                for (int i = 1; i <= 8; i++)
+                {
+                    domain.Add(360 / 8 * i);
+                }
 
             foreach (var s in SFH)
             {
                 Vector3d houseVec = s.Orientation;
-                double angle = Methods.Calculate.DotProduct(houseVec, refVec);
-                dotProdList.Add(angle);
+                double dotProd = Methods.Calculate.DotProduct(houseVec/houseVec.Length, refVec/refVec.Length);
+                dotProdList.Add(dotProd);
+
+                //angle between house vecotrs and north vector in order to create intervals for orientations
+                double angle = Vector3d.VectorAngle(houseVec, nortVec, Plane.WorldXY)* 360 / (2 * Math.PI);
+
+                //Group the angle list per weather direction. 8 groups.
+                for (int i = 0; i < 8; i++)
+                {
+                    if (angle <= domain[i])
+                    {
+                        distrList[i]= distrList[i]+1;
+                        break;
+                    }
+                }
             }
 
             double average = dotProdList.Average();
-            double variance = dotProdList.Average(v=>Math.Pow(v-average,2));
+            double variance = distrList.Average(v=>Math.Pow(v-distrList.Average(),2));
 
             //Set data
             DA.SetData(0, average);
             DA.SetData(1, variance);
+            DA.SetDataList(2, distrList.ToList());
         }
 
         /// <summary>
