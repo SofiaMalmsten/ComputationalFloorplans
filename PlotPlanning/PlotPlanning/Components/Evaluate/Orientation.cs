@@ -35,7 +35,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
             pManager.AddVectorParameter("ReferenceVector", "RefVec", "RefVec", GH_ParamAccess.item);
-            pManager.AddVectorParameter("NorthVector", "NorthVec", "NorthVEc", GH_ParamAccess.item);
+            pManager.AddVectorParameter("NorthVector", "NorthVec", "NorthVec", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddNumberParameter("Mean", "Mean", "-1 represents 180 deg from ref vector, 1 represents the ref vec", GH_ParamAccess.item); //mean value of dot product
             pManager.AddNumberParameter("Variance", "Variance", "Variance", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Distubution", "Distrubution", "Distrubution", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Distubution", "Distrubution", "The distribution of houses starting with North, going counter clockwise. (N,NW,W,SW,S,SE,E,NE)", GH_ParamAccess.list);
         }
 
         /// <summary>
