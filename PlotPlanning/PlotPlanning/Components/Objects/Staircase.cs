@@ -34,7 +34,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddCurveParameter("footprint", "footprint", "footprint", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Floors", "Floors", "Floors", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "AccessPoint", "AccessPoint", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "AccessPoint", "AccessPoint", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -54,21 +54,21 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             Curve footprint = new PolylineCurve();
-            Point3d accessPoint = new Point3d();
-            double floors = 0;
+            List<Point3d> accessPoint = new List<Point3d>();
+            int floors = 0;
 
             //Get Data
             if (!DA.GetData(0, ref footprint))
                 return;
             if (!DA.GetData(1, ref floors))
                 return;
-            if (!DA.GetData(2, ref accessPoint))
+            if (!DA.GetDataList(2, accessPoint))
                 return;
 
 
             //Set properties
             PlotPlanning.ObjectModel.Staircase staircase = new ObjectModel.Staircase();
-            staircase.AccessPoint = accessPoint;
+            staircase.AccessPoints = accessPoint;
             staircase.Footprint = footprint;
             staircase.Floors = floors;
 

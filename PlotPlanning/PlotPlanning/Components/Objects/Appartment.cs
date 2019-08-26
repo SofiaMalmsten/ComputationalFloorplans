@@ -55,7 +55,7 @@ namespace PlotPlanning.Components
             //Create class instances
             Curve footprint = new PolylineCurve();
             Point3d accessPoint = new Point3d();
-            double rooms = 0;
+            int rooms = 0;
 
             //Get Data
             if (!DA.GetData(0, ref footprint))

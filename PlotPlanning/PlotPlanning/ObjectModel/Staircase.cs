@@ -10,8 +10,8 @@ namespace PlotPlanning.ObjectModel
     public class Staircase
     {
         public Curve Footprint { get; set; } = new PolylineCurve();
-        public Point3d AccessPoint { get; set; } = new Point3d();
-        public double Floors { get; set; } = new double();
+        public List<Point3d> AccessPoints { get; set; } = new List<Point3d>();
+        public int Floors { get; set; } = 1;
 
     }
 
