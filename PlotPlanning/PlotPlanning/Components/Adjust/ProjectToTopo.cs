@@ -34,7 +34,7 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("houses", "houses", "the houses you want to project", GH_ParamAccess.list);
-            pManager.AddBrepParameter("topology", "topology", "the topology you want to project the houses onto", GH_ParamAccess.item);
+            pManager.AddBrepParameter("topology", "topology", "the topology you want to project the houses onto", GH_ParamAccess.list);
             pManager.AddNumberParameter("possibleValues", "possibleValues", "the alowed valuses for difference in vertical placement for two neighbouring houses", GH_ParamAccess.list);
         }
 
@@ -55,19 +55,19 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             List<SingleFamily> houses = new List<SingleFamily>();
-            Brep plot = new Brep();
+            List<Brep> plot = new List<Brep>();
             List<double> possibleValues = new List<double>();
 
             //Get Data
             if (!DA.GetDataList(0, houses))
                 return;
-            if (!DA.GetData(1, ref plot))
+            if (!DA.GetDataList(1, plot))
                 return;
             if (!DA.GetDataList(2, possibleValues))
                 return;
 
             //Calculate
-            List<SingleFamily> projectedHouses = PlotPlanning.Methods.Adjust.ProjectToTopo(houses , plot, possibleValues);
+            List<SingleFamily> projectedHouses = PlotPlanning.Methods.Adjust.ProjectToTopo(houses, plot, possibleValues);
            
             //Set data
             DA.SetDataList(0, projectedHouses);
