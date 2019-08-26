@@ -18,31 +18,35 @@ namespace PlotPlanning.Methods
             List<Brep> plotList = new List<Brep> { plot }; 
             List<SingleFamily> projectedHuses = new List<SingleFamily>();
 
-            int i = 0; 
-            List<Point3d> asseccPts = new List<Point3d>(); 
-            List<Point3d> planePts = new List<Point3d>();
-            List<Point3d> surfacePts = new List<Point3d>(); 
-
-            List<SingleFamily> currList = new List<SingleFamily>();
-            for (i < houseList.Count; i++)
+            int j = 0;
+            for (int i = 0; i < houseList.Count; i++)
             {
-                currList.Add(houseList[i]);
-                if (houseList[i].RowPosition == "left" || houseList[i].RowPosition == "freestanding") break; 
-            }
-            asseccPts = houseList.Select(x => x.AccessPoint).ToList();
-            asseccPts.CopyTo(surfacePts.ToArray());
-            asseccPts.CopyTo(planePts.ToArray());
-            surfacePts.ForEach(x => Intersection.ProjectPointsToBreps(plotList, asseccPts, Vector3d.ZAxis, PlotPlanning.Methods.Generate.DistanceTol()));
-            planePts.ForEach(x => x.Z = 0);
+                List<Point3d> asseccPts = new List<Point3d>();
+                List<Point3d> planePts = new List<Point3d>();
+                List<Point3d> surfacePts = new List<Point3d>();
+                List<SingleFamily> currList = new List<SingleFamily>();
 
-            List<Point3d> projectPts = PlotPlanning.Methods.Calculate.SnapToTopo(planePts, surfacePts, possibleValues); 
-           
-                for (int i = 0; i < currList.Count; i++)
-            {
-                Vector3d moveVec = PlotPlanning.Methods.Calculate.createVector(asseccPts[i], projectPts[i]);
-                projectedHuses.Add(Move(currList[i], moveVec)); 
-            }
+                while (j < houseList.Count)
+                {
+                    j++;
+                    i++; 
+                    currList.Add(houseList[i]);
+                    if (houseList[j].RowPosition == "left" || houseList[i].RowPosition == "freestanding") break;
+                }
+                asseccPts = houseList.Select(x => x.AccessPoint).ToList();
+                asseccPts.CopyTo(surfacePts.ToArray());
+                asseccPts.CopyTo(planePts.ToArray());
+                surfacePts.ForEach(x => Intersection.ProjectPointsToBreps(plotList, asseccPts, Vector3d.ZAxis, PlotPlanning.Methods.Generate.DistanceTol()));
+                planePts.ForEach(x => x.Z = 0);
 
+                List<Point3d> projectPts = PlotPlanning.Methods.Calculate.SnapToTopo(planePts, surfacePts, possibleValues);
+
+                for (int k = 0; k < currList.Count; k++)
+                {
+                    Vector3d moveVec = PlotPlanning.Methods.Calculate.createVector(asseccPts[k], projectPts[k]);
+                    projectedHuses.Add(Move(currList[k], moveVec));
+                }
+            }
             return projectedHuses; 
 
 
