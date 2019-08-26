@@ -87,6 +87,7 @@
     <Compile Include="Components\Other\CaptureImage.cs" />
     <Compile Include="Methods\Base\Clone.cs" />
     <Compile Include="Methods\Base\GetClosestValue.cs" />
+    <Compile Include="Methods\Base\ReadGeometry.cs" />
     <Compile Include="Methods\Convert\Convert.cs" />
     <Compile Include="Methods\Geometry\GetAccessLine.cs" />
     <Compile Include="Methods\Geometry\Move.cs" />
@@ -229,6 +230,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Timer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\A1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\A2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\A3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\E1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\E2.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
