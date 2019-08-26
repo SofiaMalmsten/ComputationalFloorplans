@@ -18,32 +18,38 @@ namespace PlotPlanning.Methods
             List<Brep> plotList = new List<Brep> { plot }; 
             List<SingleFamily> projectedHuses = new List<SingleFamily>();
 
-            int j = 0;
-            for (int i = 0; i < houseList.Count; i++)
+            //int j = 0;
+            for (int j = -1; j < houseList.Count-1;)
             {
-                List<Point3d> asseccPts = new List<Point3d>();
+                List<Point3d> accessPts = new List<Point3d>();
                 List<Point3d> planePts = new List<Point3d>();
                 List<Point3d> surfacePts = new List<Point3d>();
                 List<SingleFamily> currList = new List<SingleFamily>();
 
-                while (j < houseList.Count)
+                while (j < houseList.Count-1)
                 {
                     j++;
-                    i++; 
-                    currList.Add(houseList[i]);
-                    if (houseList[j].RowPosition == "left" || houseList[i].RowPosition == "freestanding") break;
+                    currList.Add(houseList[j]);                    
+                    if (houseList[j].RowPosition == "right" || houseList[j].RowPosition == "freestanding") break;
                 }
-                asseccPts = houseList.Select(x => x.AccessPoint).ToList();
-                asseccPts.CopyTo(surfacePts.ToArray());
-                asseccPts.CopyTo(planePts.ToArray());
-                surfacePts.ForEach(x => Intersection.ProjectPointsToBreps(plotList, asseccPts, Vector3d.ZAxis, PlotPlanning.Methods.Generate.DistanceTol()));
-                planePts.ForEach(x => x.Z = 0);
+                accessPts = currList.Select(x => x.AccessPoint).ToList();
+                planePts = new List<Point3d>(); // (accessPts);
+                surfacePts = Intersection.ProjectPointsToBreps(plotList, accessPts, Vector3d.ZAxis, Generate.DistanceTol()).ToList();
+                double firstZ = surfacePts[0].Z;
+                foreach (Point3d pt in accessPts)
+                {
+                    Point3d planePt = pt.Clone();
+                    planePt.Z = firstZ;
+                    planePts.Add(planePt); 
+                }
+                //planePts.ForEach(x => x.Z = firstZ);
 
-                List<Point3d> projectPts = PlotPlanning.Methods.Calculate.SnapToTopo(planePts, surfacePts, possibleValues);
+                List<Point3d> projectPts = Calculate.SnapToTopo(planePts, surfacePts, possibleValues);
 
                 for (int k = 0; k < currList.Count; k++)
                 {
-                    Vector3d moveVec = PlotPlanning.Methods.Calculate.createVector(asseccPts[k], projectPts[k]);
+                    Vector3d moveVec = Calculate.createVector(accessPts[k], projectPts[k]);
+                    //moveVec += Calculate.createVector()
                     projectedHuses.Add(Move(currList[k], moveVec));
                 }
             }
