@@ -33,8 +33,8 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("footprint", "footprint", "footprint", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "AccessPoint", "AccessPoint", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Rooms", "Rooms", "Rooms", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "AccessPoint", "AccessPoint", GH_ParamAccess.item);
         }
 
         /// <summary>
