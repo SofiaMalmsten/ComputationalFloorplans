@@ -20,8 +20,8 @@ namespace PlotPlanning.Methods
             {
                 for (int i = 0; i < houseList.Count; i++)
                 {
-
-                    if (i == 0) houseList[i].RowPosition = "left";
+                    if (houseList[i].Type == "A") houseList[i].RowPosition = "freestanding"; //this is just to make it work for now. Should be changed so that every house type can be freestanding.
+                    else if (i == 0) houseList[i].RowPosition = "left";
                     else if (i == houseList.Count - 1) houseList[i].RowPosition = "right";
                     else houseList[i].RowPosition = "middle";
 
