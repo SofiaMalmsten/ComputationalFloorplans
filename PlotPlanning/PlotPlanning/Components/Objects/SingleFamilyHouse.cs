@@ -33,15 +33,23 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+           
+
             pManager.AddTextParameter("type", "type", "house type", GH_ParamAccess.item, "");
             pManager.AddBooleanParameter("carport", "carport", "has car port", GH_ParamAccess.item, false);
             pManager.AddRectangleParameter("gardenBound", "gardenBound", "gardenBound", GH_ParamAccess.item);
             pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
+            pManager[3].Optional = true;
             pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
             pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount in a row of houses", GH_ParamAccess.item, 1);
             pManager.AddIntegerParameter("maxAmount", "maxAmount", "max amount in a row of houses (1 means free standing)", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("offset", "offset", "buffer distance", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("offset", "offset", "buffer distance", GH_ParamAccess.item, 1);    
+                   
+
+
+
         }
+       
 
         /// <summary>
         /// Registers all the output parameters for this component.
@@ -62,12 +70,12 @@ namespace PlotPlanning.Components
             string type = "";
             bool carport = false;
             Rectangle3d gardenBound = new Rectangle3d();
-            Brep houseGeom = new Brep();
+            Brep houseGeom = null; 
             Point3d accessPoint = new Point3d();
             int minAmount = 1;
             int maxAmount = 999;
             int offset = 1;
-
+           
             //Get Data
             if (!DA.GetData(0, ref type))
                 return;
@@ -75,8 +83,8 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(2, ref gardenBound))
                 return;
-            if (!DA.GetData(3, ref houseGeom))
-                return;
+            DA.GetData(3, ref houseGeom); 
+               // return;
             if (!DA.GetData(4, ref accessPoint))
                 return;
             if (!DA.GetData(5, ref minAmount))
@@ -87,7 +95,8 @@ namespace PlotPlanning.Components
                 return;
 
             //Set properties
-            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily(type, carport, gardenBound.ToPolyline(), houseGeom, accessPoint, minAmount, maxAmount, offset); 
+            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily(type, carport, gardenBound.ToPolyline(), houseGeom, accessPoint, minAmount, maxAmount, offset);
+            if (house.HouseGeom == null) house.HouseGeom = ReadGeometry.ReadHouseGeometry(type); 
             
 
             //Set data
