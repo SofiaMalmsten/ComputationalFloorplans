@@ -10,7 +10,7 @@ namespace PlotPlanning.Methods
 {
     public static partial class Calculate
     {
-        public static Line GetAccessLine(Point3d pt, Polyline pline)
+        public static Line ClosestSegmentToPoint(Point3d pt, Polyline pline)
         {
             
 

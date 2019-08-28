@@ -65,7 +65,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            Line line = Calculate.GetAccessLine(pt, crv.CurveToPolyline());
+            Line line = Calculate.ClosestSegmentToPoint(pt, crv.CurveToPolyline());
 
             //Set data
             DA.SetData(0, line);

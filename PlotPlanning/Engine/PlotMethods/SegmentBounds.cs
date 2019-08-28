@@ -61,7 +61,7 @@ namespace PlotPlanning.Methods
             List<double> lengths = new List<double>();
             List<Line> segments = new List<Line>();
 
-            double gardenLength = PlotPlanning.Methods.Calculate.GetAccessLine(pt, pline).Length;
+            double gardenLength = PlotPlanning.Methods.Calculate.ClosestSegmentToPoint(pt, pline).Length;
 
             foreach (var segm in siteBound.GetSegments())
             {
@@ -93,7 +93,7 @@ namespace PlotPlanning.Methods
             List<double> lengths = new List<double>();
             List<Line> segments = new List<Line>();
 
-            double gardenLength = PlotPlanning.Methods.Calculate.GetAccessLine(pt, pline).Length;
+            double gardenLength = PlotPlanning.Methods.Calculate.ClosestSegmentToPoint(pt, pline).Length;
 
             foreach (var segm in siteBound.GetSegments())
             {

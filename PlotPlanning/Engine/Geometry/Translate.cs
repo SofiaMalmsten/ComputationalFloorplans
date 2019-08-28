@@ -41,7 +41,7 @@ namespace PlotPlanning.Methods
 
         public static Polyline Translate(Polyline pline, Point3d basePt, Point3d boundPt, Vector3d tan)
         {
-            Line accessLine = Calculate.GetAccessLine(basePt, pline);
+            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, pline);
             Vector3d accessVec = Calculate.createVector(accessLine.To, accessLine.From);
 
 
@@ -57,7 +57,7 @@ namespace PlotPlanning.Methods
         public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = house.AccessPoint;
-            Line accessLine = Calculate.GetAccessLine(basePt, house.GardenBound);
+            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, house.GardenBound);
             Vector3d accessVec = Calculate.createVector(accessLine.To, accessLine.From);
 
             SingleFamily movedHouse = house.Clone();
@@ -88,7 +88,7 @@ namespace PlotPlanning.Methods
         public static ObjectModel.Carport Translate(Carport carport, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = carport.AccessPoint;
-            Line accessLine = Calculate.GetAccessLine(basePt, carport.GardenBound);
+            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, carport.GardenBound);
             Vector3d accessVec = Calculate.createVector(accessLine.To, accessLine.From);
 
             Carport movedCarport = carport.Clone();
@@ -112,7 +112,7 @@ namespace PlotPlanning.Methods
         public static ObjectModel.MultiFamily Translate(MultiFamily house, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = house.AccessPoint;
-            Line accessLine = Calculate.GetAccessLine(basePt, house.GardenBound);
+            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, house.GardenBound);
             Vector3d accessVec = Calculate.createVector(accessLine.To, accessLine.From);
 
             MultiFamily movedHouse = house.Clone();
