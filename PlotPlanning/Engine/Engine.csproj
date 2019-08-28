@@ -1,23 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>b06afe53-041f-485f-8f83-9ae8106cfa91</ProjectGuid>
+    <ProjectGuid>{B06AFE53-041F-485F-8F83-9AE8106CFA91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Engine</RootNamespace>
     <AssemblyName>Engine</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\AppData\Roaming\Grasshopper\Libraries\PlotPlanningTool\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,24 +34,91 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="Eto, Version=2.5.0.0, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\Eto.dll</HintPath>
+    </Reference>
+    <Reference Include="GH_IO, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=6a29997d2e6b4f97, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grasshopper.6.13.19058.371\lib\net45\GH_IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Grasshopper, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grasshopper.6.13.19058.371\lib\net45\Grasshopper.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.UI, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\Rhino.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RhinoCommon, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\RhinoCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Methods\Base\Clone.cs" />
+    <Compile Include="Methods\Base\EqualityComparer.cs" />
+    <Compile Include="Methods\Base\GetClosestValue.cs" />
+    <Compile Include="Methods\Base\ReadGeometry.cs" />
+    <Compile Include="Methods\Base\Shuffle.cs" />
+    <Compile Include="Methods\Base\Tolerance.cs" />
+    <Compile Include="Methods\Geometry\Angle.cs" />
+    <Compile Include="Methods\Geometry\BoundingRect.cs" />
+    <Compile Include="Methods\Geometry\ClosePolyline.cs" />
+    <Compile Include="Methods\Geometry\ConcaveHull.cs" />
+    <Compile Include="Methods\Geometry\ControlPoints.cs" />
+    <Compile Include="Methods\Geometry\ConvexHull.cs" />
+    <Compile Include="Methods\Geometry\CrossProduct.cs" />
+    <Compile Include="Methods\Geometry\CurvesToPolylines.cs" />
+    <Compile Include="Methods\Geometry\DelaunayMesh.cs" />
+    <Compile Include="Methods\Geometry\DiscontinuityPoints.cs" />
+    <Compile Include="Methods\Geometry\Distance.cs" />
+    <Compile Include="Methods\Geometry\DotProduct.cs" />
+    <Compile Include="Methods\Geometry\GetAccessLine.cs" />
+    <Compile Include="Methods\Geometry\IsClockwise.cs" />
+    <Compile Include="Methods\Geometry\Move.cs" />
+    <Compile Include="Methods\Geometry\Normalize.cs" />
+    <Compile Include="Methods\Geometry\OffsetOut.cs" />
+    <Compile Include="Methods\Geometry\SnapToTopo.cs" />
+    <Compile Include="Methods\Geometry\Tangent.cs" />
+    <Compile Include="Methods\Geometry\Translate.cs" />
+    <Compile Include="Methods\Geometry\Vector.cs" />
+    <Compile Include="Methods\PlotMethods\AddRowPosition.cs" />
+    <Compile Include="Methods\PlotMethods\CaptureImage.cs" />
+    <Compile Include="Methods\PlotMethods\IsInside.cs" />
+    <Compile Include="Methods\PlotMethods\PickLargest.cs" />
+    <Compile Include="Methods\PlotMethods\PickLine.cs" />
+    <Compile Include="Methods\PlotMethods\PlaceHouseRow.cs" />
+    <Compile Include="Methods\PlotMethods\PossiblePoints.cs" />
+    <Compile Include="Methods\PlotMethods\ProjectToTopo.cs" />
+    <Compile Include="Methods\PlotMethods\SegmentBounds.cs" />
+    <Compile Include="Methods\PlotMethods\UpdateBoundaries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ObjectModel\ObjectModel.csproj">
+      <Project>{8f42b30c-b19f-4e4b-b990-bb4d4150ab1a}</Project>
+      <Name>ObjectModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+  <Import Project="..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets'))" />
+    <Error Condition="!Exists('..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets'))" />
+  </Target>
+  <Import Project="..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets" Condition="Exists('..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets')" />
+</Project>
