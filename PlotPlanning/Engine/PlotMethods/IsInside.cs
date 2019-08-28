@@ -20,7 +20,7 @@ namespace PlotPlanning.Methods
             List<Polyline> crvList = new List<Polyline>();
 
             Curve[] splitCurves = Curve.CreateBooleanIntersection(rec, bound, 0.001);
-            List<Polyline> plList = CurvesToPolylines(splitCurves);
+            List<Polyline> plList = ToPolylines(splitCurves);
 
             if (plList.Count >= 1)
             {

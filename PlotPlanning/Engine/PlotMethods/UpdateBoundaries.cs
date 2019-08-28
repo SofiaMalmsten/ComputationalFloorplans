@@ -19,7 +19,7 @@ namespace PlotPlanning.Methods
             List<Curve> cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, DistanceTol()).ToList();
             cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.GardenBound.ToNurbsCurve())).ToList();
             //cutBound = cutRegions.CurvesToPolylineCurves();
-            return cutRegions.CurvesToPolylineCurves();
+            return cutRegions.ToPolylineCurves();
         }
 
         //====================================================================
@@ -32,7 +32,7 @@ namespace PlotPlanning.Methods
             List<Curve> cutRegions = Curve.CreateBooleanDifference(bound, offsetRegion, DistanceTol()).ToList();
             cutRegions = cutRegions.Where(x => AreaMassProperties.Compute(x).Area >= CellSize(baseHouse.GardenBound.ToNurbsCurve())).ToList();
             //cutBound = cutRegions.CurvesToPolylineCurves();
-            return cutRegions.CurvesToPolylineCurves();
+            return cutRegions.ToPolylineCurves();
         }
 
     }

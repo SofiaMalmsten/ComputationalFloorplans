@@ -47,7 +47,7 @@ namespace PlotPlanning.Methods
 
                 for (int k = 0; k < currList.Count; k++)
                 {
-                    Vector3d moveVec = Calculate.createVector(accessPts[k], projectPts[k]);                    
+                    Vector3d moveVec = Calculate.CreateVector(accessPts[k], projectPts[k]);                    
                     projectedHuses.Add(Move(currList[k], moveVec));
                 }
             }

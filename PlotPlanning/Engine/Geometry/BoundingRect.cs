@@ -10,7 +10,7 @@ namespace PlotPlanning.Methods
 {
     public static partial class Calculate
     {
-        public static Rectangle3d BoundingRect(Polyline pLine)
+        public static Rectangle3d BoundingRect(this Polyline pLine)
         {
             List<Point3d> ptList = pLine.GetControlPoints();
             List<double> xVal = new List<double>();
@@ -36,7 +36,7 @@ namespace PlotPlanning.Methods
 
         /***************************************************/
 
-        public static Rectangle3d BoundingRect(Polyline pLine, Vector3d vec)
+        public static Rectangle3d BoundingRect(this Polyline pLine, Vector3d vec)
         {
             List<Point3d> ptList = pLine.GetControlPoints();
             List<double> xVal = new List<double>();

@@ -11,7 +11,7 @@ namespace PlotPlanning.Methods
     public static partial class Calculate
     {
         //TODO: Only works for points in the XY plane - add plane as input?
-        public static Polyline ConvexHull(List<Polyline> pLines)
+        public static Polyline ConvexHull(this List<Polyline> pLines)
         {
             List<Point3d> pts = new List<Point3d>();
             foreach (Polyline p in pLines)

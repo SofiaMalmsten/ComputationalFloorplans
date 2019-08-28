@@ -76,7 +76,8 @@
     <Compile Include="Geometry\ControlPoints.cs" />
     <Compile Include="Geometry\ConvexHull.cs" />
     <Compile Include="Geometry\CrossProduct.cs" />
-    <Compile Include="Geometry\CurvesToPolylines.cs" />
+    <Compile Include="Geometry\ToPolylineCurve.cs" />
+    <Compile Include="Geometry\ToPolyline.cs" />
     <Compile Include="Geometry\DelaunayMesh.cs" />
     <Compile Include="Geometry\DiscontinuityPoints.cs" />
     <Compile Include="Geometry\Distance.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="Geometry\OffsetOut.cs" />
     <Compile Include="Geometry\SnapToTopo.cs" />
     <Compile Include="Geometry\Tangent.cs" />
-    <Compile Include="Geometry\Translate.cs" />
+    <Compile Include="PlotMethods\Translate.cs" />
     <Compile Include="Geometry\Vector.cs" />
     <Compile Include="PlotMethods\AddRowPosition.cs" />
     <Compile Include="PlotMethods\CaptureImage.cs" />

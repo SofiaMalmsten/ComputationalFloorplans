@@ -10,7 +10,7 @@ namespace PlotPlanning.Methods
 {
     public static partial class Calculate
     {
-        public static Vector3d createVector(this Point3d a, Point3d b)
+        public static Vector3d CreateVector(this Point3d a, Point3d b)
         {
             double dx = b.X - a.X;
             double dy = b.Y - a.Y;

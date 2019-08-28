@@ -73,7 +73,7 @@ namespace PlotPlanning.Methods
             else
             {
 
-                cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
+                cutBound = new List<PolylineCurve>() { bound.ToPolylineCurve() };
                 houseList = new List<SingleFamily>();
                 carportList = new List<Carport>();
             }
@@ -120,7 +120,7 @@ namespace PlotPlanning.Methods
             else
             {
 
-                cutBound = new List<PolylineCurve>() { bound.CurveToPolylineCurve() };
+                cutBound = new List<PolylineCurve>() { bound.ToPolylineCurve() };
                 houseList = new List<MultiFamily>();
                 carportList = new List<Carport>();
             }

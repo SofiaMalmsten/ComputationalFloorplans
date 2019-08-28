@@ -11,7 +11,7 @@ namespace PlotPlanning.Methods
 {
     public static partial class Calculate
     {
-        public static Polyline ConcaveHull(IEnumerable<Point3d> pts, double factor)
+        public static Polyline ConcaveHull(this IEnumerable<Point3d> pts, double factor)
         {
             //1. make mesh and get faces
             Mesh mesh = new Mesh(); 

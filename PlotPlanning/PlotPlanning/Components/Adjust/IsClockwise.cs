@@ -62,7 +62,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            Polyline pLine = PlotPlanning.Methods.Generate.ConvertToPolyline(pCurve as PolylineCurve);
+            Polyline pLine = PlotPlanning.Methods.Generate.ToPolyline(pCurve);
             bool isClockwise = PlotPlanning.Methods.Calculate.IsClockwise(pLine, vec, 0.001);
            
             //Set data
