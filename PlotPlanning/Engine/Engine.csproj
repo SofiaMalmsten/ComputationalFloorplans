@@ -87,7 +87,7 @@
     <Compile Include="PlotMethods\Move.cs" />
     <Compile Include="Geometry\Normalize.cs" />
     <Compile Include="Geometry\OffsetOut.cs" />
-    <Compile Include="Geometry\SnapToTopo.cs" />
+    <Compile Include="Geometry\Attract.cs" />
     <Compile Include="Geometry\Tangent.cs" />
     <Compile Include="PlotMethods\Translate.cs" />
     <Compile Include="Geometry\Vector.cs" />

@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
-using pp = PlotPlanning.Methods.Generate; 
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Generate
+    public static partial class Query
     {
         public static List<Point3d> DiscontinuityPoints(this Polyline curve, double distanceTolerance = 0.001, double angleTolerance = 0.1)
         {

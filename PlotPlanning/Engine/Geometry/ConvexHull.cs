@@ -6,9 +6,9 @@ using Rhino.Geometry;
 using System.Linq;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Calculate
+    public static partial class Compute
     {
         //TODO: Only works for points in the XY plane - add plane as input?
         public static Polyline ConvexHull(this List<Polyline> pLines)

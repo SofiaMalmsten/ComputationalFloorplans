@@ -6,9 +6,9 @@ using Rhino.Geometry;
 using System.Linq;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Calculate
+    public static partial class Compute
     {
         /***************************************************/
         public static double DotProduct(this Vector3d a, Vector3d b)

@@ -43,7 +43,7 @@ namespace PlotPlanning.Methods
                     planePts.Add(planePt); 
                 }               
 
-                List<Point3d> projectPts = Calculate.SnapToTopo(planePts, surfacePts, possibleValues);
+                List<Point3d> projectPts = Calculate.AttractTo(surfacePts, planePts, possibleValues);
 
                 for (int k = 0; k < currList.Count; k++)
                 {

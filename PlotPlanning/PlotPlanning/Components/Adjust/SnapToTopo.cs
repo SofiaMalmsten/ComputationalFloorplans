@@ -66,7 +66,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            List<Point3d> projectedPts = PlotPlanning.Methods.Calculate.SnapToTopo(planePts, topoPts, possibleValues);
+            List<Point3d> projectedPts = PlotPlanning.Methods.Calculate.AttractTo(topoPts, planePts, possibleValues);
            
             //Set data
             DA.SetDataList(0, projectedPts);

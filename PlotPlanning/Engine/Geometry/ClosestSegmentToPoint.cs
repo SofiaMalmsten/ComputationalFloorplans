@@ -6,9 +6,9 @@ using Rhino.Geometry;
 using System.Linq;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Calculate
+    public static partial class Query
     {
         public static Line ClosestSegmentToPoint(Point3d pt, Polyline pline)
         {

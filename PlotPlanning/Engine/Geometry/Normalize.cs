@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
+using PlotPlanning.Engine.Base;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Calculate
+    public static partial class Adjust
     {
         public static Vector3d Normalise(this Vector3d vector)
         {

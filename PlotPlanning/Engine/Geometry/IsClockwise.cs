@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
+using PlotPlanning.Engine.Base;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Calculate
+    public static partial class Query
     {
         public static bool IsClockwise(this Polyline polyline, Vector3d viewVector, double tolerance = 0.001)
         {

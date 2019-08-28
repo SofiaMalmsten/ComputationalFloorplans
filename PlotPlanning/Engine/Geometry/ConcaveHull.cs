@@ -7,15 +7,15 @@ using System.Linq;
 using gh = Grasshopper.Kernel;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Calculate
+    public static partial class Compute
     {
         public static Polyline ConcaveHull(this IEnumerable<Point3d> pts, double factor)
         {
             //1. make mesh and get faces
             Mesh mesh = new Mesh(); 
-            mesh = Generate.DelaunayMesh(pts.ToList());
+            mesh = Compute.DelaunayMesh(pts.ToList());
             mesh.Vertices.AddVertices(pts);
 
            

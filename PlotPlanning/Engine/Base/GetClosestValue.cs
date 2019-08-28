@@ -6,14 +6,14 @@ using Rhino.Geometry;
 using System.Linq;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Base
 {
-    public static partial class Calculate
+    public static partial class Query
     {
         //========================================================
         //Get Closest Value
         //========================================================
-        public static double getClosestValue(double valueToCheck, List<double> possibleValues)
+        public static double ClosestValue(double valueToCheck, List<double> possibleValues)
         {
             double displ = 0;
             for (int i = 0; i < possibleValues.Count - 1; i++)

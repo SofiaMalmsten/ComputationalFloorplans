@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
-using pp = PlotPlanning.Methods.Generate; 
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Generate
+    public static partial class Adjust
     {
 
         public static Polyline ClosePolyline(this Polyline pl)

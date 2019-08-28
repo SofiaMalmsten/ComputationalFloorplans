@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Base
 {
     public static partial class Generate
     {

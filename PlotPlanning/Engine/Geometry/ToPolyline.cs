@@ -6,9 +6,9 @@ using Rhino.Geometry;
 using System.Linq; 
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Generate
+    public static partial class Convert
     {
         //====================================================================
         public static List<Polyline> ToPolylines(this List<Curve> crvList)          

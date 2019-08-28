@@ -6,7 +6,7 @@ using Rhino.Geometry;
 using System.Linq;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Base
 {
     public static partial class Calculate
     {

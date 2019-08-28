@@ -5,9 +5,9 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Generate
+    public static partial class Compute
     {
         public static Mesh DelaunayMesh(List<Point3d> pts)
         {

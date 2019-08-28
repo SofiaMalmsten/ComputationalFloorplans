@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.IO;
 
-namespace PlotPlanning.Methods
+namespace PlotPlanning.Engine.Base
 {
     public class ReadGeometry
     {
