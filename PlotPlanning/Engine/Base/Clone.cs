@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace PlotPlanning.Engine.Base
 {
-    public static partial class Calculate
+    public static partial class Modify
     {
         /***************************************************/
         public static Vector3d Clone(this Vector3d vector)

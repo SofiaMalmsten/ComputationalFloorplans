@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Engine.Base
 {
-    public partial class Generate
+    public partial class Modify
     {
     
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)

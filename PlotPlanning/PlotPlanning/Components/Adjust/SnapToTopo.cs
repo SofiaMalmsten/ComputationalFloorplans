@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -66,7 +67,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            List<Point3d> projectedPts = PlotPlanning.Methods.Calculate.AttractTo(topoPts, planePts, possibleValues);
+            List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
            
             //Set data
             DA.SetDataList(0, projectedPts);

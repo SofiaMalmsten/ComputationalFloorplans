@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
+using PlotPlanning.Engine.Geometry;
 
 
 namespace PlotPlanning.Methods
@@ -17,7 +18,7 @@ namespace PlotPlanning.Methods
             Random r = new Random(seed);
 
             //Check if clockwise
-            if (!PlotPlanning.Methods.Calculate.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
+            if (!Query.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
             {
                 siteBound.Reverse();
             }
@@ -53,7 +54,7 @@ namespace PlotPlanning.Methods
             Point3d pt = house.AccessPoint;
 
             //Check if clockwise
-            if (!Calculate.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
+            if (!Query.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
             {
                 siteBound.Reverse();
             }
@@ -61,7 +62,7 @@ namespace PlotPlanning.Methods
             List<double> lengths = new List<double>();
             List<Line> segments = new List<Line>();
 
-            double gardenLength = PlotPlanning.Methods.Calculate.ClosestSegmentToPoint(pt, pline).Length;
+            double gardenLength = Query.ClosestSegmentToPoint(pt, pline).Length;
 
             foreach (var segm in siteBound.GetSegments())
             {
@@ -85,7 +86,7 @@ namespace PlotPlanning.Methods
             Point3d pt = house.AccessPoint;
 
             //Check if clockwise
-            if (!Calculate.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
+            if (!Query.IsClockwise(siteBound, new Vector3d(0, 0, -1)))
             {
                 siteBound.Reverse();
             }
@@ -93,7 +94,7 @@ namespace PlotPlanning.Methods
             List<double> lengths = new List<double>();
             List<Line> segments = new List<Line>();
 
-            double gardenLength = PlotPlanning.Methods.Calculate.ClosestSegmentToPoint(pt, pline).Length;
+            double gardenLength = Query.ClosestSegmentToPoint(pt, pline).Length;
 
             foreach (var segm in siteBound.GetSegments())
             {

@@ -6,6 +6,7 @@ using Rhino.Geometry;
 using System.Linq;
 using isc = Rhino.Geometry.Intersect;
 using nic = Rhino.NodeInCode.Components;
+using PlotPlanning.ObjectModel;
 
 
 
@@ -45,7 +46,7 @@ namespace PlotPlanning.Methods
 
                 foreach (Line l in lines)
                 {
-                    isc.CurveIntersections i = isc.Intersection.CurveCurve(originalBound, l.ToNurbsCurve(), DistanceTol(), DistanceTol());
+                    isc.CurveIntersections i = isc.Intersection.CurveCurve(originalBound, l.ToNurbsCurve(), Tolerance.Distance, Tolerance.Distance);
                     if (i.Count > 0)
                     {
                         isc.IntersectionEvent ie = i[0];
@@ -67,7 +68,7 @@ namespace PlotPlanning.Methods
                 {
                     foreach (Curve road in roads)
                     {
-                        isc.CurveIntersections i = isc.Intersection.CurveCurve(road, l.ToNurbsCurve(), DistanceTol(), DistanceTol());
+                        isc.CurveIntersections i = isc.Intersection.CurveCurve(road, l.ToNurbsCurve(), Tolerance.Distance, Tolerance.Distance);
                         if (i.Count > 0)
                         {
                             isc.IntersectionEvent ie = i[0];
@@ -96,7 +97,7 @@ namespace PlotPlanning.Methods
 
                 foreach (Line l in lines)
                 {
-                    isc.CurveIntersections i = isc.Intersection.CurveCurve(originalBound, l.ToNurbsCurve(), DistanceTol(), DistanceTol());
+                    isc.CurveIntersections i = isc.Intersection.CurveCurve(originalBound, l.ToNurbsCurve(), Tolerance.Distance, Tolerance.Distance);
                     if (i.Count > 0)
                     {
                         isc.IntersectionEvent ie = i[0];

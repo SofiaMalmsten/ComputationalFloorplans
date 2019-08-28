@@ -26,7 +26,7 @@ namespace PlotPlanning.Engine.Geometry
                 else
                 {
                     valueToCheck = topoPts[i].Z - attractorPts[i].Z;
-                    displ = Base.Query.ClosestValue(valueToCheck, possibleValues);
+                    displ = Modify.ClosestValue(valueToCheck, possibleValues);
                 }
 
                 Point3d currPt = new Point3d(attractorPts[i].X, attractorPts[i].Y, attractorPts[i].Z + displ);

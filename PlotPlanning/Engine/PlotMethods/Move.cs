@@ -5,6 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
 using PlotPlanning.ObjectModel;
+using PlotPlanning.Engine.Base;
 
 
 namespace PlotPlanning.Methods

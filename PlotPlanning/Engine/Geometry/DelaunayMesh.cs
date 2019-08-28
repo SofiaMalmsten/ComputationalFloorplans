@@ -30,11 +30,10 @@ namespace PlotPlanning.Engine.Geometry
 
             //output
             delMesh = Grasshopper.Kernel.Geometry.Delaunay.Solver.Solve_Mesh(nodes, 1, ref faces);
-
             return delMesh;
         }
     }
-
+    
     //====================================================================
 
 }

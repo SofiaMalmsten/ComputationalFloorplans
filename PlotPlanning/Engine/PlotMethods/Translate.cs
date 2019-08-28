@@ -1,6 +1,8 @@
 ﻿using PlotPlanning.ObjectModel;
 using Rhino.Geometry;
 using System.Collections.Generic;
+using PlotPlanning.Engine.Geometry;
+using PlotPlanning.Engine.Base;
 
 
 namespace PlotPlanning.Methods
@@ -41,13 +43,13 @@ namespace PlotPlanning.Methods
 
         public static Polyline Translate(Polyline pline, Point3d basePt, Point3d boundPt, Vector3d tan)
         {
-            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, pline);
-            Vector3d accessVec = Calculate.CreateVector(accessLine.To, accessLine.From);
+            Line accessLine = Query.ClosestSegmentToPoint(basePt, pline);
+            Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
 
             Polyline pLineToMove = new Polyline(pline);
 
-            pLineToMove.Transform(Transform.Translation(Calculate.CreateVector(basePt, boundPt)));
+            pLineToMove.Transform(Transform.Translation(Compute.CreateVector(basePt, boundPt)));
             pLineToMove.Transform(Transform.Rotation(accessVec, tan, boundPt));
             return pLineToMove;
         }
@@ -57,12 +59,12 @@ namespace PlotPlanning.Methods
         public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = house.AccessPoint;
-            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, house.GardenBound);
-            Vector3d accessVec = Calculate.CreateVector(accessLine.To, accessLine.From);
+            Line accessLine = Query.ClosestSegmentToPoint(basePt, house.GardenBound);
+            Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
             SingleFamily movedHouse = house.Clone();
 
-            Transform t = Transform.Translation(Calculate.CreateVector(basePt, boundPt));
+            Transform t = Transform.Translation(Compute.CreateVector(basePt, boundPt));
             Transform r = Transform.Rotation(accessVec, tan, boundPt); 
 
             movedHouse.GardenBound.Transform(t);
@@ -71,7 +73,7 @@ namespace PlotPlanning.Methods
             movedHouse.HouseGeom.Transform(t);
             movedHouse.HouseGeom.Transform(r);
 
-            movedHouse.Orientation = Calculate.CrossProduct(Vector3d.ZAxis, tan);
+            movedHouse.Orientation = Compute.CrossProduct(Vector3d.ZAxis, tan);
 
             movedHouse.MidPoint = movedHouse.GardenBound.CenterPoint(); // add a real translation here maybe? 
             //movedHouse.MidPoint = movedHouse.MidPoint + new Point3d(Calculate.createVector(basePt, boundPt));
@@ -88,12 +90,12 @@ namespace PlotPlanning.Methods
         public static ObjectModel.Carport Translate(Carport carport, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = carport.AccessPoint;
-            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, carport.GardenBound);
-            Vector3d accessVec = Calculate.CreateVector(accessLine.To, accessLine.From);
+            Line accessLine = Query.ClosestSegmentToPoint(basePt, carport.GardenBound);
+            Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
             Carport movedCarport = carport.Clone();
 
-            Transform t = Transform.Translation(Calculate.CreateVector(basePt, boundPt));
+            Transform t = Transform.Translation(Compute.CreateVector(basePt, boundPt));
             Transform r = Transform.Rotation(accessVec, tan, boundPt);
 
             movedCarport.GardenBound.Transform(t);
@@ -112,12 +114,12 @@ namespace PlotPlanning.Methods
         public static ObjectModel.MultiFamily Translate(MultiFamily house, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = house.AccessPoint;
-            Line accessLine = Calculate.ClosestSegmentToPoint(basePt, house.GardenBound);
-            Vector3d accessVec = Calculate.CreateVector(accessLine.To, accessLine.From);
+            Line accessLine = Query.ClosestSegmentToPoint(basePt, house.GardenBound);
+            Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
             MultiFamily movedHouse = house.Clone();
 
-            Transform t = Transform.Translation(Calculate.CreateVector(basePt, boundPt));
+            Transform t = Transform.Translation(Compute.CreateVector(basePt, boundPt));
             Transform r = Transform.Rotation(accessVec, tan, boundPt);
 
             movedHouse.GardenBound.Transform(t);
@@ -126,7 +128,7 @@ namespace PlotPlanning.Methods
             movedHouse.HouseGeom.Transform(t);
             movedHouse.HouseGeom.Transform(r);
 
-            movedHouse.Orientation = Calculate.CrossProduct(Vector3d.ZAxis, tan);
+            movedHouse.Orientation = Compute.CrossProduct(Vector3d.ZAxis, tan);
 
             movedHouse.MidPoint = movedHouse.GardenBound.CenterPoint(); // add a real translation here maybe? 
                                                                         //movedHouse.MidPoint = movedHouse.MidPoint + new Point3d(Calculate.createVector(basePt, boundPt));

@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Tolerance.cs" />
     <Compile Include="Housing\Appartment.cs" />
     <Compile Include="NonLivingUnits\Carport.cs" />
     <Compile Include="Site\Cell.cs" />

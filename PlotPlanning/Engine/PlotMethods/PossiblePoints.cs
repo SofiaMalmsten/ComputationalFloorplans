@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.ObjectModel;
+using PlotPlanning.Engine.Geometry;
 
 
 namespace PlotPlanning.Methods
@@ -20,7 +21,7 @@ namespace PlotPlanning.Methods
             //Declaration - fixed values
             //========================================================
             double lineLength = line.Length;
-            double houseWidth = Calculate.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
+            double houseWidth = Query.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
 
             Point3d startPt = line.From;
             Vector3d vec = (line.Direction) / lineLength;
@@ -30,7 +31,7 @@ namespace PlotPlanning.Methods
             double cpWidth = 0; 
             if(hasCarPort)
             {
-                cpWidth = Calculate.ClosestSegmentToPoint(carport.AccessPoint, carport.GardenBound).Length;
+                cpWidth = Query.ClosestSegmentToPoint(carport.AccessPoint, carport.GardenBound).Length;
                 cpVec = vec * cpWidth; 
             }
 
@@ -83,7 +84,7 @@ namespace PlotPlanning.Methods
             //Declaration - fixed values
             //========================================================
             double lineLength = line.Length;
-            double houseWidth = Calculate.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
+            double houseWidth = Query.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
 
             Point3d startPt = line.From;
             Vector3d vec = (line.Direction) / lineLength;

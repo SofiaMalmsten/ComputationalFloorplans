@@ -6,10 +6,11 @@ using Rhino.Geometry;
 using PlotPlanning.ObjectModel;
 using System.Linq;
 using Rhino.Geometry.Intersect;
-using PlotPlanning.Methods; 
-
-
+using PlotPlanning.Engine.Geometry;
+using PlotPlanning.Engine.Base;
 namespace PlotPlanning.Methods
+
+
 {
     public static partial class Adjust
     {
@@ -33,7 +34,7 @@ namespace PlotPlanning.Methods
                 }
                 accessPts = currList.Select(x => x.AccessPoint).ToList();
                 planePts = new List<Point3d>();
-                surfacePts = Intersection.ProjectPointsToBreps(plot, accessPts, Vector3d.ZAxis, Generate.DistanceTol()).ToList();
+                surfacePts = Intersection.ProjectPointsToBreps(plot, accessPts, Vector3d.ZAxis, Tolerance.Distance).ToList();
                 if (surfacePts.Count != accessPts.Count) throw new Exception("The surface has to be directly below or above the houses you are tyring to project."); 
                 double firstZ = surfacePts[0].Z;
                 foreach (Point3d pt in accessPts)
@@ -43,11 +44,11 @@ namespace PlotPlanning.Methods
                     planePts.Add(planePt); 
                 }               
 
-                List<Point3d> projectPts = Calculate.AttractTo(surfacePts, planePts, possibleValues);
+                List<Point3d> projectPts = Engine.Geometry.Adjust.AttractTo(surfacePts, planePts, possibleValues);
 
                 for (int k = 0; k < currList.Count; k++)
                 {
-                    Vector3d moveVec = Calculate.CreateVector(accessPts[k], projectPts[k]);                    
+                    Vector3d moveVec = Compute.CreateVector(accessPts[k], projectPts[k]);                    
                     projectedHuses.Add(Move(currList[k], moveVec));
                 }
             }

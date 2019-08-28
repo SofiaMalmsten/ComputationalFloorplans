@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using PlotPlanning.Methods;
+using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -65,7 +65,7 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            Polyline hull = PlotPlanning.Methods.Calculate.ConcaveHull(ptList, factor);
+            Polyline hull = Compute.ConcaveHull(ptList, factor);
 
             //Set data
             DA.SetData(0, hull);

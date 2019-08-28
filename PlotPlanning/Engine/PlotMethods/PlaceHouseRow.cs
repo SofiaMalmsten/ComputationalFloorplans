@@ -5,6 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
 using PlotPlanning.ObjectModel;
+using PlotPlanning.Engine.Geometry;
 
 
 namespace PlotPlanning.Methods
@@ -41,7 +42,7 @@ namespace PlotPlanning.Methods
                 goto end;
 
             Line currLine = lines.PickLine(method, random, roads, originalBound);
-            currLine.Extend(-FilletOffset(), -FilletOffset());
+            currLine.Extend(-Tolerance.FilletOffset, -Tolerance.FilletOffset);
             List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random, carport);
 
             //3. Place houses for each position
@@ -54,7 +55,7 @@ namespace PlotPlanning.Methods
                 
 
 
-                if (IsInside(movedHouse, bound)) //TODO: Include carport
+                if (Query.IsInside(movedHouse, bound)) //TODO: Include carport
                     houseList.Add(movedHouse);
                 else if (houseList.Count != 0) //already places houses
                     break;
@@ -100,7 +101,7 @@ namespace PlotPlanning.Methods
                 goto end;
 
             Line currLine = lines.PickLine(method, random, roads, originalBound);
-            currLine.Extend(-FilletOffset(), -FilletOffset());
+            currLine.Extend(-Tolerance.FilletOffset, -Tolerance.FilletOffset);
             List<Point3d> possiblePts = PossiblePoints(currLine, baseHouse, random, carport);
 
             //3. Place houses for each position
@@ -108,7 +109,7 @@ namespace PlotPlanning.Methods
             {
                 MultiFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
 
-                if (IsInside(movedHouse, bound)) //TODO: Include carport
+                if (Query.IsInside(movedHouse, bound)) //TODO: Include carport
                     houseList.Add(movedHouse);
                 else if (houseList.Count != 0) //already places houses
                     break;

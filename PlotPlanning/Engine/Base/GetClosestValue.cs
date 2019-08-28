@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace PlotPlanning.Engine.Base
 {
-    public static partial class Query
+    public static partial class Modify
     {
         //========================================================
         //Get Closest Value

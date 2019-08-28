@@ -8,7 +8,7 @@ using Rhino.Geometry;
 namespace PlotPlanning.Engine.Base
 {
 
-    public class IdComparer : IEqualityComparer<Line>
+    public class Compare : IEqualityComparer<Line>
     {
         public int GetHashCode(Line co)
         {
