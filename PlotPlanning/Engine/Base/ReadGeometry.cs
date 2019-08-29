@@ -14,10 +14,8 @@ namespace PlotPlanning.Engine.Base
             return geometry as Brep;
 
         }
-
-        //====================================================================//
-        //============            Private Methods               ==============//
-        //====================================================================//
+        
+        //============            Private Methods               ==============//        
 
         private static string ReadResourceFile(string filename)
         {
