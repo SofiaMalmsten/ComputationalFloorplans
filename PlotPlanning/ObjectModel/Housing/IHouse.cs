@@ -7,10 +7,6 @@ namespace PlotPlanning.ObjectModel
 {
     public interface IHouse
     {
-        #region Properties
-        
-        #endregion       
-
         #region Public methods
         //TODO:Add constructors
         #endregion
