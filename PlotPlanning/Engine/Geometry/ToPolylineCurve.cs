@@ -10,8 +10,6 @@ namespace PlotPlanning.Engine.Geometry
 {
     public static partial class Convert
     {
-      
-        //====================================================================
         public static List<PolylineCurve> ToPolylineCurves(this List<Curve> crvList)
         {
             List<PolylineCurve> x = new List<PolylineCurve>();
@@ -25,21 +23,21 @@ namespace PlotPlanning.Engine.Geometry
             return x;
         }
 
-        //====================================================================
+        //====================================================================//
         public static List<PolylineCurve> ToPolylineCurves(this Curve[] crvArray)
         {
             return ToPolylineCurves(crvArray.ToList());
         }
 
-        //====================================================================
-      
+        //====================================================================//
+
         public static PolylineCurve ToPolylineCurve(this Curve curve)
         {
             curve.TryGetPolyline(out Polyline x);
             return new PolylineCurve(x.GetControlPoints()); 
         }
 
-        //====================================================================
+        //====================================================================//
     }
 
 }
