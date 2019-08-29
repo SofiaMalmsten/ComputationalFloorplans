@@ -11,16 +11,18 @@ namespace PlotPlanning.Engine.Geometry
     public static partial class Compute
     {
         //TODO: Only works for points in the XY plane - add plane as input?
-        public static Polyline ConvexHull(this List<Polyline> pLines)
+        public static Polyline ConvexHull(this List<Polyline> polylines)
         {
             List<Point3d> pts = new List<Point3d>();
-            foreach (Polyline p in pLines)
+            foreach (Polyline p in polylines)
             {
-                pts.AddRange(p.ToList()); 
+                pts.AddRange(p.ToList());
             }
-            Polyline hullBoundary = ConvexHull(pts); 
+            Polyline hullBoundary = ConvexHull(pts);
             return hullBoundary;
         }
+
+        //====================================================================//
         public static Polyline ConvexHull(List<Point3d> points)
         {
             List<Point3d> hull = new List<Point3d>();
@@ -53,14 +55,13 @@ namespace PlotPlanning.Engine.Geometry
 
             hull.Add(hull[0]);
 
-            Polyline hullBoundary = new Polyline(hull) ;
+            Polyline hullBoundary = new Polyline(hull);
             return hullBoundary;
         }
 
-
-        /***************************************************/
-        /**** Private Methods                           ****/
-        /***************************************************/
+        //====================================================================//
+        //============            Private Methods               ==============//
+        //====================================================================//
 
         private static Point3d NextHullPoint(List<Point3d> points, Point3d currentPt)
         {
@@ -79,6 +80,6 @@ namespace PlotPlanning.Engine.Geometry
             return nextPt;
         }
 
-        /***************************************************/
+        //====================================================================//
     }
 }

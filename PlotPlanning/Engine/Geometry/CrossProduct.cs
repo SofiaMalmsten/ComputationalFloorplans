@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
-
 
 namespace PlotPlanning.Engine.Geometry
 {
     public static partial class Compute
     {
-        /***************************************************/
-        public static Vector3d CrossProduct(this Vector3d a, Vector3d b)
+        //====================================================================//        
+        public static Vector3d CrossProduct(this Vector3d v1, Vector3d v2)
         {
-            return new Vector3d { X = a.Y * b.Z - a.Z * b.Y, Y = a.Z * b.X - a.X * b.Z, Z = a.X * b.Y - a.Y * b.X };
+            return new Vector3d { X = v1.Y * v2.Z - v1.Z * v2.Y, Y = v1.Z * v2.X - v1.X * v2.Z, Z = v1.X * v2.Y - v1.Y * v2.X };
         }
 
-        /***************************************************/
+        //====================================================================//    
     }
 }

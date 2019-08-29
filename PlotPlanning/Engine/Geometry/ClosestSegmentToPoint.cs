@@ -12,23 +12,21 @@ namespace PlotPlanning.Engine.Geometry
     {
         public static Line ClosestSegmentToPoint(Point3d pt, Polyline pline)
         {
-            
-
             List<Line> segments = pline.GetSegments().ToList();
             List<double> closestPtsDist = new List<double>();
 
-            foreach (var segm in segments)
+            foreach (Line l in segments)
             {
-                double dist = segm.ClosestPoint(pt, true).DistanceTo(pt);
+                double dist = l.ClosestPoint(pt, true).DistanceTo(pt);
                 closestPtsDist.Add(dist);
             }
 
-            int index = closestPtsDist.IndexOf(closestPtsDist.Min());
-            Line accessLine = segments[index];
+            int idx = closestPtsDist.IndexOf(closestPtsDist.Min());
+            Line accessLine = segments[idx];
             return accessLine;
         }
 
-        /***************************************************/
-       
+        //====================================================================//
+
     }
 }

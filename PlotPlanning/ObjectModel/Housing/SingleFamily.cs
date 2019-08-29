@@ -6,24 +6,19 @@ using Rhino.Geometry;
 namespace PlotPlanning.ObjectModel
 {
     public class SingleFamily: House, IHouse
-    {
-
-        //====================================================================
-        // Properties
-        //====================================================================
-       
+    {  
+        #region Properties
         public bool HasCarPort { get; set; } = false;
         public Vector3d Orientation { get; set; } = new Vector3d();
         public string RowPosition { get; set; } = "";
 
-        //====================================================================
-        // Constructors
-        //====================================================================
+        #endregion
 
-        //Default constructor
+        #region Constructors
         public SingleFamily() { }
 
-        //====================================================================
+        //====================================================================//
+
         public SingleFamily(string type, bool hasCarPort, Polyline gardenBound, Brep houseGeom,
             Point3d accessPoint, int minAmount, int maxAmount, int offset)
         {
@@ -39,10 +34,17 @@ namespace PlotPlanning.ObjectModel
             //TODO: Add orientation
         }
 
-        //====================================================================
+        #endregion
 
+        #region Public methods
+        //TODO:Add constructors
+        #endregion
+
+        #region Private methods
+        //TODO:Add constructors
+        #endregion
     }
 
-    //====================================================================
+    //====================================================================//
 
 }

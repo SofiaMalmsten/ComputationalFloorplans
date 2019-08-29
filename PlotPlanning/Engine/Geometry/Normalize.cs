@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 using PlotPlanning.Engine.Base;
-
 
 namespace PlotPlanning.Engine.Geometry
 {
@@ -24,6 +19,6 @@ namespace PlotPlanning.Engine.Geometry
             return new Vector3d { X = x / d, Y = y / d, Z = z / d };
         }
 
-        /***************************************************/
+        //====================================================================//
     }
 }

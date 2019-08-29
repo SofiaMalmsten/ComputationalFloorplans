@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 
 
 namespace PlotPlanning.Engine.Geometry
 {
     public static partial class Query
     {
-        public static List<Point3d> DiscontinuityPoints(this Polyline curve, double distanceTolerance = 0.001, double angleTolerance = 0.1)
+        public static List<Point3d> DiscontinuityPoints(this Polyline curve, double distanceTolerance = 0.001, double angleTolerance = 0.1) //TODO: Change this to use tolerances in ObjModel as default.
         {
             List<Point3d> ctrlPts = curve.GetControlPoints();
 
@@ -41,7 +38,7 @@ namespace PlotPlanning.Engine.Geometry
             return ctrlPts;
         }
 
+        //====================================================================//
+
     }
 }
-
-    //====================================================================

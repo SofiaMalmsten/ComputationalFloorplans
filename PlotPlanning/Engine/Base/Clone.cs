@@ -1,36 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 
 
 namespace PlotPlanning.Engine.Base
 {
     public static partial class Modify
     {
-        /***************************************************/
+        //====================================================================//
         public static Vector3d Clone(this Vector3d vector)
         {
             return new Vector3d { X = vector.X, Y = vector.Y, Z = vector.Z };
         }
 
-        /***************************************************/
+        //====================================================================//
 
         public static Point3d Clone(this Point3d point)
         {
             return new Point3d { X = point.X, Y = point.Y, Z = point.Z };
         }
 
-        /***************************************************/
+        //====================================================================//
 
         public static Brep Clone(this Brep brep)
         {
             return brep.DuplicateBrep();
         }
 
-        /***************************************************/
+        //====================================================================//
 
         public static ObjectModel.SingleFamily Clone(this ObjectModel.SingleFamily house)
         {
@@ -46,11 +43,11 @@ namespace PlotPlanning.Engine.Base
                 MaxAmount = house.MaxAmount,
                 Offset = house.Offset,
                 RowPosition = house.RowPosition,
-                MidPoint = house.MidPoint.Clone(),                
+                MidPoint = house.MidPoint.Clone(),
             };
         }
 
-        /***************************************************/
+        //====================================================================//
 
         public static ObjectModel.MultiFamily Clone(this ObjectModel.MultiFamily house)
         {
@@ -68,8 +65,7 @@ namespace PlotPlanning.Engine.Base
             };
         }
 
-        /***************************************************/
-
+        //====================================================================//
 
         public static ObjectModel.Carport Clone(this ObjectModel.Carport carport)
         {
@@ -80,5 +76,7 @@ namespace PlotPlanning.Engine.Base
                 CarportGeom = carport.CarportGeom.Clone(),
             };
         }
+
+        //====================================================================//
     }
 }

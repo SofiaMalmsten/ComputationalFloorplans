@@ -7,9 +7,15 @@ namespace PlotPlanning.ObjectModel
 {
     public interface IHouse
     {
-        
+        #region Public methods
+        //TODO:Add constructors
+        #endregion
+
+        #region Private methods
+        //TODO:Add constructors
+        #endregion
     }
 
-    //====================================================================
+    //====================================================================//
 
 }

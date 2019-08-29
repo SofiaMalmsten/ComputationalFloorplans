@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
-
 
 namespace PlotPlanning.Engine.Geometry
 {
@@ -16,9 +12,9 @@ namespace PlotPlanning.Engine.Geometry
             double dy = b.Y - a.Y;
             double dz = b.Z - a.Z;
 
-            Vector3d vec = new Vector3d(dx, dy, dz);
-            return vec;
+            return new Vector3d(dx, dy, dz);
         }
-        /***************************************************/
+
+        //====================================================================//
     }
 }
