@@ -39,7 +39,7 @@ namespace PlotPlanning.Components
             }
         }
 
-        //====================================================================//
+
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
         /// It is vital this Guid doesn't change otherwise old ghx files 
@@ -50,7 +50,7 @@ namespace PlotPlanning.Components
             get { return new Guid("dfd8d506-3ac5-4785-8515-472179549439"); }
         }
         #endregion
-        //====================================================================//
+
         #region Inputs/Outputs
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -60,7 +60,7 @@ namespace PlotPlanning.Components
             pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
         }
         
-        //====================================================================//
+
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -69,7 +69,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("NumberOfHouses", "N", "Number Of Houses", GH_ParamAccess.item);
         }
         #endregion
-        //====================================================================//
+
         #region Solution
         /// <summary>
         /// This is the method that actually does the work.

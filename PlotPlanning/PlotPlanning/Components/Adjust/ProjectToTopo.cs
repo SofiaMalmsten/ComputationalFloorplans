@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.ObjectModel; 
@@ -14,6 +13,7 @@ namespace PlotPlanning.Components
 {
     public class ProjectToTopo : GH_Component
     {
+        #region Register node
         //====================================================================//
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -28,8 +28,32 @@ namespace PlotPlanning.Components
               "PlotPlanningTool", "Adjust")
         {
         }
+        
+        /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Empty;
+            }
+        }
 
-        //====================================================================//
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("15e6459f-611a-424c-926c-c528a240847b"); }
+        }
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -40,7 +64,7 @@ namespace PlotPlanning.Components
             pManager.AddNumberParameter("PossibleValues", "V", "Allowed values for vertical displacement between houses", GH_ParamAccess.list);
         }
 
-        //====================================================================//
+ 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -49,7 +73,9 @@ namespace PlotPlanning.Components
             pManager.AddGenericParameter("Houses", "H", "Projected houses", GH_ParamAccess.list);
         }
 
-        //====================================================================//
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -77,31 +103,8 @@ namespace PlotPlanning.Components
             DA.SetDataList(0, projectedHouses);
         }
 
-        //====================================================================//
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                return Properties.Resources.Empty;
-            }
-        }
-
-        //====================================================================//
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("15e6459f-611a-424c-926c-c528a240847b"); }
-        }
-
-        //====================================================================//
+        #endregion
+       
     }
 
 

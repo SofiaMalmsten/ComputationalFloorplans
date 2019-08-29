@@ -13,7 +13,7 @@ namespace PlotPlanning.Components
 {
     public class MoveHouse : GH_Component
     {
-        //====================================================================//
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -27,8 +27,31 @@ namespace PlotPlanning.Components
               "PlotPlanningTool", "Adjust")
         {
         }
+        
+        /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Evaluate;
+            }
+        }
 
-        //====================================================================//
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("b2e1c9de-48de-4c6f-b3a2-4dab648a5027"); }
+        }
+        #endregion
+
+        #region Input/Outputs
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -40,7 +63,6 @@ namespace PlotPlanning.Components
 
         }
 
-        //====================================================================//
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -49,7 +71,9 @@ namespace PlotPlanning.Components
             pManager.AddGenericParameter("House", "H", "Moved house", GH_ParamAccess.item);
         }
 
-        //====================================================================//
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -75,32 +99,7 @@ namespace PlotPlanning.Components
             DA.SetData(0, movedHouse);
 
         }
-
-        //====================================================================//
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                return Properties.Resources.Evaluate;
-            }
-        }
-
-        //====================================================================//
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("b2e1c9de-48de-4c6f-b3a2-4dab648a5027"); }
-        }
-
-        //====================================================================//
+        #endregion
     }
 
 

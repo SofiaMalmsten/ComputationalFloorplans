@@ -13,6 +13,7 @@ namespace PlotPlanning.Components
 {
     public class SnapToTopo : GH_Component
     {
+        #region Register node
         //====================================================================//
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -27,8 +28,31 @@ namespace PlotPlanning.Components
               "PlotPlanningTool", "Adjust")
         {
         }
+ /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Adjust;
+            }
+        }
 
         //====================================================================//
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("638ed177-8d91-4698-8691-1f64da1578ed"); }
+        }
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -48,7 +72,9 @@ namespace PlotPlanning.Components
             pManager.AddPointParameter("projectedPts", "P", "projected Points", GH_ParamAccess.list);
         }
 
-        //====================================================================//
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -76,31 +102,6 @@ namespace PlotPlanning.Components
             DA.SetDataList(0, projectedPts);
         }
 
-        //====================================================================//
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                return Properties.Resources.Adjust;
-            }
-        }
-
-        //====================================================================//
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("638ed177-8d91-4698-8691-1f64da1578ed"); }
-        }
-        //====================================================================//
+        #endregion
     }
-
-
 }
