@@ -9,7 +9,7 @@ namespace PlotPlanning.Engine.Base
     {
         public static Brep ReadHouseGeometry(string type)
         {
-            string test = ReadResourceFile("PlotPlanning.Resources." + type + ".txt");
+            string test = ReadResourceFile("Engine.Resources." + type + ".txt");
             GeometryBase geometry = GH_Convert.ByteArrayToCommonObject<GeometryBase>(System.Convert.FromBase64String(test));
             return geometry as Brep;
 
@@ -19,7 +19,7 @@ namespace PlotPlanning.Engine.Base
 
         public static string ReadResourceFile(string filename)
         {
-            var thisAssembly = Assembly.GetExecutingAssembly();
+            var thisAssembly = Assembly.GetExecutingAssembly();            
             using (var stream = thisAssembly.GetManifestResourceStream(filename))
             {
                 using (var reader = new StreamReader(stream))

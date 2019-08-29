@@ -43,10 +43,7 @@ namespace PlotPlanning.Components
             pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
             pManager.AddIntegerParameter("minAmount", "minAmount", "minAmount in a row of houses", GH_ParamAccess.item, 1);
             pManager.AddIntegerParameter("maxAmount", "maxAmount", "max amount in a row of houses (1 means free standing)", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("offset", "offset", "buffer distance", GH_ParamAccess.item, 1);    
-                   
-
-
+            pManager.AddIntegerParameter("offset", "offset", "buffer distance", GH_ParamAccess.item, 1); 
 
         }
        

@@ -186,21 +186,6 @@
     <None Include="Resources\Timer.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\A1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\A2.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\A3.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\E1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\E2.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{b06afe53-041f-485f-8f83-9ae8106cfa91}</Project>
       <Name>Engine</Name>
