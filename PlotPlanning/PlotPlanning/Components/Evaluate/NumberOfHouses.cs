@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public NumberOfHouses()
-          : base("NumberOfHouses", "NumberOfHouses",
+          : base("NumberOfHouses", "NrH",
               "Calculates the amount of SFH on a site",
               "PlotPlanningTool", "Evaluate")
         {
@@ -32,7 +32,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
+            pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("NumberOfHOuses", "NuberOfHouses", "NumberOfHouses", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("NumberOfHOuses", "N", "NumberOfHouses", GH_ParamAccess.item);
         }
 
         /// <summary>

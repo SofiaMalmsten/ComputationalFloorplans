@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Staircase()
-          : base("Staircase", "Staircase",
+          : base("Staircase", "StrC",
               "Staircase",
               "PlotPlanningTool", "1.Objects")
         {
@@ -32,9 +32,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("footprint", "footprint", "footprint", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Floors", "Floors", "Floors", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "AccessPoint", "AccessPoint", GH_ParamAccess.list);
+            pManager.AddCurveParameter("footprint", "F", "footprint", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Floors", "Fl", "Floors", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "P", "AccessPoint", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Staircase", "Staircase", "Staircase", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Staircase", "S", "Staircase", GH_ParamAccess.item);
         }
 
         /// <summary>

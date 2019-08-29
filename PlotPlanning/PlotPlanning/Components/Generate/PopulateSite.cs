@@ -14,7 +14,7 @@ using Grasshopper.Kernel.Parameters;
 
 namespace PlotPlanning.Components
 {
-    public class PlotLayout2D : GH_Component
+    public class PopulateSite : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -23,9 +23,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public PlotLayout2D()
-          : base("PlotLayout2D", "PlotLayout2D",
-              "Creates accesspoints on a line",
+        public PopulateSite()
+          : base("PopulateSite", "PopSt",
+              "Populates a site in 2D with either single family houses or multi family houses",
               "PlotPlanningTool", "Generate")
         {
         }
@@ -35,13 +35,13 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
-            pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item, 1);
-            pManager.AddIntegerParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item, 1);
-            pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "carport", "carport object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("houses", "H", "rectangles that should be places on lines", GH_ParamAccess.list);
+            pManager.AddCurveParameter("bound", "B", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("itts", "I", "itts", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("seed", "S", "seed", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("method", "M", "random, shortest or longest", GH_ParamAccess.item, 1);
+            pManager.AddCurveParameter("roads", "R", "roads", GH_ParamAccess.list);
+            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.item);
 
             //add dropdown list for method input
             Param_Integer param = pManager[4] as Param_Integer;
@@ -59,9 +59,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
-            pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "carport", "carport object", GH_ParamAccess.list);
+            pManager.AddGenericParameter("house", "H", "placed house footprints", GH_ParamAccess.list);
+            pManager.AddCurveParameter("cell", "C", "region that's left after placing houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.list);
         }
 
         /// <summary>

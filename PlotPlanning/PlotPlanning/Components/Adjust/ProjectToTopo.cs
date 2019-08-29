@@ -22,7 +22,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public ProjectToTopo()
-          : base("ProjectToTopo", "ProjectToTopo",
+          : base("ProjectToTopo", "TProj",
               "projects houses to the topograpthy",
               "PlotPlanningTool", "Adjust")
         {
@@ -33,9 +33,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("houses", "houses", "the houses you want to project", GH_ParamAccess.list);
-            pManager.AddBrepParameter("topology", "topology", "the topology you want to project the houses onto", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "possibleValues", "the alowed valuses for difference in vertical placement for two neighbouring houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("houses", "H", "the houses you want to project", GH_ParamAccess.list);
+            pManager.AddBrepParameter("topology", "T", "the topology you want to project the houses onto", GH_ParamAccess.list);
+            pManager.AddNumberParameter("possibleValues", "V", "the alowed valuses for difference in vertical placement for two neighbouring houses", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("houses", "houses", "the projected houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("houses", "H", "the projected houses", GH_ParamAccess.list);
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Carport()
-          : base("Carport", "Carport",
+          : base("Carport", "Crp",
               "Carport",
               "PlotPlanningTool", "1.Objects")
         {
@@ -32,9 +32,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddRectangleParameter("gardenBound", "gardenBound", "gardenBOund", GH_ParamAccess.item);
-            pManager.AddBrepParameter("carportGeom", "carportGeom", "carportGeom", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("gardenBound", "G", "gardenBOund", GH_ParamAccess.item);
+            pManager.AddBrepParameter("carportGeom", "C", "carportGeom", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "P", "accessPoint", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Carport", "Crp", "Crp", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Carport", "C", "Crp", GH_ParamAccess.item);
         }
 
         /// <summary>

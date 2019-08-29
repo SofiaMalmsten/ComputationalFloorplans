@@ -22,7 +22,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public SnapToTopo()
-          : base("SnapToTopo", "SnapToTopo",
+          : base("SnapToTopo", "TSnap",
               "projects points on a line",
               "PlotPlanningTool", "Adjust")
         {
@@ -33,9 +33,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
-            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddPointParameter("planePts", "P", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("topoPts", "P", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("possibleValues", "V", "max amount of houses in a row", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
+            pManager.AddPointParameter("projectedPts", "P", "projected Points", GH_ParamAccess.list);
         }
 
         /// <summary>

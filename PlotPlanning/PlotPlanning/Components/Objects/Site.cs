@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Site()
-          : base("GenerateSite", "GenerateSite",
+          : base("GenerateSite", "Site",
               "Generate site",
               "PlotPlanningTool", "1.Objects")
         {
@@ -32,9 +32,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPt", GH_ParamAccess.item);
-            pManager.AddCurveParameter("Boundary", "Boundary", "boundary", GH_ParamAccess.item);
-            pManager.AddSurfaceParameter("Topography", "Topography", "gardenBound", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "P", "accessPt", GH_ParamAccess.item);
+            pManager.AddCurveParameter("Boundary", "B", "boundary", GH_ParamAccess.item);
+            pManager.AddSurfaceParameter("Topography", "T", "gardenBound", GH_ParamAccess.item);
             
         }
 
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("site", "site", "site", GH_ParamAccess.item);
+            pManager.AddGenericParameter("site", "S", "site", GH_ParamAccess.item);
         }
 
         /// <summary>

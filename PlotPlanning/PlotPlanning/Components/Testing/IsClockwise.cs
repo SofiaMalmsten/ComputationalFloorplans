@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public IsClockwise()
-          : base("IsClockwise", "IsClockwise",
+          : base("IsClockwise", "IsClw",
               "Detemine whether a polyline is clockwise or not",
               "PlotPlanningTool", "Testing")
         {
@@ -32,8 +32,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("polyine", "pLine", "polyline to evaluaten", GH_ParamAccess.item);
-            pManager.AddVectorParameter("vector", "vector", "reference vector", GH_ParamAccess.item);
+            pManager.AddCurveParameter("polyine", "P", "polyline to evaluaten", GH_ParamAccess.item);
+            pManager.AddVectorParameter("vector", "V", "reference vector", GH_ParamAccess.item);
         }
 
         /// <summary>

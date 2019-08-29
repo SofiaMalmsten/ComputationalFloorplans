@@ -15,6 +15,7 @@ namespace PlotPlanning.Components
 {
     public class MoveHouse : GH_Component
     {
+        //====================================================================//
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -23,31 +24,34 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public MoveHouse()
-          : base("MoveHouse", "MoveHouse",
-              "MoveHouse",
+          : base("MoveHouse", "HMove",
+              "Moves ahouse along a given vector",
               "PlotPlanningTool", "Adjust")
         {
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             
-            pManager.AddGenericParameter("House", "House", "House", GH_ParamAccess.item);
-            pManager.AddVectorParameter("Vector", "Vector", "Vector", GH_ParamAccess.item);            
+            pManager.AddGenericParameter("House", "H", "House to move", GH_ParamAccess.item);
+            pManager.AddVectorParameter("Vector", "V", "Vector to move the house along", GH_ParamAccess.item);            
 
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("House", "House", "House", GH_ParamAccess.item);
+            pManager.AddGenericParameter("House", "H", "Moved house", GH_ParamAccess.item);
         }
 
+        //====================================================================//
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -74,6 +78,7 @@ namespace PlotPlanning.Components
 
         }
 
+        //====================================================================//
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
         /// Icons need to be 24x24 pixels.
@@ -82,11 +87,11 @@ namespace PlotPlanning.Components
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
                 return Properties.Resources.Evaluate;
             }
         }
 
+        //====================================================================//
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
         /// It is vital this Guid doesn't change otherwise old ghx files 

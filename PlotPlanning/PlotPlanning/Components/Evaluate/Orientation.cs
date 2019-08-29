@@ -23,7 +23,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Orientation()
-          : base("Orientation", "Orientation",
+          : base("Orientation", "Orient",
               "Calculates the orentation for each house on the plot",
               "PlotPlanningTool", "Evaluate")
         {
@@ -34,9 +34,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
-            pManager.AddVectorParameter("ReferenceVector", "RefVec", "RefVec", GH_ParamAccess.item);
-            pManager.AddVectorParameter("NorthVector", "NorthVec", "NorthVec", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
+            pManager.AddVectorParameter("ReferenceVector", "V", "RefVec", GH_ParamAccess.item);
+            pManager.AddVectorParameter("NorthVector", "N", "NorthVec", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Mean", "Mean", "-1 represents 180 deg from ref vector, 1 represents the ref vec", GH_ParamAccess.item); //mean value of dot product
-            pManager.AddNumberParameter("Variance", "Variance", "Variance", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Distubution", "Distrubution", "The distribution of houses starting with North, going counter clockwise. (N,NW,W,SW,S,SE,E,NE)", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Mean", "M", "-1 represents 180 deg from ref vector, 1 represents the ref vec", GH_ParamAccess.item); //mean value of dot product
+            pManager.AddNumberParameter("Variance", "V", "Variance", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Distubution", "D", "The distribution of houses starting with North, going counter clockwise. (N,NW,W,SW,S,SE,E,NE)", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Houses;
+                return Properties.Resources.Empty;
                 //return null;
             }
         }

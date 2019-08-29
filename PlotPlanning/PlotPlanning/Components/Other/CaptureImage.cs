@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public CaptureImage()
-          : base("CaptureImage", "CaptureImage",
+          : base("CaptureImage", "CptrImg",
               "CaptureImage",
               "PlotPlanningTool", "Other")
         {
@@ -32,10 +32,10 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("PathToFile", "pathToFile", "type hint: string", GH_ParamAccess.item);
-            pManager.AddTextParameter("FileName", "FileName", "type hint: string", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Transparent", "Transparent", "transparent background or not", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Activate", "Activate", "type hint: boolean /n true or false", GH_ParamAccess.item);
+            pManager.AddTextParameter("PathToFile", "P", "type hint: string", GH_ParamAccess.item);
+            pManager.AddTextParameter("FileName", "F", "type hint: string", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Transparent", "T", "transparent background or not", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Activate", "A", "type hint: boolean /n true or false", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Success", "Success", "Success", GH_ParamAccess.item);
+            pManager.AddTextParameter("Success", "S", "Success", GH_ParamAccess.item);
         }
 
         /// <summary>

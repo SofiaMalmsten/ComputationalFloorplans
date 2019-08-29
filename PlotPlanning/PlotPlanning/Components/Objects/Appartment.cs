@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Appartment()
-          : base("Appartment", "Appartment",
+          : base("Appartment", "Aprtm",
               "Appartment",
               "PlotPlanningTool", "1.Objects")
         {

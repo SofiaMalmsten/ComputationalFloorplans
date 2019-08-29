@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public ParkingLot()
-          : base("ParkingLot", "ParkingLot",
+          : base("ParkingLot", "Prk",
               "ParkingLot",
               "PlotPlanningTool", "1.Objects")
         {
@@ -32,9 +32,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("type", "type", "type", GH_ParamAccess.item);
-            pManager.AddCurveParameter("carportBound", "carportBound", "carportBound", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("floors", "floors", "floors", GH_ParamAccess.item);
+            pManager.AddTextParameter("type", "T", "type", GH_ParamAccess.item);
+            pManager.AddCurveParameter("carportBound", "B", "carportBound", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("floors", "F", "floors", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Carport", "Crp", "Crp", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Carport", "C", "Crp", GH_ParamAccess.item);
         }
 
         /// <summary>

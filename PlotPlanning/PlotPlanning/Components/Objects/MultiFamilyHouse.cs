@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public MFHComponent()
-          : base("MultiFamilyHouse", "MultiFamilyHouse",
+          : base("MultiFamilyHouse", "MFH",
               "MultiFamilyHouse",
               "PlotPlanningTool", "1.Objects")
         {
@@ -32,16 +32,16 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("tag", "tag", "tag", GH_ParamAccess.item, "");
-            pManager.AddIntegerParameter("minFloor", "minFloor", "Minimum amount of floors", GH_ParamAccess.item,1);
-            pManager.AddIntegerParameter("maxFloor", "maxFloor", "Maximum amount of floors", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("minShift", "minShift", "Minimum horisontal shift", GH_ParamAccess.item, 0);
-            pManager.AddIntegerParameter("maxShift", "maxShift", "Maximum horisontal shift", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("leveDifference", "levelDifference", "Difference in height between units in the same block", GH_ParamAccess.item, 1);
-            pManager.AddIntegerParameter("levelHeight", "levelHeight", "Height between levels", GH_ParamAccess.item, 3);
-            pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
-            pManager.AddRectangleParameter("garden", "garden", "garden", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
+            pManager.AddTextParameter("tag", "T", "tag", GH_ParamAccess.item, "");
+            pManager.AddIntegerParameter("minFloor", "MaxF", "Minimum amount of floors", GH_ParamAccess.item,1);
+            pManager.AddIntegerParameter("maxFloor", "MinF", "Maximum amount of floors", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("minShift", "MinS", "Minimum horisontal shift", GH_ParamAccess.item, 0);
+            pManager.AddIntegerParameter("maxShift", "MaxS", "Maximum horisontal shift", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("leveDifference", "Ld", "Difference in height between units in the same block", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("levelHeight", "Lh", "Height between levels", GH_ParamAccess.item, 3);
+            pManager.AddBrepParameter("houseGeom", "H", "houseGeom", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("garden", "G", "garden", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "P", "accessPoint", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("MultiFamilyHouse", "MFH", "MFH", GH_ParamAccess.item);
+            pManager.AddGenericParameter("MultiFamilyHouse", "M", "MFH", GH_ParamAccess.item);
         }
 
         /// <summary>

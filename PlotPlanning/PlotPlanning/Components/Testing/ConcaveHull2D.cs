@@ -22,7 +22,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public ConcaveHull()
-          : base("Concave", "concaveHull",
+          : base("Concave", "ConcvHl",
               "Chull",
               "PlotPlanningTool", "Testing")
         {
@@ -33,8 +33,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("pt", "pt", "pt", GH_ParamAccess.list);
-            pManager.AddNumberParameter("factor", "factor", "factor", GH_ParamAccess.item);
+            pManager.AddPointParameter("pt", "P", "pt", GH_ParamAccess.list);
+            pManager.AddNumberParameter("factor", "F", "factor", GH_ParamAccess.item);
 
         }
 
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("hull", "hull", "all possible lines", GH_ParamAccess.item);
+            pManager.AddCurveParameter("hull", "H", "all possible lines", GH_ParamAccess.item);
         }
 
         /// <summary>

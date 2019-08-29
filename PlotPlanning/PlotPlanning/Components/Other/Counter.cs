@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Counter()
-          : base("Counter", "Counter",
+          : base("Counter", "Countr",
               "counter",
               "PlotPlanningTool", "Other")
         {
@@ -32,11 +32,11 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBooleanParameter("reset", "reset", "default false", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("run", "run", "default false", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("steps", "steps", "default 1", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("start", "start", "default 0", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("stop", "stop", "default 9999", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("reset", "R", "default false", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("run", "R", "default false", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("steps", "S", "default 1", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("start", "S", "default 0", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("stop", "S", "default 9999", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("int", "int", "int", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("int", "I", "int", GH_ParamAccess.item);
         }
 
         /// <summary>

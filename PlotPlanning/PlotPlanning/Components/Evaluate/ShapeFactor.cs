@@ -21,7 +21,7 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public ShapeFactor()
-          : base("ShapeFactor", "ShapeFactor",
+          : base("ShapeFactor", "ShFac",
               "Calculates the shape factor for a multi family house",
               "PlotPlanningTool", "Evaluate")
         {
@@ -32,7 +32,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("MFH", "MFH", "MFH", GH_ParamAccess.item);
+            pManager.AddGenericParameter("MFH", "M", "MFH", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("ShapeFactor", "ShapeFactor", "ShapeFactor", GH_ParamAccess.item);
+            pManager.AddNumberParameter("ShapeFactor", "S", "ShapeFactor", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Houses;
+                return Properties.Resources.Empty;
                 //return null;
             }
         }

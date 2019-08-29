@@ -83,7 +83,7 @@
     <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
     <Compile Include="Components\Objects\Site.cs" />
     <Compile Include="Components\Objects\Regulations.cs" />
-    <Compile Include="Components\Generate\PlotLayout2D.cs" />
+    <Compile Include="Components\Generate\PopulateSite.cs" />
     <Compile Include="Components\Other\Counter.cs" />
     <Compile Include="Components\Objects\SingleFamilyHouse.cs" />
     <Compile Include="Components\Adjust\SnapToTopo.cs" />
