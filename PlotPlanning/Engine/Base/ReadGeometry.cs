@@ -7,19 +7,19 @@ namespace PlotPlanning.Engine.Base
 {
     public class ReadGeometry
     {
-        public static Brep ReadHouseGeometry(string type)
+        public static Brep ReadHouseGeometry(string houseType)
         {
-            string test = ReadResourceFile("Engine.Resources." + type + ".txt");
-            GeometryBase geometry = GH_Convert.ByteArrayToCommonObject<GeometryBase>(System.Convert.FromBase64String(test));
+            string fileName = ReadResourceFile("Engine.Resources." + houseType + ".txt");
+            GeometryBase geometry = GH_Convert.ByteArrayToCommonObject<GeometryBase>(System.Convert.FromBase64String(fileName));
             return geometry as Brep;
 
         }
 
-        //====================================================================
+        //====================================================================//
 
-        public static string ReadResourceFile(string filename)
+        private static string ReadResourceFile(string filename)
         {
-            var thisAssembly = Assembly.GetExecutingAssembly();            
+            var thisAssembly = Assembly.GetExecutingAssembly();
             using (var stream = thisAssembly.GetManifestResourceStream(filename))
             {
                 using (var reader = new StreamReader(stream))
@@ -28,6 +28,8 @@ namespace PlotPlanning.Engine.Base
                 }
             }
         }
+
+        //====================================================================//
 
     }
 }

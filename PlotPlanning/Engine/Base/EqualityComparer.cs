@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 
@@ -19,6 +17,8 @@ namespace PlotPlanning.Engine.Base
             return co.GetHashCode();
         }
 
+        //====================================================================//
+
         public bool Equals(Line x1, Line x2)
         {
             if (object.ReferenceEquals(x1, x2))
@@ -32,7 +32,9 @@ namespace PlotPlanning.Engine.Base
             }
             return x1.GetHashCode() == x2.GetHashCode();
         }
+
+        //====================================================================//
     }
 }
 
-    //====================================================================
+

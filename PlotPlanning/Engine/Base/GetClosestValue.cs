@@ -10,12 +10,9 @@ namespace PlotPlanning.Engine.Base
 {
     public static partial class Modify
     {
-        //========================================================
-        //Get Closest Value
-        //========================================================
         public static double ClosestValue(double valueToCheck, List<double> possibleValues)
         {
-            double displ = 0;
+            double displacement = 0;
             for (int i = 0; i < possibleValues.Count - 1; i++)
             {
                 if (valueToCheck > possibleValues[i] && valueToCheck < possibleValues[i + 1])
@@ -24,23 +21,26 @@ namespace PlotPlanning.Engine.Base
                     double difference = possibleValues[i] + halfDistance;
                     if (valueToCheck < difference)
                     {
-                        displ = possibleValues[i];
+                        displacement = possibleValues[i];
                     }
                     else
                     {
-                        displ = possibleValues[i + 1];
+                        displacement = possibleValues[i + 1];
                     }
                 }
                 else if (valueToCheck >= possibleValues.Max())
                 {
-                    displ = possibleValues.Max();
+                    displacement = possibleValues.Max();
                 }
                 else if (valueToCheck <= possibleValues.Min())
                 {
-                    displ = possibleValues.Min();
+                    displacement = possibleValues.Min();
                 }
             }
-            return displ;
+            return displacement;
         }
+
+        //====================================================================//
+
     }
 }
