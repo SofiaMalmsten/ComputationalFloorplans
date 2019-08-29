@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E13A49B-9817-4A0E-B5F4-54F612FD1F15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PlotPlanning</RootNamespace>
+    <AssemblyName>PlotPlanning</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\AppData\Roaming\Grasshopper\Libraries\PlotPlanningTool\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Eto, Version=2.5.0.0, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\Eto.dll</HintPath>
+    </Reference>
+    <Reference Include="GH_IO, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=6a29997d2e6b4f97, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grasshopper.6.13.19058.371\lib\net45\GH_IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Grasshopper, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grasshopper.6.13.19058.371\lib\net45\Grasshopper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Rhino.UI, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\Rhino.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RhinoCommon, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\RhinoCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\Adjust\Move.cs" />
+    <Compile Include="Components\Adjust\AccessLine.cs" />
+    <Compile Include="Components\Adjust\ProjectToTopo.cs" />
+    <Compile Include="Components\Evaluate\MassCalculations.cs" />
+    <Compile Include="Components\Evaluate\Orientation.cs" />
+    <Compile Include="Components\Evaluate\ShapeFactor.cs" />
+    <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
+    <Compile Include="Components\Adjust\ConcaveHull2D.cs" />
+    <Compile Include="Components\Objects\Appartment.cs" />
+    <Compile Include="Components\Objects\Staircase.cs" />
+    <Compile Include="Components\Objects\ParkingLot.cs" />
+    <Compile Include="Components\Objects\Carport.cs" />
+    <Compile Include="Components\Objects\MultiFamilyHouse.cs" />
+    <Compile Include="Components\Objects\Site.cs" />
+    <Compile Include="Components\Objects\Regulations.cs" />
+    <Compile Include="Components\Generate\PlotLayout2D.cs" />
+    <Compile Include="Components\Other\Counter.cs" />
+    <Compile Include="Components\Objects\SingleFamilyHouse.cs" />
+    <Compile Include="Components\Adjust\SnapToTopo.cs" />
+    <Compile Include="Components\Adjust\IsClockwise.cs" />
+    <Compile Include="Components\Other\CaptureImage.cs" />
+    <Compile Include="PlotPlanningInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\Evolve\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Generate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Plot2D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Evaluate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Houses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CellularStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CullDeSacStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CutAndFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GridStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LamellaHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lamellas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MassBalance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NumberOfHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\oCellStreet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pLineBound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QuarterHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RadiualStreets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RandomHouses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SnapToStreet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SnapToTopo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CarPort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MFH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ParkingLot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SFH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Site.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Capture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Timer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{b06afe53-041f-485f-8f83-9ae8106cfa91}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObjectModel\ObjectModel.csproj">
+      <Project>{8f42b30c-b19f-4e4b-b990-bb4d4150ab1a}</Project>
+      <Name>ObjectModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
+Erase "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <FallbackCulture>en-US</FallbackCulture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartProgram>C:\Program Files\Rhino 6\System\Rhino.exe</StartProgram>
+    <StartArguments>
+    </StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+  <Import Project="..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets'))" />
+    <Error Condition="!Exists('..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets'))" />
+  </Target>
+  <Import Project="..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets" Condition="Exists('..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets')" />
+</Project>

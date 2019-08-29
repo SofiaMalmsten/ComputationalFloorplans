@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
+using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -81,7 +82,7 @@ namespace PlotPlanning.Components
             foreach (var s in SFH)
             {
                 Vector3d houseVec = s.Orientation;
-                double dotProd = Methods.Calculate.DotProduct(houseVec/houseVec.Length, refVec/refVec.Length);
+                double dotProd = Compute.DotProduct(houseVec/houseVec.Length, refVec/refVec.Length);
                 dotProdList.Add(dotProd);
 
                 //angle between house vecotrs and north vector in order to create intervals for orientations
