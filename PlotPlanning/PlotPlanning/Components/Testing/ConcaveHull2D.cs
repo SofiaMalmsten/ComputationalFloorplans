@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Engine.Geometry;
@@ -14,6 +13,7 @@ namespace PlotPlanning.Components
 {
     public class ConcaveHull : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -28,6 +28,31 @@ namespace PlotPlanning.Components
         {
         }
 
+        /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("443e67fd-27aa-4c99-95fa-6efd138ed3bd"); }
+        }
+
+        #endregion
+
+        #region Input/Outputs
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -46,6 +71,9 @@ namespace PlotPlanning.Components
             pManager.AddCurveParameter("hull", "H", "all possible lines", GH_ParamAccess.item);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -72,29 +100,6 @@ namespace PlotPlanning.Components
 
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("443e67fd-27aa-4c99-95fa-6efd138ed3bd"); }
-        }
+        #endregion
     }
-
-
 }
