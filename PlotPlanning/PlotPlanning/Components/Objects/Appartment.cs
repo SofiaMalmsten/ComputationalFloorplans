@@ -85,7 +85,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.CarPort;
+                return Properties.Resources.Empty;
                 //return null;
             }
         }
