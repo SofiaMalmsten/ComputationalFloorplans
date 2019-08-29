@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Engine.Base;
@@ -14,6 +13,7 @@ namespace PlotPlanning.Components
 {
     public class HouseComponent : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -29,12 +29,35 @@ namespace PlotPlanning.Components
         }
 
         /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.SFH;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("d1ce43a2-a700-4147-824f-26e734eb3c4d"); }
+        }
+
+        #endregion
+
+        #region Input/Output
+        /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-           
-
             pManager.AddTextParameter("type", "T", "house type", GH_ParamAccess.item, "");
             pManager.AddBooleanParameter("carport", "C", "has car port", GH_ParamAccess.item, false);
             pManager.AddRectangleParameter("gardenBound", "G", "gardenBound", GH_ParamAccess.item);
@@ -46,7 +69,6 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("offset", "O", "buffer distance", GH_ParamAccess.item, 1); 
 
         }
-       
 
         /// <summary>
         /// Registers all the output parameters for this component.
@@ -55,6 +77,10 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("SingleFamilyHouse", "S", "SFH", GH_ParamAccess.item);
         }
+
+        #endregion
+
+        #region Solution
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -100,30 +126,6 @@ namespace PlotPlanning.Components
             DA.SetData(0, house);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.SFH;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("d1ce43a2-a700-4147-824f-26e734eb3c4d"); }
-        }
+        #endregion
     }
-
-
 }

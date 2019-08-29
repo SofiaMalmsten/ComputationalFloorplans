@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -11,8 +10,9 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Appartment : GH_Component //change the name of the component so it doesn't collide with the name of the object
+    public class Appartment : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -27,6 +27,33 @@ namespace PlotPlanning.Components
         {
         }
 
+        /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                // You can add image files to your project resources and access them like this:
+                return Properties.Resources.Empty;
+                //return null;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("81e99cff-ff50-4f7f-8159-0f627e125006"); }
+        }
+
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -45,6 +72,9 @@ namespace PlotPlanning.Components
             pManager.AddGenericParameter("Appartment", "Appartment", "Appartment", GH_ParamAccess.item);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -76,30 +106,6 @@ namespace PlotPlanning.Components
             DA.SetData(0, appartment);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Empty;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("81e99cff-ff50-4f7f-8159-0f627e125006"); }
-        }
+        #endregion
     }
-
-
 }

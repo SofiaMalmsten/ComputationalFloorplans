@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -13,6 +11,7 @@ namespace PlotPlanning.Components
 {
     public class Counter : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -27,6 +26,30 @@ namespace PlotPlanning.Components
         {
         }
 
+        /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Timer;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff5"); }
+        }
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -47,6 +70,9 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("int", "I", "int", GH_ParamAccess.item);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -65,8 +91,6 @@ namespace PlotPlanning.Components
             int steps = 1;
             int start = 0;
             int stop = 9999;
-
-            
 
             //Get Data
             if (!DA.GetData(0, ref reset))
@@ -99,30 +123,6 @@ namespace PlotPlanning.Components
             DA.SetData(0, A);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Timer;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("2b088e34-ec05-4547-abc5-f7772f9f3ff5"); }
-        }
+        #endregion
     }
-
-
 }
