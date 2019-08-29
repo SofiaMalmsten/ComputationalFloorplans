@@ -71,6 +71,7 @@ namespace PlotPlanning.Components
 
         #endregion
 
+
         #region Solution
         /// <summary>
         /// This is the method that actually does the work.
