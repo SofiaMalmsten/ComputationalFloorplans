@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -13,6 +11,7 @@ namespace PlotPlanning.Components
 {
     public class NumberOfHouses : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -25,43 +24,6 @@ namespace PlotPlanning.Components
               "Calculates the amount of SFH on a site",
               "PlotPlanningTool", "Evaluate")
         {
-        }
-
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
-        {
-            pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
-        }
-
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
-        {
-            pManager.AddIntegerParameter("NumberOfHOuses", "N", "NumberOfHouses", GH_ParamAccess.item);
-        }
-
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object can be used to retrieve data from input parameters and 
-        /// to store data in output parameters.</param>
-        protected override void SolveInstance(IGH_DataAccess DA)
-        {
-            //Create class instances
-            List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
-
-            //Get Data
-            if (!DA.GetDataList(0, SFH))
-                return;
-
-            //Calculate
-            int numerOfHouses = SFH.Count;
-           
-            //Set data
-            DA.SetData(0, numerOfHouses);
         }
 
         /// <summary>
@@ -85,7 +47,50 @@ namespace PlotPlanning.Components
         {
             get { return new Guid("a088001a-e2ea-406f-adc0-7d31fe6430de"); }
         }
+
+        #endregion
+
+        #region Input/Output
+        /// <summary>
+        /// Registers all the input parameters for this component.
+        /// </summary>
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        {
+            pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
+        }
+
+        /// <summary>
+        /// Registers all the output parameters for this component.
+        /// </summary>
+        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        {
+            pManager.AddIntegerParameter("NumberOfHOuses", "N", "NumberOfHouses", GH_ParamAccess.item);
+        }
+
+        #endregion
+
+        #region Solution
+        /// <summary>
+        /// This is the method that actually does the work.
+        /// </summary>
+        /// <param name="DA">The DA object can be used to retrieve data from input parameters and 
+        /// to store data in output parameters.</param>
+        protected override void SolveInstance(IGH_DataAccess DA)
+        {
+            //Create class instances
+            List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
+
+            //Get Data
+            if (!DA.GetDataList(0, SFH))
+                return;
+
+            //Calculate
+            int numerOfHouses = SFH.Count;
+
+            //Set data
+            DA.SetData(0, numerOfHouses);
+        }
+
+        #endregion
     }
-
-
 }
