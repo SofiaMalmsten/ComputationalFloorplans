@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Grasshopper.Kernel;
 using Rhino.Geometry;
-using System.Linq;
 using PlotPlanning.Engine.Base;
 
 
@@ -20,7 +18,6 @@ namespace PlotPlanning.Engine.Geometry
 
             for (int i = 0; i < attractorPts.Count; i++)
             {
-                List<Point3d> refPts = new List<Point3d>();
                 if (i == 0)
                     displ = 0;
                 else
@@ -41,7 +38,6 @@ namespace PlotPlanning.Engine.Geometry
 
                     attractorPts[k] = new Point3d(attractorPts[k].X, attractorPts[k].Y, currPt.Z);
                 }
-                //planePts = refPts;
                 movePts.Add(currPt);
             }
 
