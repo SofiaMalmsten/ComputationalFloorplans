@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.ObjectModel;
 using PlotPlanning.Engine.Geometry;
-
 
 namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random, Carport carport) //we want to have carport as an optional parameter later
+        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random, Carport carport) //TODO: we want to have carport as an optional parameter later
         {           
             Polyline houseGardenBoundary = house.GardenBound;
             Point3d houseAccessPt = house.AccessPoint;
-            bool hasCarPort = house.HasCarPort; 
-
-            //========================================================
-            //Declaration - fixed values
-            //========================================================
+            bool hasCarPort = house.HasCarPort;             
             double lineLength = line.Length;
+
             double houseWidth = Query.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
 
             Point3d startPt = line.From;
@@ -33,11 +27,7 @@ namespace PlotPlanning.Methods
             {
                 cpWidth = Query.ClosestSegmentToPoint(carport.AccessPoint, carport.GardenBound).Length;
                 cpVec = vec * cpWidth; 
-            }
-
-            //========================================================
-            //Declaration - lists and new objects
-            //========================================================
+            }           
 
             List<Point3d> pointPos = new List<Point3d>();
 
@@ -73,26 +63,19 @@ namespace PlotPlanning.Methods
             return move_pts;
         }
 
-        //====================================================================
+        //====================================================================//
 
         public static List<Point3d> PossiblePoints(Line line, MultiFamily house, Random random, Carport carport) //we want to have carport as an optional parameter later
         {
             Polyline houseGardenBoundary = house.GardenBound;
             Point3d houseAccessPt = house.AccessPoint;
 
-            //========================================================
-            //Declaration - fixed values
-            //========================================================
             double lineLength = line.Length;
             double houseWidth = Query.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
 
             Point3d startPt = line.From;
             Vector3d vec = (line.Direction) / lineLength;
-            Vector3d husVec = vec * houseWidth;
-
-            //========================================================
-            //Declaration - lists and new objects
-            //========================================================
+            Vector3d husVec = vec * houseWidth;            
 
             List<Point3d> pointPos = new List<Point3d>();
 

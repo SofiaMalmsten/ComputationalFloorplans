@@ -10,15 +10,12 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-        //====================================================================//
         public static (List<IHouse>, List<PolylineCurve>, List<Carport>) IPlaceHouseRow(List<IHouse> baseHouses, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
         {
-            if (baseHouses[0].GetType() == new SingleFamily().GetType())
-
+            if (baseHouses[0].GetType() == new SingleFamily().GetType()) //TODO: Replace this if statement with interface method
                 return PlaceHouseRow(baseHouses.Cast<SingleFamily>().ToList(), bound, originalBound, roads, random, method, carport);
 
             else
-
                 return PlaceHouseRow(baseHouses.Cast<MultiFamily>().ToList(), bound, originalBound, roads, random, method, carport);
         }
 
@@ -48,10 +45,6 @@ namespace PlotPlanning.Methods
             {
                 SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
                 if (i == 0) movedHouse.RowPosition = "left";
-
-
-
-
 
                 if (Query.IsInside(movedHouse, bound)) //TODO: Include carport
                     houseList.Add(movedHouse);

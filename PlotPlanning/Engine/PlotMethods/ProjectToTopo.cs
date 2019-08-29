@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.ObjectModel;
 using System.Linq;
 using Rhino.Geometry.Intersect;
 using PlotPlanning.Engine.Geometry;
 using PlotPlanning.Engine.Base;
+
+
 namespace PlotPlanning.Methods
-
-
 {
     public static partial class Adjust
     {
@@ -52,15 +50,10 @@ namespace PlotPlanning.Methods
                     projectedHuses.Add(Move(currList[k], moveVec));
                 }
             }
-            return projectedHuses; 
-
-
-
-
-
+            return projectedHuses;
         }
 
-        //====================================================================      
+        //====================================================================//
 
     }
 }
