@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -13,6 +11,8 @@ namespace PlotPlanning.Components
 {
     public class MassCalculations : GH_Component
     {
+
+        #region Register Node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -21,28 +21,56 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public MassCalculations()
-          : base("MassCalculations", "MassCalcualtions",
-              "Calculates the amount of SFH on a site",
+          : base("MassCalculations", "MCalc",
+              "Calculates volumes for cut, fill and mass balance",
               "PlotPlanningTool", "Evaluate")
         {
         }
 
         /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Empty;
+            }
+        }
+
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("dfd8d506-3ac5-4785-8515-472179549439"); }
+        }
+        #endregion
+
+        #region Input/Output
+        /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("SFH", "SFH", "SFH", GH_ParamAccess.list);
+            pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
         }
+        
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("NumberOfHOuses", "NuberOfHouses", "NumberOfHouses", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("NumberOfHouses", "N", "Number Of Houses", GH_ParamAccess.item);
         }
+        #endregion
 
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -63,29 +91,7 @@ namespace PlotPlanning.Components
             //Set data
             DA.SetData(0, numerOfHouses);
         }
+        #endregion
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                return Properties.Resources.Houses;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("dfd8d506-3ac5-4785-8515-472179549439"); }
-        }
     }
-
-
 }

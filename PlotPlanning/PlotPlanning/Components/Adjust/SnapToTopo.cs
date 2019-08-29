@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Engine.Geometry;
@@ -14,6 +13,8 @@ namespace PlotPlanning.Components
 {
     public class SnapToTopo : GH_Component
     {
+        #region Register node
+        //====================================================================//
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -22,30 +23,58 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public SnapToTopo()
-          : base("SnapToTopo", "SnapToTopo",
-              "projects points on a line",
+          : base("SnapToTopo", "TSnap",
+              "Move points towards attractor points but within given distances between points in a row",
               "PlotPlanningTool", "Adjust")
         {
         }
+ /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Adjust;
+            }
+        }
 
+        //====================================================================//
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("638ed177-8d91-4698-8691-1f64da1578ed"); }
+        }
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
-            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddPointParameter("AttractorPoints", "A", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("TopoPts", "P", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Displacement", "D", "Possible values for displacement between houses in a row", GH_ParamAccess.list);
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
+            pManager.AddPointParameter("projectedPts", "P", "projected Points", GH_ParamAccess.list);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -73,30 +102,6 @@ namespace PlotPlanning.Components
             DA.SetDataList(0, projectedPts);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.SnapToTopo;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("638ed177-8d91-4698-8691-1f64da1578ed"); }
-        }
+        #endregion
     }
-
-
 }

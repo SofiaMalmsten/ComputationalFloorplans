@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -13,6 +12,7 @@ namespace PlotPlanning.Components
 {
     public class MFHComponent : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -21,27 +21,52 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public MFHComponent()
-          : base("MultiFamilyHouse", "MultiFamilyHouse",
+          : base("MultiFamilyHouse", "MFH",
               "MultiFamilyHouse",
               "PlotPlanningTool", "1.Objects")
         {
         }
 
         /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.MFH;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("d921a823-6059-4f89-8326-7341ff81a8c1"); }
+        }
+
+        #endregion
+
+        #region Input/Output
+        /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("tag", "tag", "tag", GH_ParamAccess.item, "");
-            pManager.AddIntegerParameter("minFloor", "minFloor", "Minimum amount of floors", GH_ParamAccess.item,1);
-            pManager.AddIntegerParameter("maxFloor", "maxFloor", "Maximum amount of floors", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("minShift", "minShift", "Minimum horisontal shift", GH_ParamAccess.item, 0);
-            pManager.AddIntegerParameter("maxShift", "maxShift", "Maximum horisontal shift", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("leveDifference", "levelDifference", "Difference in height between units in the same block", GH_ParamAccess.item, 1);
-            pManager.AddIntegerParameter("levelHeight", "levelHeight", "Height between levels", GH_ParamAccess.item, 3);
-            pManager.AddBrepParameter("houseGeom", "houseGeom", "houseGeom", GH_ParamAccess.item);
-            pManager.AddRectangleParameter("garden", "garden", "garden", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "accessPoint", "accessPoint", GH_ParamAccess.item);
+            pManager.AddTextParameter("tag", "T", "tag", GH_ParamAccess.item, "");
+            pManager.AddIntegerParameter("minFloor", "MaxF", "Minimum amount of floors", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("maxFloor", "MinF", "Maximum amount of floors", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("minShift", "MinS", "Minimum horisontal shift", GH_ParamAccess.item, 0);
+            pManager.AddIntegerParameter("maxShift", "MaxS", "Maximum horisontal shift", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("leveDifference", "Ld", "Difference in height between units in the same block", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("levelHeight", "Lh", "Height between levels", GH_ParamAccess.item, 3);
+            pManager.AddBrepParameter("houseGeom", "H", "houseGeom", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("garden", "G", "garden", GH_ParamAccess.item);
+            pManager.AddPointParameter("accessPoint", "P", "accessPoint", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,8 +74,12 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("MultiFamilyHouse", "MFH", "MFH", GH_ParamAccess.item);
+            pManager.AddGenericParameter("MultiFamilyHouse", "M", "MFH", GH_ParamAccess.item);
         }
+
+        #endregion
+
+        #region Solution
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -111,30 +140,6 @@ namespace PlotPlanning.Components
             DA.SetData(0, house);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.MFH;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("d921a823-6059-4f89-8326-7341ff81a8c1"); }
-        }
+        #endregion
     }
-
-
 }

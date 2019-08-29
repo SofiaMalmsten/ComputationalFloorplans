@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -10,7 +11,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class Staircase : GH_Component
+    public class Roads : GH_Component
     {
         #region Register node
         /// <summary>
@@ -20,13 +21,13 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public Staircase()
-          : base("Staircase", "StrC",
-              "Staircase",
-              "PlotPlanningTool", "1.Objects")
+        public Roads()
+          : base("Roads", "Road",
+              "Generates streets",
+              "PlotPlanningTool", "Generate")
         {
         }
-
+        
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
         /// Icons need to be 24x24 pixels.
@@ -35,7 +36,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Empty;
+                return Properties.Resources.Streets;
             }
         }
 
@@ -46,7 +47,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("044c36b0-c2a9-446b-b800-7f34e0890cc3"); }
+            get { return new Guid("6b676486-a9d3-4851-86b2-4cc9c429d863"); }
         }
 
         #endregion
@@ -57,9 +58,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("footprint", "F", "footprint", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Floors", "Fl", "Floors", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "P", "AccessPoint", GH_ParamAccess.list);
+            pManager.AddPointParameter("planePts", "P", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("topoPts", "T", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("possibleValues", "P", "max amount of houses in a row", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Staircase", "S", "Staircase", GH_ParamAccess.item);
+            pManager.AddPointParameter("projectedPts", "P", "projected Points", GH_ParamAccess.list);
         }
 
         #endregion
@@ -81,27 +82,23 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Curve footprint = new PolylineCurve();
-            List<Point3d> accessPoint = new List<Point3d>();
-            int floors = 0;
+            List<Point3d> topoPts = new List<Point3d>();
+            List<Point3d> planePts = new List<Point3d>();
+            List<double> possibleValues = new List<double>();
 
             //Get Data
-            if (!DA.GetData(0, ref footprint))
+            if (!DA.GetDataList(0, planePts))
                 return;
-            if (!DA.GetData(1, ref floors))
+            if (!DA.GetDataList(1, topoPts))
                 return;
-            if (!DA.GetDataList(2, accessPoint))
+            if (!DA.GetDataList(2, possibleValues))
                 return;
 
-
-            //Set properties
-            PlotPlanning.ObjectModel.Staircase staircase = new ObjectModel.Staircase();
-            staircase.AccessPoints = accessPoint;
-            staircase.Footprint = footprint;
-            staircase.Floors = floors;
-
+            //Calculate
+            List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
+           
             //Set data
-            DA.SetData(0, staircase);
+            DA.SetDataList(0, projectedPts);
         }
 
         #endregion
