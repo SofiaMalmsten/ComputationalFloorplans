@@ -1,5 +1,4 @@
 ﻿using Grasshopper.Kernel;
-using pp = PlotPlanning.Methods;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -14,8 +13,9 @@ using Grasshopper.Kernel.Parameters;
 
 namespace PlotPlanning.Components
 {
-    public class PlotLayout2D : GH_Component
+    public class PopulateSite : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -23,25 +23,50 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public PlotLayout2D()
-          : base("PlotLayout2D", "PlotLayout2D",
-              "Creates accesspoints on a line",
+        public PopulateSite()
+          : base("PopulateSite", "PopSt",
+              "Populates a site in 2D with either single family houses or multi family houses",
               "PlotPlanningTool", "Generate")
         {
         }
 
         /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.RandomHouses;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("874a8451-aa5e-4c5d-90fb-5e2158862b5d"); }
+        }
+
+        #endregion
+
+        #region Input/Output
+        /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("houses", "houses", "rectangles that should be places on lines", GH_ParamAccess.list);
-            pManager.AddCurveParameter("bound", "bound", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("itts", "itts", "itts", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("seed", "seed", "seed", GH_ParamAccess.item, 1);
-            pManager.AddIntegerParameter("method", "method", "random, shortest or longest", GH_ParamAccess.item, 1);
-            pManager.AddCurveParameter("roads", "roads", "roads", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "carport", "carport object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("houses", "H", "rectangles that should be places on lines", GH_ParamAccess.list);
+            pManager.AddCurveParameter("bound", "B", "base positipon for the rectangles", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("itts", "I", "itts", GH_ParamAccess.item, 10);
+            pManager.AddIntegerParameter("seed", "S", "seed", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("method", "M", "random, shortest or longest", GH_ParamAccess.item, 1);
+            pManager.AddCurveParameter("roads", "R", "roads", GH_ParamAccess.list);
+            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.item);
 
             //add dropdown list for method input
             Param_Integer param = pManager[4] as Param_Integer;
@@ -59,11 +84,14 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("house", "houses", "placed house footprints", GH_ParamAccess.list);
-            pManager.AddCurveParameter("cell", "cell", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "carport", "carport object", GH_ParamAccess.list);
+            pManager.AddGenericParameter("house", "H", "placed house footprints", GH_ParamAccess.list);
+            pManager.AddCurveParameter("cell", "C", "region that's left after placing houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.list);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -122,10 +150,10 @@ namespace PlotPlanning.Components
                 Curve c = boundList[idx];
                 boundList.RemoveAt(idx);
 
-                (List<IHouse>, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = pp.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random, method, carport); 
+                (List<IHouse>, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = Methods.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random, method, carport);
 
                 houseList.AddRange(objectTuple.Item1);
-                boundList.AddRange(objectTuple.Item2);                
+                boundList.AddRange(objectTuple.Item2);
                 carports.AddRange(objectTuple.Item3);
                 if (boundList.Count == 0) break;
             }
@@ -138,29 +166,6 @@ namespace PlotPlanning.Components
             DA.SetDataList(2, carports);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.RandomHouses;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("874a8451-aa5e-4c5d-90fb-5e2158862b5d"); }
-        }
+        #endregion
     }
-
-
 }

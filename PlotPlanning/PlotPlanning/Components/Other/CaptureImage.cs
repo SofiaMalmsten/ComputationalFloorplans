@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -13,6 +12,7 @@ namespace PlotPlanning.Components
 {
     public class CaptureImage : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -21,21 +21,46 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public CaptureImage()
-          : base("CaptureImage", "CaptureImage",
+          : base("CaptureImage", "CptrImg",
               "CaptureImage",
               "PlotPlanningTool", "Other")
         {
         }
 
         /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Capture;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("2d450a9b-604f-4931-a436-097a468d04e7"); }
+        }
+
+        #endregion
+
+        #region Input/Output
+        /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("PathToFile", "pathToFile", "type hint: string", GH_ParamAccess.item);
-            pManager.AddTextParameter("FileName", "FileName", "type hint: string", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Transparent", "Transparent", "transparent background or not", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Activate", "Activate", "type hint: boolean /n true or false", GH_ParamAccess.item);
+            pManager.AddTextParameter("PathToFile", "P", "type hint: string", GH_ParamAccess.item);
+            pManager.AddTextParameter("FileName", "F", "type hint: string", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Transparent", "T", "transparent background or not", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Activate", "A", "type hint: boolean /n true or false", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,9 +68,12 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Success", "Success", "Success", GH_ParamAccess.item);
+            pManager.AddTextParameter("Success", "S", "Success", GH_ParamAccess.item);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -60,8 +88,6 @@ namespace PlotPlanning.Components
             string FileName = "";
             bool Transparent = false;
             bool Activate = false;
-
-
 
             //Get Data
             if (!DA.GetData(0, ref PathToFIle))
@@ -80,30 +106,6 @@ namespace PlotPlanning.Components
             DA.SetData(0, A);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Capture;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("2d450a9b-604f-4931-a436-097a468d04e7"); }
-        }
+        #endregion
     }
-
-
 }
