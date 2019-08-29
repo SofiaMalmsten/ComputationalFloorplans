@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Rhino.Geometry;
 using PlotPlanning.Engine.Base;
 
@@ -12,36 +11,31 @@ namespace PlotPlanning.Engine.Geometry
         //TODO: Only works for points in the XY plane - add plane as input?
         public static List<Point3d> AttractTo(this List<Point3d> topoPts, List<Point3d> attractorPts, List<double> possibleValues)
         {
-            double displ;
+            double displasement;
             double valueToCheck;
             List<Point3d> movePts = new List<Point3d>();
 
             for (int i = 0; i < attractorPts.Count; i++)
             {
                 if (i == 0)
-                    displ = 0;
+                    displasement = 0;
                 else
                 {
                     valueToCheck = topoPts[i].Z - attractorPts[i].Z;
-                    displ = Modify.ClosestValue(valueToCheck, possibleValues);
+                    displasement = Modify.ClosestValue(valueToCheck, possibleValues);
                 }
 
-                Point3d currPt = new Point3d(attractorPts[i].X, attractorPts[i].Y, attractorPts[i].Z + displ);
+                Point3d currPt = new Point3d(attractorPts[i].X, attractorPts[i].Y, attractorPts[i].Z + displasement);
 
-                //Project all the points in the planePts to the new reference plane. It doesnt matter that we add the value in z.
+                //Project all the points in the planePts to the new reference plane. It doesn't matter that we add the value in z.
                 for (int k = 0; k < attractorPts.Count; k++)
-                {
-                    //refPts.Add(currPt);
-                    //Point3d p = planePts[k];
-                    //p.Z= currPt.Z;
-
-
                     attractorPts[k] = new Point3d(attractorPts[k].X, attractorPts[k].Y, currPt.Z);
-                }
+
                 movePts.Add(currPt);
             }
-
             return movePts;
         }
-    }    
+    }
+
+    //====================================================================//
 }
