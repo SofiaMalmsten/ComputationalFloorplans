@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -13,6 +12,7 @@ namespace PlotPlanning.Components
 {
     public class ShapeFactor : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -25,8 +25,32 @@ namespace PlotPlanning.Components
               "Calculates the shape factor for a multi family house",
               "PlotPlanningTool", "Evaluate")
         {
+        }/// <summary>
+         /// Provides an Icon for every component that will be visible in the User Interface.
+         /// Icons need to be 24x24 pixels.
+         /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Empty;
+            }
         }
 
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("ed105268-6c8d-4997-82f2-ad29f09d0616"); }
+        }
+
+
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -43,6 +67,9 @@ namespace PlotPlanning.Components
             pManager.AddNumberParameter("ShapeFactor", "S", "ShapeFactor", GH_ParamAccess.item);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -63,7 +90,7 @@ namespace PlotPlanning.Components
             double floorArea = 0;
             foreach (var face in faces)
             {
-                if (face.NormalAt(0.5, 0.5) == new Vector3d(0,0,-1))
+                if (face.NormalAt(0.5, 0.5) == new Vector3d(0, 0, -1))
                 {
                     floorArea = AreaMassProperties.Compute(face).Area;
                 };
@@ -76,30 +103,6 @@ namespace PlotPlanning.Components
             DA.SetData(0, shapefactor);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Empty;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("ed105268-6c8d-4997-82f2-ad29f09d0616"); }
-        }
+        #endregion
     }
-
-
 }

@@ -14,6 +14,7 @@ namespace PlotPlanning.Components
 {
     public class FloorPlan : GH_Component
     {
+        #region Register Node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -28,6 +29,31 @@ namespace PlotPlanning.Components
         {
         }
 
+        /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("3a300ca7-6b7e-4d65-a0f4-9152c794fba6"); }
+        }
+
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -46,6 +72,9 @@ namespace PlotPlanning.Components
             pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -73,30 +102,6 @@ namespace PlotPlanning.Components
             DA.SetDataList(0, projectedPts);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Empty;
-                //return null;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("3a300ca7-6b7e-4d65-a0f4-9152c794fba6"); }
-        }
+        #endregion
     }
-
-
 }

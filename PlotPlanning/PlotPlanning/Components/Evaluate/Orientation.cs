@@ -15,6 +15,7 @@ namespace PlotPlanning.Components
 {
     public class Orientation : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -30,8 +31,34 @@ namespace PlotPlanning.Components
         }
 
         /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("b02e53b7-ec4b-479d-bc48-7e43e1799c0f"); }
+        }
+
+        #endregion
+
+        #region Input/Output
+        /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
+        /// 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
@@ -49,6 +76,9 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("Distubution", "D", "The distribution of houses starting with North, going counter clockwise. (N,NW,W,SW,S,SE,E,NE)", GH_ParamAccess.list);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -74,33 +104,33 @@ namespace PlotPlanning.Components
             List<double> dotProdList = new List<double>();
 
             List<double> domain = new List<double>();
-                for (int i = 1; i <= 8; i++)
-                {
-                    domain.Add(360 / 8 * i);
-                }
+            for (int i = 1; i <= 8; i++)
+            {
+                domain.Add(360 / 8 * i);
+            }
 
             foreach (var s in SFH)
             {
                 Vector3d houseVec = s.Orientation;
-                double dotProd = Compute.DotProduct(houseVec/houseVec.Length, refVec/refVec.Length);
+                double dotProd = Compute.DotProduct(houseVec / houseVec.Length, refVec / refVec.Length);
                 dotProdList.Add(dotProd);
 
                 //angle between house vecotrs and north vector in order to create intervals for orientations
-                double angle = Vector3d.VectorAngle(houseVec, nortVec, Plane.WorldXY)* 360 / (2 * Math.PI);
+                double angle = Vector3d.VectorAngle(houseVec, nortVec, Plane.WorldXY) * 360 / (2 * Math.PI);
 
                 //Group the angle list per weather direction. 8 groups.
                 for (int i = 0; i < 8; i++)
                 {
                     if (angle <= domain[i])
                     {
-                        distrList[i]= distrList[i]+1;
+                        distrList[i] = distrList[i] + 1;
                         break;
                     }
                 }
             }
 
             double average = dotProdList.Average();
-            double variance = distrList.Average(v=>Math.Pow(v-distrList.Average(),2));
+            double variance = distrList.Average(v => Math.Pow(v - distrList.Average(), 2));
 
             //Set data
             DA.SetData(0, average);
@@ -108,30 +138,7 @@ namespace PlotPlanning.Components
             DA.SetDataList(2, distrList.ToList());
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Empty;
-                //return null;
-            }
-        }
+        #endregion
 
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("b02e53b7-ec4b-479d-bc48-7e43e1799c0f"); }
-        }
     }
-
-
 }

@@ -51,7 +51,7 @@ namespace PlotPlanning.Components
         }
         #endregion
 
-        #region Inputs/Outputs
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

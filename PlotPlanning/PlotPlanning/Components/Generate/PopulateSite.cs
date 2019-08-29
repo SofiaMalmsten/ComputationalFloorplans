@@ -1,5 +1,4 @@
 ﻿using Grasshopper.Kernel;
-using pp = PlotPlanning.Methods;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -16,6 +15,7 @@ namespace PlotPlanning.Components
 {
     public class PopulateSite : GH_Component
     {
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -30,6 +30,31 @@ namespace PlotPlanning.Components
         {
         }
 
+        /// <summary>
+        /// Provides an Icon for every component that will be visible in the User Interface.
+        /// Icons need to be 24x24 pixels.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                return Properties.Resources.RandomHouses;
+            }
+        }
+
+        /// <summary>
+        /// Each component must have a unique Guid to identify it. 
+        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// that use the old ID will partially fail during loading.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("874a8451-aa5e-4c5d-90fb-5e2158862b5d"); }
+        }
+
+        #endregion
+
+        #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -64,6 +89,9 @@ namespace PlotPlanning.Components
             pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.list);
         }
 
+        #endregion
+
+        #region Solution
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -122,10 +150,10 @@ namespace PlotPlanning.Components
                 Curve c = boundList[idx];
                 boundList.RemoveAt(idx);
 
-                (List<IHouse>, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = pp.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random, method, carport); 
+                (List<IHouse>, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = Methods.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random, method, carport);
 
                 houseList.AddRange(objectTuple.Item1);
-                boundList.AddRange(objectTuple.Item2);                
+                boundList.AddRange(objectTuple.Item2);
                 carports.AddRange(objectTuple.Item3);
                 if (boundList.Count == 0) break;
             }
@@ -138,29 +166,6 @@ namespace PlotPlanning.Components
             DA.SetDataList(2, carports);
         }
 
-        /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                // You can add image files to your project resources and access them like this:
-                return Properties.Resources.RandomHouses;
-            }
-        }
-
-        /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("874a8451-aa5e-4c5d-90fb-5e2158862b5d"); }
-        }
+        #endregion
     }
-
-
 }

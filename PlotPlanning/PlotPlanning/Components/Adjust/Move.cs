@@ -101,6 +101,4 @@ namespace PlotPlanning.Components
         }
         #endregion
     }
-
-
 }
