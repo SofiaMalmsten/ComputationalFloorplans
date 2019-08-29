@@ -207,6 +207,24 @@
   <ItemGroup>
     <None Include="Resources\Streets.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Populate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\roads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FloorPlan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Floorplan2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SnapToSrf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Move.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

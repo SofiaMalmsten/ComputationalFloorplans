@@ -37,7 +37,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Empty;
+                return Properties.Resources.Floorplan2;
             }
         }
 

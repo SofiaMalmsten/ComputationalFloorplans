@@ -217,4 +217,22 @@
   <data name="Streets" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Streets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FloorPlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FloorPlan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Floorplan2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Floorplan2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Move" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Move.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Populate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Populate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="roads" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\roads.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SnapToSrf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SnapToSrf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

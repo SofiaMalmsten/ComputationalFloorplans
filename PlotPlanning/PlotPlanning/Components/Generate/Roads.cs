@@ -36,7 +36,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Streets;
+                return Properties.Resources.roads;
             }
         }
 
