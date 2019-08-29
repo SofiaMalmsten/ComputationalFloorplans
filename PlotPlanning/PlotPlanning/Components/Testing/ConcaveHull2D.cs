@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -11,7 +12,7 @@ using Rhino.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class IsClockwise : GH_Component
+    public class ConcaveHull : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,10 +21,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public IsClockwise()
-          : base("IsClockwise", "IsClockwise",
-              "Detemine whether a polyline is clockwise or not",
-              "PlotPlanningTool", "Adjust")
+        public ConcaveHull()
+          : base("Concave", "concaveHull",
+              "Chull",
+              "PlotPlanningTool", "Testing")
         {
         }
 
@@ -32,8 +33,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("polyine", "pLine", "polyline to evaluaten", GH_ParamAccess.item);
-            pManager.AddVectorParameter("vector", "vector", "reference vector", GH_ParamAccess.item);
+            pManager.AddPointParameter("pt", "pt", "pt", GH_ParamAccess.list);
+            pManager.AddNumberParameter("factor", "factor", "factor", GH_ParamAccess.item);
+
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBooleanParameter("B", "B", "true or false", GH_ParamAccess.item);
+            pManager.AddCurveParameter("hull", "hull", "all possible lines", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -51,22 +53,23 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            //Create class instances
-            Curve pCurve = new PolylineCurve();
-            Vector3d vec = new Vector3d();
 
-            //Get Data
-            if (!DA.GetData(0, ref pCurve))
-            return;
-            if (!DA.GetData(1, ref vec))
+            //define instances
+            List<Point3d> ptList = new List<Point3d>();
+            double factor = 0;
+           
+            //Get data
+            if (!DA.GetDataList(0, ptList))
+                return;
+            if (!DA.GetData(1, ref factor))
                 return;
 
             //Calculate
-            Polyline pLine = PlotPlanning.Engine.Geometry.Convert.ToPolyline(pCurve);
-            bool isClockwise = PlotPlanning.Engine.Geometry.Query.IsClockwise(pLine, vec, 0.001);
-           
+            Polyline hull = Compute.ConcaveHull(ptList, factor);
+
             //Set data
-            DA.SetData(0, isClockwise);
+            DA.SetData(0, hull);
+
         }
 
         /// <summary>
@@ -78,8 +81,7 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Houses;
-                //return null;
+                return Properties.Resources.Evaluate;
             }
         }
 
@@ -90,7 +92,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("c4785d5a-7bc4-431c-a161-658d97555e56"); }
+            get { return new Guid("443e67fd-27aa-4c99-95fa-6efd138ed3bd"); }
         }
     }
 

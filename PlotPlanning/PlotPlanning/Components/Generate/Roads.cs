@@ -12,7 +12,7 @@ using PlotPlanning.Engine.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class AccessLine : GH_Component
+    public class Roads : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,10 +21,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public AccessLine()
-          : base("AccessLine", "AccessLine",
-              "AccessLine",
-              "PlotPlanningTool", "Adjust")
+        public Roads()
+          : base("FloorPlan", "FloorPlan",
+              "projects points on a line",
+              "PlotPlanningTool", "Generate")
         {
         }
 
@@ -33,9 +33,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("pt", "pt", "pt", GH_ParamAccess.item);
-            pManager.AddCurveParameter("pline", "pline", "pline", GH_ParamAccess.item);
-
+            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("line", "line", "line", GH_ParamAccess.item);
+            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -53,23 +53,24 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //Create class instances
+            List<Point3d> topoPts = new List<Point3d>();
+            List<Point3d> planePts = new List<Point3d>();
+            List<double> possibleValues = new List<double>();
 
-            //define instances
-            Point3d pt = new Point3d();
-            Curve crv = new PolylineCurve();
-           
-            //Get data
-            if (!DA.GetData(0, ref pt))
+            //Get Data
+            if (!DA.GetDataList(0, planePts))
                 return;
-            if (!DA.GetData(1, ref crv))
+            if (!DA.GetDataList(1, topoPts))
+                return;
+            if (!DA.GetDataList(2, possibleValues))
                 return;
 
             //Calculate
-            Line line = Query.ClosestSegmentToPoint(pt, crv.ToPolyline());
-
+            List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
+           
             //Set data
-            DA.SetData(0, line);
-
+            DA.SetDataList(0, projectedPts);
         }
 
         /// <summary>
@@ -81,7 +82,8 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Evaluate;
+                return Properties.Resources.SnapToTopo;
+                //return null;
             }
         }
 
@@ -92,7 +94,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("700912cc-d779-4651-844f-ae15e0d055a8"); }
+            get { return new Guid("6b676486-a9d3-4851-86b2-4cc9c429d863"); }
         }
     }
 

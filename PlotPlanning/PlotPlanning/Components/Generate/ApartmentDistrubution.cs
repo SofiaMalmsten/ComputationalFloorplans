@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using PlotPlanning.Methods;
-using PlotPlanning.ObjectModel; 
+using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -13,7 +12,7 @@ using PlotPlanning.ObjectModel;
 
 namespace PlotPlanning.Components
 {
-    public class MoveHouse : GH_Component
+    public class ApartmentDistrubution : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -22,10 +21,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public MoveHouse()
-          : base("MoveHouse", "MoveHouse",
-              "MoveHouse",
-              "PlotPlanningTool", "Adjust")
+        public ApartmentDistrubution()
+          : base("ApartmentDistrubution", "ApartmDist",
+              "projects points on a line",
+              "PlotPlanningTool", "Generate")
         {
         }
 
@@ -34,10 +33,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            
-            pManager.AddGenericParameter("House", "House", "House", GH_ParamAccess.item);
-            pManager.AddVectorParameter("Vector", "Vector", "Vector", GH_ParamAccess.item);            
-
+            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -45,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("House", "House", "House", GH_ParamAccess.item);
+            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -55,23 +53,24 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //Create class instances
+            List<Point3d> topoPts = new List<Point3d>();
+            List<Point3d> planePts = new List<Point3d>();
+            List<double> possibleValues = new List<double>();
 
-            //define instances
-            SingleFamily house = new SingleFamily();
-            Vector3d vec = new Vector3d(); 
-            
-            //Get data
-            if (!DA.GetData(0, ref house))
+            //Get Data
+            if (!DA.GetDataList(0, planePts))
                 return;
-            if (!DA.GetData(1, ref vec))
+            if (!DA.GetDataList(1, topoPts))
                 return;
-            
+            if (!DA.GetDataList(2, possibleValues))
+                return;
+
             //Calculate
-            SingleFamily movedHouse = Adjust.Move(house, vec);
-
+            List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
+           
             //Set data
-            DA.SetData(0, movedHouse);
-
+            DA.SetDataList(0, projectedPts);
         }
 
         /// <summary>
@@ -83,7 +82,8 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Evaluate;
+                return Properties.Resources.SnapToTopo;
+                //return null;
             }
         }
 
@@ -94,7 +94,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("b2e1c9de-48de-4c6f-b3a2-4dab648a5027"); }
+            get { return new Guid("510e1a0c-f8d9-43a3-b076-8e4a3d9f309e"); }
         }
     }
 

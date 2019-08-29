@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using PlotPlanning.Methods;
-using PlotPlanning.ObjectModel; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -13,7 +11,7 @@ using PlotPlanning.ObjectModel;
 
 namespace PlotPlanning.Components
 {
-    public class MoveHouse : GH_Component
+    public class IsClockwise : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -22,10 +20,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public MoveHouse()
-          : base("MoveHouse", "MoveHouse",
-              "MoveHouse",
-              "PlotPlanningTool", "Adjust")
+        public IsClockwise()
+          : base("IsClockwise", "IsClockwise",
+              "Detemine whether a polyline is clockwise or not",
+              "PlotPlanningTool", "Testing")
         {
         }
 
@@ -34,10 +32,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            
-            pManager.AddGenericParameter("House", "House", "House", GH_ParamAccess.item);
-            pManager.AddVectorParameter("Vector", "Vector", "Vector", GH_ParamAccess.item);            
-
+            pManager.AddCurveParameter("polyine", "pLine", "polyline to evaluaten", GH_ParamAccess.item);
+            pManager.AddVectorParameter("vector", "vector", "reference vector", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -45,7 +41,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("House", "House", "House", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("B", "B", "true or false", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,23 +51,22 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //Create class instances
+            Curve pCurve = new PolylineCurve();
+            Vector3d vec = new Vector3d();
 
-            //define instances
-            SingleFamily house = new SingleFamily();
-            Vector3d vec = new Vector3d(); 
-            
-            //Get data
-            if (!DA.GetData(0, ref house))
-                return;
+            //Get Data
+            if (!DA.GetData(0, ref pCurve))
+            return;
             if (!DA.GetData(1, ref vec))
                 return;
-            
+
             //Calculate
-            SingleFamily movedHouse = Adjust.Move(house, vec);
-
+            Polyline pLine = PlotPlanning.Engine.Geometry.Convert.ToPolyline(pCurve);
+            bool isClockwise = PlotPlanning.Engine.Geometry.Query.IsClockwise(pLine, vec, 0.001);
+           
             //Set data
-            DA.SetData(0, movedHouse);
-
+            DA.SetData(0, isClockwise);
         }
 
         /// <summary>
@@ -83,7 +78,8 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Evaluate;
+                return Properties.Resources.Houses;
+                //return null;
             }
         }
 
@@ -94,7 +90,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("b2e1c9de-48de-4c6f-b3a2-4dab648a5027"); }
+            get { return new Guid("c4785d5a-7bc4-431c-a161-658d97555e56"); }
         }
     }
 

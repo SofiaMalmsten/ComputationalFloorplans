@@ -12,7 +12,7 @@ using PlotPlanning.Engine.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class ConcaveHull : GH_Component
+    public class FloorPlan : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -21,10 +21,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public ConcaveHull()
-          : base("Concave", "concaveHull",
-              "Chull",
-              "PlotPlanningTool", "Adjust")
+        public FloorPlan()
+          : base("FloorPlan", "FloorPlan",
+              "projects points on a line",
+              "PlotPlanningTool", "Generate")
         {
         }
 
@@ -33,9 +33,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("pt", "pt", "pt", GH_ParamAccess.list);
-            pManager.AddNumberParameter("factor", "factor", "factor", GH_ParamAccess.item);
-
+            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("hull", "hull", "all possible lines", GH_ParamAccess.item);
+            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -53,23 +53,24 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //Create class instances
+            List<Point3d> topoPts = new List<Point3d>();
+            List<Point3d> planePts = new List<Point3d>();
+            List<double> possibleValues = new List<double>();
 
-            //define instances
-            List<Point3d> ptList = new List<Point3d>();
-            double factor = 0;
-           
-            //Get data
-            if (!DA.GetDataList(0, ptList))
+            //Get Data
+            if (!DA.GetDataList(0, planePts))
                 return;
-            if (!DA.GetData(1, ref factor))
+            if (!DA.GetDataList(1, topoPts))
+                return;
+            if (!DA.GetDataList(2, possibleValues))
                 return;
 
             //Calculate
-            Polyline hull = Compute.ConcaveHull(ptList, factor);
-
+            List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
+           
             //Set data
-            DA.SetData(0, hull);
-
+            DA.SetDataList(0, projectedPts);
         }
 
         /// <summary>
@@ -81,7 +82,8 @@ namespace PlotPlanning.Components
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Properties.Resources.Evaluate;
+                return Properties.Resources.SnapToTopo;
+                //return null;
             }
         }
 
@@ -92,7 +94,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("443e67fd-27aa-4c99-95fa-6efd138ed3bd"); }
+            get { return new Guid("3a300ca7-6b7e-4d65-a0f4-9152c794fba6"); }
         }
     }
 
