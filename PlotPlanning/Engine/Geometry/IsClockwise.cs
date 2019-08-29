@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
 using PlotPlanning.Engine.Base;
@@ -11,19 +9,19 @@ namespace PlotPlanning.Engine.Geometry
 {
     public static partial class Query
     {
-        public static bool IsClockwise(this Polyline polyline, Vector3d viewVector, double tolerance = 0.001)
+        public static bool IsClockwise(this Polyline polyline, Vector3d viewVector, double tolerance = 0.001) //TODO: Change this to defalut ObjModel tol
         {
             if (!polyline.IsClosed)
                 throw new Exception("The polyline is not closed. IsClockwise method is relevant only to closed curves.");
 
-            List<Point3d> cc = polyline.DiscontinuityPoints(tolerance);
-            Vector3d dir1 = (cc[0] - cc.Last()).Normalise();
+            List<Point3d> pts = polyline.DiscontinuityPoints(tolerance);
+            Vector3d dir1 = (pts[0] - pts.Last()).Normalise();
             Vector3d dir2;
             double angleTot = 0;
 
-            for (int i = 1; i < cc.Count; i++)
+            for (int i = 1; i < pts.Count; i++)
             {
-                dir2 = (cc[i] - cc[i - 1]).Normalise();
+                dir2 = (pts[i] - pts[i - 1]).Normalise();
                 double signedAngle = dir1.SignedAngle(dir2, viewVector);
                 dir1 = dir2.Clone();
 
@@ -39,7 +37,7 @@ namespace PlotPlanning.Engine.Geometry
             return angleTot > 0;
         }
 
-        /***************************************************/
+        //====================================================================//
 
     }
 }

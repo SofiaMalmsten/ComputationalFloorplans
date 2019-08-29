@@ -16,6 +16,8 @@ namespace PlotPlanning.Engine.Base
         }
 
         //====================================================================//
+        //============            Private Methods               ==============//
+        //====================================================================//
 
         private static string ReadResourceFile(string filename)
         {

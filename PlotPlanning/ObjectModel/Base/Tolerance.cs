@@ -11,6 +11,7 @@ namespace PlotPlanning.ObjectModel
         public static double Angle { get; } = 0.01;
         public static double Garden { get; } = 0.01;
         public static double FilletOffset { get; } = 2;
+        public static double Area { get; } = 0.0001; 
 
         /*public double CellSize(Curve house)
         {
