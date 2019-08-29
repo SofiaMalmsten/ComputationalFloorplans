@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
 using Rhino.Display;
-using System.Drawing;
 
 
 namespace PlotPlanning.Methods
@@ -19,12 +15,12 @@ namespace PlotPlanning.Methods
                 return "Not Activated";
             else if (pathToFile == "")
                 return "Path does not exist";
-            else if (!System.IO.Directory.Exists(pathToFile)) 
+            else if (!System.IO.Directory.Exists(pathToFile))
                 return "Path does not exist";
 
 
             RhinoView view = Rhino.RhinoDoc.ActiveDoc.Views.ActiveView;
-              if (null == view)
+            if (null == view)
                 return result;
 
             var view_capture = new ViewCapture
@@ -40,21 +36,18 @@ namespace PlotPlanning.Methods
 
             System.Drawing.Bitmap bitmap = view_capture.CaptureToBitmap(view);
 
-          if (null != bitmap)
-          {
+            if (null != bitmap)
+            {
                 if (!pathToFile.EndsWith("\\"))
                     pathToFile = pathToFile + "\\";
-                
+
                 var filename = pathToFile + fileName + ".png";
                 bitmap.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
-                    return "Success";
-          }
+                return "Success";
+            }
             return result;
         }
+
+        //====================================================================//
     }
-  }
-
- //====================================================================
-
-
-
+}
