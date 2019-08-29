@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Engine.Geometry;
@@ -14,6 +13,7 @@ namespace PlotPlanning.Components
 {
     public class SnapToTopo : GH_Component
     {
+        //====================================================================//
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -23,21 +23,23 @@ namespace PlotPlanning.Components
         /// </summary>
         public SnapToTopo()
           : base("SnapToTopo", "TSnap",
-              "projects points on a line",
+              "Move points towards attractor points but within given distances between points in a row",
               "PlotPlanningTool", "Adjust")
         {
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("planePts", "P", "line to place accesspoints on", GH_ParamAccess.list);
-            pManager.AddPointParameter("topoPts", "P", "min amount of houses in a row", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "V", "max amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddPointParameter("AttractorPoints", "A", "line to place accesspoints on", GH_ParamAccess.list);
+            pManager.AddPointParameter("TopoPts", "P", "min amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Displacement", "D", "Possible values for displacement between houses in a row", GH_ParamAccess.list);
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -46,6 +48,7 @@ namespace PlotPlanning.Components
             pManager.AddPointParameter("projectedPts", "P", "projected Points", GH_ParamAccess.list);
         }
 
+        //====================================================================//
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -73,6 +76,7 @@ namespace PlotPlanning.Components
             DA.SetDataList(0, projectedPts);
         }
 
+        //====================================================================//
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
         /// Icons need to be 24x24 pixels.
@@ -81,12 +85,11 @@ namespace PlotPlanning.Components
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
                 return Properties.Resources.Adjust;
-                //return null;
             }
         }
 
+        //====================================================================//
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
         /// It is vital this Guid doesn't change otherwise old ghx files 
@@ -96,6 +99,7 @@ namespace PlotPlanning.Components
         {
             get { return new Guid("638ed177-8d91-4698-8691-1f64da1578ed"); }
         }
+        //====================================================================//
     }
 
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -13,6 +11,7 @@ namespace PlotPlanning.Components
 {
     public class MassCalculations : GH_Component
     {
+        //====================================================================//
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -22,27 +21,31 @@ namespace PlotPlanning.Components
         /// </summary>
         public MassCalculations()
           : base("MassCalculations", "MCalc",
-              "Calculates the amount of SFH on a site",
+              "Calculates volumes for cut, fill and mass balance",
               "PlotPlanningTool", "Evaluate")
         {
         }
 
+        //====================================================================//
+        #region Outputs
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("NumberOfHOuses", "N", "NumberOfHouses", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("NumberOfHouses", "N", "Number Of Houses", GH_ParamAccess.item);
         }
 
+        //====================================================================//
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -64,6 +67,7 @@ namespace PlotPlanning.Components
             DA.SetData(0, numerOfHouses);
         }
 
+        //====================================================================//
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
         /// Icons need to be 24x24 pixels.
@@ -76,6 +80,7 @@ namespace PlotPlanning.Components
             }
         }
 
+        //====================================================================//
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
         /// It is vital this Guid doesn't change otherwise old ghx files 
@@ -85,6 +90,7 @@ namespace PlotPlanning.Components
         {
             get { return new Guid("dfd8d506-3ac5-4785-8515-472179549439"); }
         }
+        //====================================================================//
     }
 
 

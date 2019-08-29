@@ -14,6 +14,7 @@ namespace PlotPlanning.Components
 {
     public class ProjectToTopo : GH_Component
     {
+        //====================================================================//
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -23,29 +24,32 @@ namespace PlotPlanning.Components
         /// </summary>
         public ProjectToTopo()
           : base("ProjectToTopo", "TProj",
-              "projects houses to the topograpthy",
+              "Projects houses to the topograpthy but within given displacements between each house in a row",
               "PlotPlanningTool", "Adjust")
         {
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("houses", "H", "the houses you want to project", GH_ParamAccess.list);
-            pManager.AddBrepParameter("topology", "T", "the topology you want to project the houses onto", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "V", "the alowed valuses for difference in vertical placement for two neighbouring houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Houses", "H", "Houses that will be projected", GH_ParamAccess.list);
+            pManager.AddBrepParameter("Topology", "T", "Topolography that the houses will be projected onto", GH_ParamAccess.list);
+            pManager.AddNumberParameter("PossibleValues", "V", "Allowed values for vertical displacement between houses", GH_ParamAccess.list);
         }
 
+        //====================================================================//
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("houses", "H", "the projected houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Houses", "H", "Projected houses", GH_ParamAccess.list);
         }
 
+        //====================================================================//
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -67,12 +71,13 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            List<SingleFamily> projectedHouses = PlotPlanning.Methods.Adjust.ProjectToTopo(houses, plot, possibleValues);
+            List<SingleFamily> projectedHouses = Methods.Adjust.ProjectToTopo(houses, plot, possibleValues);
            
             //Set data
             DA.SetDataList(0, projectedHouses);
         }
 
+        //====================================================================//
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
         /// Icons need to be 24x24 pixels.
@@ -81,12 +86,11 @@ namespace PlotPlanning.Components
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
                 return Properties.Resources.Empty;
-                //return null;
             }
         }
 
+        //====================================================================//
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
         /// It is vital this Guid doesn't change otherwise old ghx files 
@@ -96,6 +100,8 @@ namespace PlotPlanning.Components
         {
             get { return new Guid("15e6459f-611a-424c-926c-c528a240847b"); }
         }
+
+        //====================================================================//
     }
 
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using PlotPlanning.Methods;
@@ -25,7 +23,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public MoveHouse()
           : base("MoveHouse", "HMove",
-              "Moves ahouse along a given vector",
+              "Moves a house along a given vector",
               "PlotPlanningTool", "Adjust")
         {
         }
@@ -101,6 +99,8 @@ namespace PlotPlanning.Components
         {
             get { return new Guid("b2e1c9de-48de-4c6f-b3a2-4dab648a5027"); }
         }
+
+        //====================================================================//
     }
 
 
