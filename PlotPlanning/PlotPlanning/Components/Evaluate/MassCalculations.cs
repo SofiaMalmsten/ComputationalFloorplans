@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
+using Rhino.Geometry; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -55,18 +56,20 @@ namespace PlotPlanning.Components
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("SFH", "S", "SFH", GH_ParamAccess.list);
+            pManager.AddGenericParameter("House", "H", "The house to evaluate.", GH_ParamAccess.item);
+            pManager.AddSurfaceParameter("Site", "S", "The site to evaluate.", GH_ParamAccess.item);
         }
-        
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("NumberOfHouses", "N", "Number Of Houses", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Cut", "C", "The amount of soil having to be cut away.", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Fill", "F", "The amout of soil having to be added.", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Mass balance", "Mb", "The net product of the cut and fill.", GH_ParamAccess.item);
         }
         #endregion
 
@@ -79,10 +82,14 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            List<ObjectModel.SingleFamily> SFH = new List<ObjectModel.SingleFamily>();
+            ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
+            Surface site = null;  
+            
 
             //Get Data
-            if (!DA.GetDataList(0, SFH))
+            if (!DA.GetData(0, ref house))
+                return;
+            if (!DA.GetData(1, ref site))
                 return;
 
             //Calculate
