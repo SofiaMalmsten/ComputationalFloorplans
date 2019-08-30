@@ -4,6 +4,7 @@ using Rhino.Geometry;
 using PlotPlanning.ObjectModel;
 using System.Linq;
 using PlotPlanning.Engine.Geometry;
+using Rhino.Geometry.Intersect; 
 
 
 namespace PlotPlanning.Methods
@@ -26,22 +27,30 @@ namespace PlotPlanning.Methods
             gardenSrf.SetDomain(0, interval);
             gardenSrf.SetDomain(1, interval);
 
+           // Brep[] siteBrep = { Brep.CreateFromSurface(site)}; 
             for (int i = 0; i < divisions; i++)
             {
                 for (int j = 0; j < divisions; j++)
                 {
                     Point3d pt = gardenSrf.PointAt(i, j);
-                    Point3d projectedPt = gardenBrep.ClosestPoint(pt);
-                    double difference = pt.Z - projectedPt.Z;
-                    if (difference < 0) cut += difference;
-                    else fill += difference; 
+                    Ray3d ray = new Ray3d(pt, Vector3d.ZAxis);
+
+                    Point3d[] projectedPt = Intersection.RayShoot(ray, new Surface[] {site},1);
+                    if (projectedPt == null)
+                    {
+                        ray = new Ray3d(pt, -Vector3d.ZAxis);
+                        projectedPt = Intersection.RayShoot(ray, new Surface[] { site }, 1);
+                        if (projectedPt != null)
+                            cut += (pt.Z - projectedPt[0].Z);
+                    }
+                    else
+                        fill += (pt.Z - projectedPt[0].Z);                    
                 }
             }
 
             fill *= stackArea;
             cut *= stackArea;
             massBalance = cut - fill;
-
 
             Dictionary<string, double> values = new Dictionary<string, double>();
             values.Add("cut", cut);

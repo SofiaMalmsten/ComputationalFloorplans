@@ -60,6 +60,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("House", "H", "The house to evaluate.", GH_ParamAccess.item);
             pManager.AddSurfaceParameter("Site", "S", "The site to evaluate.", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Divisions", "D", "The resolution with which the calculation is made", GH_ParamAccess.item, 10); 
         }
 
         /// <summary>
@@ -83,7 +84,8 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
-            Surface site = null;  
+            Surface site = null;
+            int divisions = 0; 
             
 
             //Get Data
@@ -91,12 +93,17 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(1, ref site))
                 return;
+            if (!DA.GetData(2, ref divisions))
+                return;
 
             //Calculate
-            int numerOfHouses = SFH.Count;
-           
-            //Set data
-            DA.SetData(0, numerOfHouses);
+            Dictionary<string, double> values = PlotPlanning.Methods.Evaluate.MassBalance(house, site, divisions); 
+
+            //Set data            
+            DA.SetData(0, values["cut"]); 
+            DA.SetData(1, values["fill"]);
+            DA.SetData(2, values["massBalance"]); 
+
         }
         #endregion
 
