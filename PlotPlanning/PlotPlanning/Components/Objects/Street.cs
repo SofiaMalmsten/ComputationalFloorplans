@@ -81,12 +81,12 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Curve centrecCrv = new PolylineCurve();
+            Curve centreCrv = new PolylineCurve();
             double thickness = 1;
             double fillet = 0;
 
             //Get Data
-            if (!DA.GetData(0, ref centrecCrv))
+            if (!DA.GetData(0, ref centreCrv))
                 return;
             if (!DA.GetData(1, ref thickness))
                 return;
@@ -96,18 +96,18 @@ namespace PlotPlanning.Components
 
             //Set properties
             PlotPlanning.ObjectModel.Street street = new ObjectModel.Street();
-            street.CentreCurve = centrecCrv;
+            street.CentreCurve = centreCrv;
             street.Width = thickness;
             street.CornerFillet = fillet;
 
-            Vector3d tan = centrecCrv.TangentAtStart;
+            Vector3d tan = centreCrv.TangentAtStart;
             Vector3d projTan = new Vector3d(tan.X, tan.Y, 0);
             Vector3d norm = Engine.Geometry.Compute.CrossProduct(projTan/projTan.Length, Vector3d.ZAxis);
 
-            Line crossSection = new Line(centrecCrv.PointAtStart - norm * thickness/2, norm * thickness);
+            Line crossSection = new Line(centreCrv.PointAtStart - norm * thickness/2, norm * thickness);
 
             Rhino.Geometry.SweepOneRail sweepOne = new SweepOneRail();
-            Brep [] b = sweepOne.PerformSweep(centrecCrv, crossSection.ToNurbsCurve());
+            Brep [] b = sweepOne.PerformSweep(centreCrv, crossSection.ToNurbsCurve());
 
             //Set data
             DA.SetData(0, b[0]);

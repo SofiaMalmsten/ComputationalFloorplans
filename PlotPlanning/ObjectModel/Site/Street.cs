@@ -11,7 +11,7 @@ namespace PlotPlanning.ObjectModel
         public Curve CentreCurve { get; set; } = new PolylineCurve();
         public double Width { get; set; } = 1;
         public double CornerFillet { get; set; } = 0;
-        public string type { get; set; } = "Primary";
+        public string Type { get; set; } = "Primary";
 
         #endregion
 

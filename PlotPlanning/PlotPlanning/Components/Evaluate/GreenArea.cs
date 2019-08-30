@@ -58,7 +58,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("GreenArea", "G", "Polygon representing noundary ofthe green area to evaluate", GH_ParamAccess.item);
+            pManager.AddCurveParameter("GreenArea", "G", "Polygon representing noundary of the green area to evaluate", GH_ParamAccess.item);
         }
         
 
