@@ -68,7 +68,8 @@
   <ItemGroup>
     <Compile Include="Components\Adjust\Move.cs" />
     <Compile Include="Components\Adjust\ProjectToTopo.cs" />
-    <Compile Include="Components\Evaluate\StreetInclination.cs" />
+    <Compile Include="Components\Evaluate\GreenArea.cs" />
+    <Compile Include="Components\Evaluate\StreetArea.cs" />
     <Compile Include="Components\Evaluate\MassCalculations.cs" />
     <Compile Include="Components\Evaluate\Orientation.cs" />
     <Compile Include="Components\Evaluate\ShapeFactor.cs" />

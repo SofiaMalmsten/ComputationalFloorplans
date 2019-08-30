@@ -22,8 +22,8 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public StreetArea()
-          : base("StreetInclination", "StrIncl",
-              "Calculates how many height curves the street network crosses",
+          : base("StreetArea", "StrAr",
+              "Calculates the street area",
               "PlotPlanningTool", "Evaluate")
         {
         }
