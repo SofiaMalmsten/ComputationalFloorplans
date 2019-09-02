@@ -19,10 +19,9 @@ namespace PlotPlanning.Methods
             double stackArea = AreaMassProperties.Compute(gardenSrf, true, false, false, false).Area/(divisions * divisions); 
             
             double fill = 0;
-            double cut = 0;
-            double massBalance = 0;
+            double cut = 0;            
 
-            List<Point3d> srfPts = Query.SurfaceGrid(gardenSrf, divisions, divisions);
+            Point3d[,] srfPts = Query.SurfaceGrid(gardenSrf, divisions, divisions);
 
             foreach (Point3d pt in srfPts)
             {
@@ -39,11 +38,10 @@ namespace PlotPlanning.Methods
                 else
                     cut += (projectedPt[0].Z- pt.Z);
             }
-            
-            //TODO: Change cut to fill and vice versa
-            cut = cut*stackArea;
-            fill = fill*stackArea;
-            massBalance = cut - fill;
+                        
+            cut *= stackArea;
+            fill *= stackArea;
+            double massBalance = cut - fill;
 
             Dictionary<string, double> values = new Dictionary<string, double>();
             values.Add("cut", fill);

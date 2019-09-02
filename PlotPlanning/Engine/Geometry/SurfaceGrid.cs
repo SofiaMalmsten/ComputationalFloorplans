@@ -8,7 +8,7 @@ namespace PlotPlanning.Engine.Geometry
     public static partial class Query
     {
         //====================================================================//        
-        public static List<Point3d> SurfaceGrid(Surface surface, int uCount, int vCount)
+        public static Point3d[,] SurfaceGrid(Surface surface, int uCount, int vCount)
         {
             Interval uDomain = surface.Domain(0);
             Interval vDomain = surface.Domain(1);
@@ -25,16 +25,17 @@ namespace PlotPlanning.Engine.Geometry
             for (int i = 0; i < vCount; i++)
                 vValues.Add(vDomain.Min + i * deltaV);
 
-            List<Point3d> ptList = new List<Point3d>();
-            foreach  (double u in uValues)
+            Point3d[,] ptArray2d = new Point3d[uCount, vCount];
+
+            for (int i = 0; i < uCount; i++)
             {
-                foreach (double v in vValues)
+                for (int j = 0; j < vCount; j++)
                 {
-                    ptList.Add(surface.PointAt(u, v)); 
+                    ptArray2d[i, j] = surface.PointAt(uValues[i], vValues[j]); 
                 }
             }
-            return ptList; 
 
+            return ptArray2d; 
         }
 
         //====================================================================//    
