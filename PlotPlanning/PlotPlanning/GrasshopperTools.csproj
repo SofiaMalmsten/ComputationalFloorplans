@@ -68,11 +68,14 @@
   <ItemGroup>
     <Compile Include="Components\Adjust\Move.cs" />
     <Compile Include="Components\Adjust\ProjectToTopo.cs" />
+    <Compile Include="Components\Evaluate\GreenArea.cs" />
+    <Compile Include="Components\Evaluate\StreetArea.cs" />
     <Compile Include="Components\Evaluate\MassCalculations.cs" />
     <Compile Include="Components\Evaluate\Orientation.cs" />
     <Compile Include="Components\Evaluate\ShapeFactor.cs" />
     <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
     <Compile Include="Components\Generate\Roads.cs" />
+    <Compile Include="Components\Objects\Street.cs" />
     <Compile Include="Components\Testing\ConcaveHull2D.cs" />
     <Compile Include="Components\Generate\ApartmentDistrubution.cs" />
     <Compile Include="Components\Generate\FloorPlan.cs" />
@@ -205,6 +208,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Streets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Populate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\roads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FloorPlan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Floorplan2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SnapToSrf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Move.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

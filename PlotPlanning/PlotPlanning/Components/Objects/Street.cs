@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -12,9 +10,9 @@ using PlotPlanning.Engine.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class FloorPlan : GH_Component
+    public class Street : GH_Component
     {
-        #region Register Node
+        #region Register node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -22,10 +20,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public FloorPlan()
-          : base("FloorPlan", "FloorPlan",
-              "projects points on a line",
-              "PlotPlanningTool", "Generate")
+        public Street()
+          : base("Street", "S",
+              "Street",
+              "PlotPlanningTool", "1.Objects")
         {
         }
 
@@ -37,7 +35,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Floorplan2;
+                return Properties.Resources.roads;
             }
         }
 
@@ -48,7 +46,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("3a300ca7-6b7e-4d65-a0f4-9152c794fba6"); }
+            get { return new Guid("40dec9b7-c9d1-493b-96c3-957a9ba96a58"); }
         }
 
         #endregion
@@ -59,9 +57,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
-            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddCurveParameter("CenterCurve", "C", "Center curve", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Thickness", "T", "Thickness", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Fillet", "F", "Corner Fillet", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
+            pManager.AddBrepParameter("Street", "S", "Streets", GH_ParamAccess.item);
         }
 
         #endregion
@@ -83,23 +81,36 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            List<Point3d> topoPts = new List<Point3d>();
-            List<Point3d> planePts = new List<Point3d>();
-            List<double> possibleValues = new List<double>();
+            Curve centreCrv = new PolylineCurve();
+            double thickness = 1;
+            double fillet = 0;
 
             //Get Data
-            if (!DA.GetDataList(0, planePts))
+            if (!DA.GetData(0, ref centreCrv))
                 return;
-            if (!DA.GetDataList(1, topoPts))
+            if (!DA.GetData(1, ref thickness))
                 return;
-            if (!DA.GetDataList(2, possibleValues))
+            if (!DA.GetData(2, ref fillet))
                 return;
 
-            //Calculate
-            List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
-           
+
+            //Set properties
+            PlotPlanning.ObjectModel.Street street = new ObjectModel.Street();
+            street.CentreCurve = centreCrv;
+            street.Width = thickness;
+            street.CornerFillet = fillet;
+
+            Vector3d tan = centreCrv.TangentAtStart;
+            Vector3d projTan = new Vector3d(tan.X, tan.Y, 0);
+            Vector3d norm = Engine.Geometry.Compute.CrossProduct(projTan/projTan.Length, Vector3d.ZAxis);
+
+            Line crossSection = new Line(centreCrv.PointAtStart - norm * thickness/2, norm * thickness);
+
+            Rhino.Geometry.SweepOneRail sweepOne = new SweepOneRail();
+            Brep [] b = sweepOne.PerformSweep(centreCrv, crossSection.ToNurbsCurve());
+
             //Set data
-            DA.SetDataList(0, projectedPts);
+            DA.SetData(0, b[0]);
         }
 
         #endregion

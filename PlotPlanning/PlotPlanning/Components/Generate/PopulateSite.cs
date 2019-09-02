@@ -38,7 +38,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.RandomHouses;
+                return Properties.Resources.Populate;
             }
         }
 

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using PlotPlanning.Engine.Geometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -12,8 +10,9 @@ using PlotPlanning.Engine.Geometry;
 
 namespace PlotPlanning.Components
 {
-    public class FloorPlan : GH_Component
+    public class StreetArea : GH_Component
     {
+
         #region Register Node
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -22,10 +21,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public FloorPlan()
-          : base("FloorPlan", "FloorPlan",
-              "projects points on a line",
-              "PlotPlanningTool", "Generate")
+        public StreetArea()
+          : base("StreetArea", "StrAr",
+              "Calculates the street area",
+              "PlotPlanningTool", "Evaluate")
         {
         }
 
@@ -37,9 +36,10 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Floorplan2;
+                return Properties.Resources.Empty;
             }
         }
+
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
@@ -48,30 +48,27 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("3a300ca7-6b7e-4d65-a0f4-9152c794fba6"); }
+            get { return new Guid("0f3d5869-4c91-4cc3-8d7b-0d4945be1c46"); }
         }
-
         #endregion
 
         #region Input/Output
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("planePts", "planePts", "line to place accesspoints on", GH_ParamAccess.list);
-            pManager.AddPointParameter("topoPts", "topoPts", "min amount of houses in a row", GH_ParamAccess.list);
-            pManager.AddNumberParameter("possibleValues", "possibleValues", "max amount of houses in a row", GH_ParamAccess.list);
+            pManager.AddCurveParameter("StreetNetwork", "S", "Street network to evaluate", GH_ParamAccess.item);
         }
+        
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("projectedPts", "projectedPts", "projected Points", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Area", "A", "Area of each street segment", GH_ParamAccess.item);
         }
-
         #endregion
 
         #region Solution
@@ -83,25 +80,19 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            List<Point3d> topoPts = new List<Point3d>();
-            List<Point3d> planePts = new List<Point3d>();
-            List<double> possibleValues = new List<double>();
+            Curve street = new PolylineCurve();
 
             //Get Data
-            if (!DA.GetDataList(0, planePts))
-                return;
-            if (!DA.GetDataList(1, topoPts))
-                return;
-            if (!DA.GetDataList(2, possibleValues))
+            if (!DA.GetData(0, ref street))
                 return;
 
             //Calculate
-            List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
+            double area = AreaMassProperties.Compute(street).Area;
            
             //Set data
-            DA.SetDataList(0, projectedPts);
+            DA.SetData(0, area);
         }
-
         #endregion
+
     }
 }
