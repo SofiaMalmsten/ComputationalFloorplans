@@ -23,7 +23,7 @@ namespace PlotPlanning.Engine.Geometry
                 uValues.Add(uDomain.Min + i * deltaU);
 
             for (int i = 0; i < vCount; i++)
-                uValues.Add(vDomain.Min + i * deltaV);
+                vValues.Add(vDomain.Min + i * deltaV);
 
             List<Point3d> ptList = new List<Point3d>();
             foreach  (double u in uValues)

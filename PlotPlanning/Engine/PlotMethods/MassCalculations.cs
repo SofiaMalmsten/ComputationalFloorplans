@@ -16,40 +16,33 @@ namespace PlotPlanning.Methods
             double tol = Tolerance.Distance;
             Brep gardenBrep = Brep.CreatePlanarBreps(new[] { house.GardenBound.ToPolylineCurve() }, tol)[0];
             Surface gardenSrf = gardenBrep.Surfaces[0];
-            double stackArea = AreaMassProperties.Compute(gardenSrf, true, false, false, false).Area/(divisions ^ 2); 
+            double stackArea = AreaMassProperties.Compute(gardenSrf, true, false, false, false).Area/(divisions * divisions); 
             
             double cut = 0;
             double fill = 0;
             double massBalance = 0;
 
-            Interval interval = new Interval(0, divisions); 
+            List<Point3d> srfPts = Query.SurfaceGrid(gardenSrf, divisions, divisions);
 
-            gardenSrf.SetDomain(0, interval);
-            gardenSrf.SetDomain(1, interval);
-
-           // Brep[] siteBrep = { Brep.CreateFromSurface(site)}; 
-            for (int i = 0; i < divisions; i++)
+            foreach (Point3d pt in srfPts)
             {
-                for (int j = 0; j < divisions; j++)
+                Ray3d ray = new Ray3d(pt, Vector3d.ZAxis);
+
+                Point3d[] projectedPt = Intersection.RayShoot(ray, new Surface[] { site }, 1);
+                if (projectedPt == null)
                 {
-                    Point3d pt = gardenSrf.PointAt(i, j);
-                    Ray3d ray = new Ray3d(pt, Vector3d.ZAxis);
-
-                    Point3d[] projectedPt = Intersection.RayShoot(ray, new Surface[] {site},1);
-                    if (projectedPt == null)
-                    {
-                        ray = new Ray3d(pt, -Vector3d.ZAxis);
-                        projectedPt = Intersection.RayShoot(ray, new Surface[] { site }, 1);
-                        if (projectedPt != null)
-                            cut += (pt.Z - projectedPt[0].Z);
-                    }
-                    else
-                        fill += (pt.Z - projectedPt[0].Z);                    
+                    ray = new Ray3d(pt, -Vector3d.ZAxis);
+                    projectedPt = Intersection.RayShoot(ray, new Surface[] { site }, 1);
+                    if (projectedPt != null)
+                        cut += (pt.Z - projectedPt[0].Z);
                 }
+                else
+                    fill += (pt.Z - projectedPt[0].Z);
             }
-
-            fill *= stackArea;
-            cut *= stackArea;
+            
+            //TODO: Change cut to fill and vice versa
+            fill = fill*stackArea;
+            cut = cut*stackArea;
             massBalance = cut - fill;
 
             Dictionary<string, double> values = new Dictionary<string, double>();
