@@ -59,7 +59,7 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("House", "H", "The house to evaluate.", GH_ParamAccess.item);
-            pManager.AddSurfaceParameter("Site", "S", "The site to evaluate.", GH_ParamAccess.item);
+            pManager.AddSurfaceParameter("Topology", "T", "The topology of the site to evaluate.", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Divisions", "D", "The resolution with which the calculation is made", GH_ParamAccess.item, 10); 
         }
 
