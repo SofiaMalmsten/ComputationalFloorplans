@@ -6,7 +6,7 @@ namespace PlotPlanning.Engine.Geometry
     public static partial class Adjust
     {
         //Moves a point along a vecotr inside a boundary. If the point moves outside the new point will be the closest point on the boundary.
-        public static Point3d MoveInside(this Point3d pt, Vector3d v, PolyCurve bound)
+        public static Point3d MoveInside(this Point3d pt, Vector3d v, Curve bound)
         {
             Point3d testPt = pt + v;
             Line testLine = new Line(pt, pt + v);
@@ -20,8 +20,11 @@ namespace PlotPlanning.Engine.Geometry
             }
             else
             {
-                Rhino.Geometry.Intersect.CurveIntersections intSec = Rhino.Geometry.Intersect.Intersection.CurveLine(bound, testLine, 0.001, 0.001);
-                movedPt = intSec[0].PointA;
+                //Rhino.Geometry.Intersect.CurveIntersections intSec = Rhino.Geometry.Intersect.Intersection.CurveLine(bound, testLine, 0.001, 0.001);
+                //movedPt = intSec[0].PointA;
+
+                bound.ClosestPoint(testPt, out double t);
+                movedPt = bound.PointAt(t);
             }
 
             return movedPt;

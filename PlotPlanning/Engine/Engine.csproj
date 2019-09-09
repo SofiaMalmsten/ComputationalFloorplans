@@ -68,6 +68,7 @@
     <Compile Include="Base\GetClosestValue.cs" />
     <Compile Include="Base\ReadGeometry.cs" />
     <Compile Include="Base\Shuffle.cs" />
+    <Compile Include="Geometry\MoveInside.cs" />
     <Compile Include="Geometry\IsInside.cs" />
     <Compile Include="Geometry\Angle.cs" />
     <Compile Include="Geometry\BoundingRect.cs" />
