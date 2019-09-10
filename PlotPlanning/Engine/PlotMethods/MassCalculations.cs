@@ -18,8 +18,8 @@ namespace PlotPlanning.Methods
             Surface gardenSrf = gardenBrep.Surfaces[0];
             double stackArea = AreaMassProperties.Compute(gardenSrf, true, false, false, false).Area/(divisions * divisions); 
             
-            double fill = 0;
-            double cut = 0;            
+            double cut = 0;
+            double fill = 0;            
 
             Point3d[,] srfPts = Query.SurfaceGrid(gardenSrf, divisions, divisions);
 
@@ -33,19 +33,19 @@ namespace PlotPlanning.Methods
                     ray = new Ray3d(pt, -Vector3d.ZAxis);
                     projectedPt = Intersection.RayShoot(ray, new Surface[] { site }, 1);
                     if (projectedPt != null)
-                        fill += (pt.Z - projectedPt[0].Z);
+                        cut += (pt.Z - projectedPt[0].Z);
                 }
                 else
-                    cut += (projectedPt[0].Z- pt.Z);
+                    fill += (projectedPt[0].Z- pt.Z);
             }
                         
-            cut *= stackArea;
             fill *= stackArea;
+            cut *= stackArea;
             double massBalance = cut - fill;
 
             Dictionary<string, double> values = new Dictionary<string, double>();
-            values.Add("cut", fill);
-            values.Add("fill", cut);
+            values.Add("cut", cut);
+            values.Add("fill", fill);
             values.Add("massBalance", massBalance);
             return values; 
         }
