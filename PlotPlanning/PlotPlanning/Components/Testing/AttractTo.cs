@@ -10,7 +10,7 @@ using Grasshopper.Kernel;
 
 namespace PlotPlanning.Components
 {
-    public class MoveInside : GH_Component
+    public class AttractTo : GH_Component
     {
         #region Register node
         /// <summary>
@@ -20,10 +20,10 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public MoveInside()
-          : base("MoveInside", "MoveInside",
-              "MoveInside",
-              "PlotPlanningTool", "Other")
+        public AttractTo()
+          : base("AttractTo", "AttractTo",
+              "AttractTo",
+              "PlotPlanningTool", "Testing")
         {
         }
 
@@ -46,7 +46,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("25e523c8-2855-4412-b05f-20e5b911f153"); }
+            get { return new Guid("6b158ab0-8bc1-4dd0-93da-b3e8d232703d"); }
         }
 
         #endregion
@@ -57,9 +57,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Point", "P", "type hint: string", GH_ParamAccess.item);
-            pManager.AddVectorParameter("Vector", "V", "type hint: string", GH_ParamAccess.item);
-            pManager.AddCurveParameter("Boundary", "B", "boundary", GH_ParamAccess.item);
+            pManager.AddPointParameter("Point", "P", "points to move", GH_ParamAccess.list);
+            pManager.AddPointParameter("AttractorPoint", "A", "attractor points", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Tolerance", "T", "Toleance", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("Point", "P", "Point", GH_ParamAccess.item);
+            pManager.AddPointParameter("Point", "P", "Point", GH_ParamAccess.list);
         }
 
         #endregion
@@ -83,24 +83,24 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Point3d pt = new Point3d();
-            Vector3d vec = new Vector3d();
-            Curve crv = new PolylineCurve();
+            List<Point3d> pts = new List<Point3d>();
+            List<Point3d> attractors = new List<Point3d>();
+            double tol = 0.1;
+            List<Point3d> movedPt = new List<Point3d>();
 
             //Get Data
-            if (!DA.GetData(0, ref pt))
+            if (!DA.GetDataList(0, pts))
                 return;
-            if (!DA.GetData(1, ref vec))
+            if (!DA.GetDataList(1, attractors))
                 return;
-            if (!DA.GetData(2, ref crv))
+            if (!DA.GetData(2, ref tol))
                 return;
 
             //Calculate
-
-            Point3d movedPt = PlotPlanning.Engine.Geometry.Adjust.MoveInside(pt, vec, crv);
+            movedPt = PlotPlanning.Engine.Geometry.Adjust.AttractTo(pts, attractors, tol);
 
             //Set data
-            DA.SetData(0, movedPt);
+            DA.SetDataList(0, movedPt);
         }
 
         #endregion
