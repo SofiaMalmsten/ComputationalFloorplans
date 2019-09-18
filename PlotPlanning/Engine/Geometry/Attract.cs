@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Rhino.Geometry;
 using PlotPlanning.Engine.Base;
+using System.Linq;
 
 
 namespace PlotPlanning.Engine.Geometry
@@ -9,7 +10,7 @@ namespace PlotPlanning.Engine.Geometry
     public static partial class Adjust
     {
         //TODO: Only works for points in the XY plane - add plane as input?
-        public static List<Point3d> AttractTo(this List<Point3d> topoPts, List<Point3d> attractorPts, List<double> possibleValues)
+        public static List<Point3d> AttractTo(this List<Point3d> originalPts, List<Point3d> attractorPts, List<double> possibleValues)
         {
             double displacement;
             double valueToCheck;
@@ -21,7 +22,7 @@ namespace PlotPlanning.Engine.Geometry
                     displacement = 0;
                 else
                 {
-                    valueToCheck = topoPts[i].Z - attractorPts[i].Z;
+                    valueToCheck = originalPts[i].Z - attractorPts[i].Z;
                     displacement = Modify.ClosestValue(valueToCheck, possibleValues);
                 }
 
@@ -35,7 +36,31 @@ namespace PlotPlanning.Engine.Geometry
             }
             return movePts;
         }
-    }
 
-    //====================================================================//
+        //====================================================================//
+        public static List<Point3d> AttractTo(this List<Point3d> originalPts, List<Point3d> attractorPts, double attractionRange)
+        {
+            List<Point3d> movePts = new List<Point3d>();
+
+            for (int i = 0; i < originalPts.Count; i++)
+            {
+                List<double> distances = new List<double>();
+                for (int j = 0; j < attractorPts.Count; j++)
+                {
+                    distances.Add(originalPts[i].DistanceTo(attractorPts[j]));
+                }
+
+                double minDistance = distances.Min();
+                int index = distances.IndexOf(minDistance);
+
+                if (minDistance <= attractionRange)
+                    movePts.Add(attractorPts[index]); //select closest attractor point
+                else
+                    movePts.Add(originalPts[i]);
+
+            }
+            return movePts;
+        }
+        //====================================================================//
+    }
 }

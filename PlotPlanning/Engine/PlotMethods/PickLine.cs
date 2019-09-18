@@ -48,7 +48,7 @@ namespace PlotPlanning.Methods
                             posLines.Add(l);
                     }
                 }
-                return posLines[random.Next(lines.Count)];
+                return posLines[random.Next(posLines.Count)];
             }
 
             //====================================================================//
@@ -102,7 +102,7 @@ namespace PlotPlanning.Methods
                 if (posLines.Count == 0)
                     return lines.PickLine("random", random, roads, originalBound);
 
-                return posLines[random.Next(lines.Count)];
+                return posLines[random.Next(posLines.Count)];
             }
 
             //====================================================================//

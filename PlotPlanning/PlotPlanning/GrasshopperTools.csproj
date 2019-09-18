@@ -76,6 +76,8 @@
     <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
     <Compile Include="Components\Generate\Roads.cs" />
     <Compile Include="Components\Objects\Street.cs" />
+    <Compile Include="Components\Testing\AttractTo.cs" />
+    <Compile Include="Components\Testing\MoveInside.cs" />
     <Compile Include="Components\Testing\ConcaveHull2D.cs" />
     <Compile Include="Components\Generate\ApartmentDistrubution.cs" />
     <Compile Include="Components\Generate\FloorPlan.cs" />
