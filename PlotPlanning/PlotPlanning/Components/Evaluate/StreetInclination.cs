@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using PlotPlanning.Methods; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -58,7 +59,9 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("GreenArea", "G", "Polygon representing noundary of the green area to evaluate", GH_ParamAccess.item);
+            pManager.AddCurveParameter("Street", "S", "Center curve of the street", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Resolution", "R", "The distance between the points where the curve is evaluated. Smaller values give more precise results but might" +
+                "slow down the calculation", GH_ParamAccess.item, 1);
         }
         
 
@@ -67,7 +70,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Area", "A", "Area of each green area", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Average street inclination", "I", "The average absolute value for the derivative of the curve in z direction. " +
+                "A meassure of how flat the street is.", GH_ParamAccess.item);
         }
         #endregion
 
@@ -80,17 +84,21 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Curve greenArea = new PolylineCurve();
+            Curve street = new PolylineCurve();
+            double dist = 1; 
 
             //Get Data
-            if (!DA.GetData(0, ref greenArea))
+            if (!DA.GetData(0, ref street))
+                return;
+            if (!DA.GetData(1, ref dist))
                 return;
 
+
             //Calculate
-            double area = AreaMassProperties.Compute(greenArea).Area;
+            double streetIncl = Evaluate.StreetInclination(street, dist); 
            
             //Set data
-            DA.SetData(0, area);
+            DA.SetData(0, streetIncl);
         }
         #endregion
 
