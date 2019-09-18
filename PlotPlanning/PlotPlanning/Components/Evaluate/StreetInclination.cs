@@ -59,7 +59,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("Street", "S", "Center curve of the street", GH_ParamAccess.item);
+            pManager.AddCurveParameter("Streets", "S", "Center curve of the streets in the street network", GH_ParamAccess.list);
             pManager.AddNumberParameter("Resolution", "R", "The distance between the points where the curve is evaluated. Smaller values give more precise results but might" +
                 "slow down the calculation", GH_ParamAccess.item, 1);
         }
@@ -84,18 +84,18 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Curve street = new PolylineCurve();
+            List<Curve> streets = new List<Curve>(); 
             double dist = 1; 
 
             //Get Data
-            if (!DA.GetData(0, ref street))
+            if (!DA.GetDataList(0, street))
                 return;
             if (!DA.GetData(1, ref dist))
                 return;
 
 
             //Calculate
-            double streetIncl = Evaluate.StreetInclination(street, dist); 
+            double streetIncl = Evaluate.StreetInclination(streets, dist); 
            
             //Set data
             DA.SetData(0, streetIncl);
