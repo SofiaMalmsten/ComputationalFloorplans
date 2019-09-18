@@ -33,10 +33,10 @@ namespace PlotPlanning.Methods
                     ray = new Ray3d(pt, -Vector3d.ZAxis);
                     projectedPt = Intersection.RayShoot(ray, new Surface[] { site }, 1);
                     if (projectedPt != null)
-                        cut += (pt.Z - projectedPt[0].Z);
+                        fill += (pt.Z - projectedPt[0].Z);
                 }
                 else
-                    fill += (projectedPt[0].Z- pt.Z);
+                    cut += (projectedPt[0].Z- pt.Z);
             }
                         
             fill *= stackArea;
