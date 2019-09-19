@@ -62,6 +62,7 @@ namespace PlotPlanning.Components
             pManager.AddNumberParameter("LandingAlong", "lA", "Landing dimention along building backbone", GH_ParamAccess.item);
             pManager.AddNumberParameter("LandingPerp", "lP", "Landing dimention perpendicular to the building backbone", GH_ParamAccess.item);
             pManager.AddPlaneParameter("plane", "P", "Plane", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("flip", "f", "Flip direction", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -88,6 +89,7 @@ namespace PlotPlanning.Components
             double stairAlong = 0;
             double stairPerp = 0;
             Plane pl = new Plane();
+            bool flip = false;
 
             //Get Data
             if (!DA.GetData(0, ref stairAlong))
@@ -100,6 +102,8 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetData(4, ref pl))
                 return;
+            if(!DA.GetData(5, ref flip))
+                return;
 
 
             //Set properties
@@ -107,6 +111,8 @@ namespace PlotPlanning.Components
             staircase.StairCasePerimeter = Engine.Geometry.Adjust.Rectangle(pl, stairAlong, stairPerp).ToNurbsCurve();
 
             double factor = (stairPerp + landingPerp)/2;
+            if (flip)
+                factor *= -1;
 
             Plane p = pl.Clone();
             p.Translate(pl.YAxis * factor);
