@@ -99,7 +99,7 @@ namespace PlotPlanning.Components
             //Set properties
             PlotPlanning.ObjectModel.Appartment appartment = new ObjectModel.Appartment();
             appartment.AccessPoint = accessPoint;
-            appartment.Footprint = footprint;
+            appartment.Perimeter = footprint;
             appartment.Rooms = rooms;
 
             //Set data
