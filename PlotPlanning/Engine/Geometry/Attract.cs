@@ -38,7 +38,7 @@ namespace PlotPlanning.Engine.Geometry
         }
 
         //====================================================================//
-        public static List<Point3d> AttractTo(this List<Point3d> originalPts, List<Point3d> attractorPts, double tolerance)
+        public static List<Point3d> AttractTo(this List<Point3d> originalPts, List<Point3d> attractorPts, double attractionRange)
         {
             List<Point3d> movePts = new List<Point3d>();
 
@@ -53,7 +53,7 @@ namespace PlotPlanning.Engine.Geometry
                 double minDistance = distances.Min();
                 int index = distances.IndexOf(minDistance);
 
-                if (minDistance <= tolerance)
+                if (minDistance <= attractionRange)
                     movePts.Add(attractorPts[index]); //select closest attractor point
                 else
                     movePts.Add(originalPts[i]);
