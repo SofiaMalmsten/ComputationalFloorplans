@@ -88,7 +88,7 @@ namespace PlotPlanning.Components
             double dist = 1; 
 
             //Get Data
-            if (!DA.GetDataList(0, street))
+            if (!DA.GetDataList(0, streets))
                 return;
             if (!DA.GetData(1, ref dist))
                 return;
