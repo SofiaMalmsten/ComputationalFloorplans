@@ -10,16 +10,18 @@ namespace PlotPlanning.Methods
     {
         public static double StreetInclination(this Curve street, double distanceBetweenPoints = 1)
         {
-            Point3d[] evaluationPoints = street.DivideEquidistant(distanceBetweenPoints);
+            Point3d[] evaluationPoints = street.DivideEquidistant(distanceBetweenPoints);           
             List<double> zValues = evaluationPoints.Select(x => x.Z).ToList();
+            int ptCount = zValues.Count;
 
             double inclination = 0;
-            for (int i = 0; i < zValues.Count - 1; i++)
+            for (int i = 0; i < ptCount - 1; i++)
                 inclination += Math.Abs(zValues[i] - zValues[i + 1]);
 
-            inclination /= street.GetLength();
+            inclination /= ((ptCount-1) * distanceBetweenPoints);
 
-            return inclination;
+            double avgAngle = Math.Asin(inclination) * 180 / Math.PI;
+            return avgAngle;
         }
 
         //====================================================================//
@@ -27,22 +29,24 @@ namespace PlotPlanning.Methods
         public static double StreetInclination(this List<Curve> streets, double distanceBetweenPoints = 1)
         {
             double inclination = 0;
-            double totalLength = 0;
+            int totalPtCount = 0;
 
             foreach (Curve street in streets)
             {
                 Point3d[] evaluationPoints = street.DivideEquidistant(distanceBetweenPoints);
                 List<double> zValues = evaluationPoints.Select(x => x.Z).ToList();
+                int ptCount = zValues.Count;
 
-                for (int i = 0; i < zValues.Count - 1; i++)
+                for (int i = 0; i < ptCount - 1; i++)
                     inclination += Math.Abs(zValues[i] - zValues[i + 1]);
 
-                totalLength += street.GetLength();
+                totalPtCount += ptCount; 
             }
 
-            inclination /= totalLength;
-            return inclination;
+            inclination /= ((totalPtCount-1)*distanceBetweenPoints);
 
+            double avgAngle = Math.Asin(inclination)*180/ Math.PI;             
+            return avgAngle;
         }
     }
 }

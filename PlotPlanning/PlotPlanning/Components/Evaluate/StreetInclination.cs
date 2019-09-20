@@ -60,7 +60,7 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("Streets", "S", "Center curve of the streets in the street network", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Resolution", "R", "The distance between the points where the curve is evaluated. Smaller values give more precise results but might" +
+            pManager.AddNumberParameter("Resolution", "R", "The distance between the points where the curve is evaluated. Smaller values give more precise results but might " +
                 "slow down the calculation", GH_ParamAccess.item, 1);
         }
         
@@ -70,8 +70,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Average street inclination", "I", "The average absolute value for the derivative of the curve in z direction. " +
-                "A meassure of how flat the street is.", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Average street angle", "A", "The average absolute inclination angle in degrees in z-diraction of the streets with respect to the xy-plane.", GH_ParamAccess.item);
         }
         #endregion
 
@@ -95,10 +94,10 @@ namespace PlotPlanning.Components
 
 
             //Calculate
-            double streetIncl = Evaluate.StreetInclination(streets, dist); 
+            double streetInclAngle = Evaluate.StreetInclination(streets, dist); 
            
             //Set data
-            DA.SetData(0, streetIncl);
+            DA.SetData(0, streetInclAngle);
         }
         #endregion
 
