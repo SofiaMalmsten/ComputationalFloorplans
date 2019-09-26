@@ -34,7 +34,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Timer;
+                return Properties.Resources.Counter;
             }
         }
 

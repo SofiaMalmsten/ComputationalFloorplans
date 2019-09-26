@@ -34,7 +34,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Houses;
+                return Properties.Resources.NumberOfHouses;
             }
         }
 

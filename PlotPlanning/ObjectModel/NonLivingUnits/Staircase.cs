@@ -7,7 +7,6 @@ namespace PlotPlanning.ObjectModel
     public class Staircase
     {
         #region Properties
-        public Curve TotalPerimeter { get; set; } = new PolylineCurve();
         public Curve LandingPerimeter { get; set; } = new PolylineCurve();
         public Curve StairCasePerimeter { get; set; } = new PolylineCurve();
         public double uStair { get; set; } = 1;

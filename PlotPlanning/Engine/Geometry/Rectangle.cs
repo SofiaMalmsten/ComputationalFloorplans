@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Adjust
+    public static partial class Create
     {
         public static Rectangle3d Rectangle(Plane pl, double u, double v)
         {

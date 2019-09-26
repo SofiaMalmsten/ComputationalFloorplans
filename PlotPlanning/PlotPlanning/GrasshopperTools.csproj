@@ -108,77 +108,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Generate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Plot2D.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Evaluate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Houses.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CellularStreets.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CullDeSacStreets.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CutAndFill.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GridStreets.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LamellaHouses.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\lamellas.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MassBalance.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\NumberOfHouses.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\oCellStreet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pLineBound.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\QuarterHouses.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\RadiualStreets.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\RandomHouses.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SnapToStreet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SnapToTopo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CarPort.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\MFH.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ParkingLot.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SFH.png" />
@@ -188,9 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Capture.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Timer.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
@@ -209,25 +147,40 @@
     <None Include="Resources\Empty.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Streets.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Populate.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\roads.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FloorPlan.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Floorplan2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SnapToSrf.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Move.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Counter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stair.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Street.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Orientation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Inclination.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MassCalculations.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StreetArea.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Empty_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShapeFactor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

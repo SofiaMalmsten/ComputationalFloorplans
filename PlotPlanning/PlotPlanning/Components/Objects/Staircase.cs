@@ -35,7 +35,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Empty;
+                return Properties.Resources.Stair;
             }
         }
 
@@ -108,7 +108,7 @@ namespace PlotPlanning.Components
 
             //Set properties
             PlotPlanning.ObjectModel.Staircase staircase = new ObjectModel.Staircase();
-            staircase.StairCasePerimeter = Engine.Geometry.Adjust.Rectangle(pl, stairAlong, stairPerp).ToNurbsCurve();
+            staircase.StairCasePerimeter = Engine.Geometry.Create.Rectangle(pl, stairAlong, stairPerp).ToNurbsCurve();
 
             double factor = (stairPerp + landingPerp)/2;
             if (flip)
@@ -117,7 +117,7 @@ namespace PlotPlanning.Components
             Plane p = pl.Clone();
             p.Translate(pl.YAxis * factor);
             
-            staircase.LandingPerimeter = Engine.Geometry.Adjust.Rectangle(p, landingAlong, landingPerp).ToNurbsCurve();
+            staircase.LandingPerimeter = Engine.Geometry.Create.Rectangle(p, landingAlong, landingPerp).ToNurbsCurve();
 
             //Set data
             DA.SetData(0, staircase);
