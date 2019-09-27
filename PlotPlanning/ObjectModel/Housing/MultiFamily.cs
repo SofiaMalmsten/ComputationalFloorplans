@@ -10,19 +10,14 @@ namespace PlotPlanning.ObjectModel
         #region Properties
         public Brep Geometry { get; set; } = new Brep();
         public int Floors { get; set; } = 1;
-        public int Shift { get; set; } = 0;
-        public int LevelHeight { get; set; } = 3;
+        public double Thickness { get; set; } = 0;
+        public double LevelHeight { get; set; } = 3;
         public Vector3d Orientation { get; set; } = new Vector3d();
 
         #endregion
 
         #region Constructors
         public MultiFamily(){}
-
-        public MultiFamily(Polyline centreCrv, double thickness, int floors, double levelHeight)
-        {
-           
-        }
 
         #endregion
 
