@@ -106,18 +106,13 @@ namespace PlotPlanning.Components
                 return;
 
 
-            //Set properties
-            PlotPlanning.ObjectModel.Staircase staircase = new ObjectModel.Staircase();
-            staircase.StairCasePerimeter = Engine.Geometry.Create.Rectangle(pl, stairAlong, stairPerp).ToNurbsCurve();
+            //Create intervals from dimensions
+            Interval widthStair = new Interval(-stairAlong / 2, stairAlong / 2);
+            Interval heightStair = new Interval(-stairPerp / 2, stairPerp / 2);
+            Interval widhthLanding = new Interval(-landingAlong / 2, landingAlong / 2);
+            Interval heightLanding = new Interval(-landingPerp / 2, landingPerp / 2);
 
-            double factor = (stairPerp + landingPerp)/2;
-            if (flip)
-                factor *= -1;
-
-            Plane p = pl.Clone();
-            p.Translate(pl.YAxis * factor);
-            
-            staircase.LandingPerimeter = Engine.Geometry.Create.Rectangle(p, landingAlong, landingPerp).ToNurbsCurve();
+            ObjectModel.Staircase staircase = new ObjectModel.Staircase(pl, widthStair, heightStair, widhthLanding, heightLanding, flip);
 
             //Set data
             DA.SetData(0, staircase);

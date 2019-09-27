@@ -9,23 +9,30 @@ namespace PlotPlanning.ObjectModel
         #region Properties
         public Curve LandingPerimeter { get; set; } = new PolylineCurve();
         public Curve StairCasePerimeter { get; set; } = new PolylineCurve();
-        public double uStair { get; set; } = 1;
-        public double vStair { get; set; } = 1;
-        public double uLanding { get; set; } = 1;
-        public double vLanding { get; set; } = 1;
+
         #endregion
 
         #region Constructors
-        //TODO:Add constructors
 
         public Staircase() { }
 
         //==================================================
-        public Staircase(Plane pl, double u, double v)
+
+        public Staircase(Plane pl, Interval widthStair, Interval heightStarir, Interval widthLanding, Interval heightLanding, bool flip = true)
         {
-                Interval uInt = new Interval(-u / 2, u / 2);
-                Interval vInt = new Interval(-v / 2, v / 2);
-                Rectangle3d rec = new Rectangle3d(pl, uInt, vInt);
+            //The staircase consists of the landing geometry and the shaft for the starir + evelvator.
+            //These are represented by rectangles and are created by dimensions widht and height. width is along backbone, height is perpedicular.
+
+            StairCasePerimeter = (new Rectangle3d(pl, widthStair, heightStarir)).ToNurbsCurve();
+
+            double factor = (heightStarir.Length + heightLanding.Length) / 2;
+            if (flip)
+                factor *= -1;
+
+            Plane p = pl.Clone();
+            p.Translate(pl.YAxis * factor);
+
+            LandingPerimeter = (new Rectangle3d(p, widthLanding, heightLanding)).ToNurbsCurve();
 
         }
         #endregion

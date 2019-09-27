@@ -177,9 +177,6 @@
     <None Include="Resources\StreetArea.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Empty_2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ShapeFactor.png" />
   </ItemGroup>
   <ItemGroup>
