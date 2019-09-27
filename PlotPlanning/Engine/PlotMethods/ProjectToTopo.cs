@@ -33,7 +33,7 @@ namespace PlotPlanning.Methods
                 accessPts = currList.Select(x => x.AccessPoint).ToList();
                 planePts = new List<Point3d>();
                 surfacePts = Intersection.ProjectPointsToBreps(plot, accessPts, Vector3d.ZAxis, Tolerance.Distance).ToList();
-                if (surfacePts.Count != accessPts.Count) throw new Exception("The surface has to be directly below or above the houses you are tyring to project."); 
+                if (surfacePts.Count != accessPts.Count) throw new Exception("The surface has to be directly below or above the houses you are tyring to project. Seems like the houses are outside the topography."); 
                 double firstZ = surfacePts[0].Z;
                 foreach (Point3d pt in accessPts)
                 {
