@@ -88,6 +88,7 @@
     <Compile Include="Geometry\DotProduct.cs" />
     <Compile Include="Geometry\ClosestSegmentToPoint.cs" />
     <Compile Include="Geometry\IsClockwise.cs" />
+    <Compile Include="PlotMethods\StreetInclination.cs" />
     <Compile Include="PlotMethods\Move.cs" />
     <Compile Include="Geometry\Normalize.cs" />
     <Compile Include="Geometry\OffsetOut.cs" />
