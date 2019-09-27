@@ -12,29 +12,28 @@ namespace PlotPlanning.Engine.Base
     {
         public static double ClosestValue(double valueToCheck, List<double> possibleValues)
         {
+           
             double displacement = 0;
-            for (int i = 0; i < possibleValues.Count - 1; i++)
+
+            if (possibleValues.Count == 1) //if we only have one possible value that value will always be the closest value. 
+                displacement = possibleValues[0];
+            else
             {
-                if (valueToCheck > possibleValues[i] && valueToCheck < possibleValues[i + 1])
+                for (int i = 0; i < possibleValues.Count - 1; i++)
                 {
-                    double halfDistance = (possibleValues[i + 1] - possibleValues[i]) / 2;
-                    double difference = possibleValues[i] + halfDistance;
-                    if (valueToCheck < difference)
+                    if (valueToCheck > possibleValues[i] && valueToCheck < possibleValues[i + 1])
                     {
-                        displacement = possibleValues[i];
+                        double halfDistance = (possibleValues[i + 1] - possibleValues[i]) / 2;
+                        double difference = possibleValues[i] + halfDistance;
+                        if (valueToCheck < difference)
+                            displacement = possibleValues[i];
+                        else
+                            displacement = possibleValues[i + 1];
                     }
-                    else
-                    {
-                        displacement = possibleValues[i + 1];
-                    }
-                }
-                else if (valueToCheck >= possibleValues.Max())
-                {
-                    displacement = possibleValues.Max();
-                }
-                else if (valueToCheck <= possibleValues.Min())
-                {
-                    displacement = possibleValues.Min();
+                    else if (valueToCheck >= possibleValues.Max())
+                        displacement = possibleValues.Max();
+                    else if (valueToCheck <= possibleValues.Min())
+                        displacement = possibleValues.Min();
                 }
             }
             return displacement;
