@@ -37,7 +37,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.SnapToSrf;
+                return Properties.Resources.Adjust;
             }
         }
 
@@ -60,8 +60,8 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Houses", "H", "Houses that will be projected", GH_ParamAccess.list);
-            pManager.AddBrepParameter("Topology", "T", "Topolography that the houses will be projected onto", GH_ParamAccess.list);
-            pManager.AddNumberParameter("PossibleValues", "V", "Allowed values for vertical displacement between houses", GH_ParamAccess.list);
+            pManager.AddBrepParameter("Topography", "T", "Topography that the houses will be projected onto", GH_ParamAccess.list);
+            pManager.AddNumberParameter("PossibleValues", "V", "Allowed values for vertical displacement between houses", GH_ParamAccess.list, new List<double>() { 0 });
         }
 
  

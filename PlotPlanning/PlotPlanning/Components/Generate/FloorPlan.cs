@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
@@ -37,7 +37,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Floorplan2;
+                return Properties.Resources.Empty;
             }
         }
 
@@ -105,3 +105,4 @@ namespace PlotPlanning.Components
         #endregion
     }
 }
+*/

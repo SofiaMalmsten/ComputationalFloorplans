@@ -57,14 +57,10 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("tag", "T", "tag", GH_ParamAccess.item, "");
-            pManager.AddIntegerParameter("minFloor", "MaxF", "Minimum amount of floors", GH_ParamAccess.item, 1);
-            pManager.AddIntegerParameter("maxFloor", "MinF", "Maximum amount of floors", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("minShift", "MinS", "Minimum horisontal shift", GH_ParamAccess.item, 0);
-            pManager.AddIntegerParameter("maxShift", "MaxS", "Maximum horisontal shift", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("leveDifference", "Ld", "Difference in height between units in the same block", GH_ParamAccess.item, 1);
-            pManager.AddIntegerParameter("levelHeight", "Lh", "Height between levels", GH_ParamAccess.item, 3);
-            pManager.AddBrepParameter("houseGeom", "H", "houseGeom", GH_ParamAccess.item);
+            pManager.AddCurveParameter("CentreCrv", "C", "centreCrv", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Floors", "Floors", "Amount of floors", GH_ParamAccess.item, 1);
+            pManager.AddNumberParameter("Thickness", "T", "Thickness", GH_ParamAccess.item, 10);
+            pManager.AddNumberParameter("levelHeight", "Lh", "Height between levels", GH_ParamAccess.item, 3);
             pManager.AddRectangleParameter("garden", "G", "garden", GH_ParamAccess.item);
             pManager.AddPointParameter("accessPoint", "P", "accessPoint", GH_ParamAccess.item);
         }
@@ -88,56 +84,55 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+
             //Create class instances
-            string type = "";
-            int minFloor = 1;
-            int maxFloor = 1;
-            int minShift = 1;
-            int maxShift = 1;
-            int levelDifference = 1;
-            int levelHeight = 1;
-            Brep houseGeom = new Brep();
+            Curve centreCrv = new PolylineCurve();
+            int floors = 1;
+            double thickness = 1;
+            double levelHeight = 1;
             Rectangle3d garden = new Rectangle3d();
             Point3d accessPt = new Point3d();
 
             //Get Data
-            if (!DA.GetData(0, ref type))
+            if (!DA.GetData(0, ref centreCrv))
                 return;
-            if (!DA.GetData(1, ref minFloor))
+            if (!DA.GetData(1, ref floors))
                 return;
-            if (!DA.GetData(2, ref maxFloor))
+            if (!DA.GetData(2, ref thickness))
                 return;
-            if (!DA.GetData(3, ref minShift))
+            if (!DA.GetData(3, ref levelHeight))
                 return;
-            if (!DA.GetData(4, ref maxShift))
+            if (!DA.GetData(4, ref garden))
                 return;
-            if (!DA.GetData(5, ref levelDifference))
-                return;
-            if (!DA.GetData(6, ref levelHeight))
-                return;
-            if (!DA.GetData(7, ref houseGeom))
-                return;
-            if (!DA.GetData(8, ref garden))
-                return;
-            if (!DA.GetData(9, ref accessPt))
+            if (!DA.GetData(5, ref accessPt))
                 return;
 
 
             //Set properties
             PlotPlanning.ObjectModel.MultiFamily house = new ObjectModel.MultiFamily();
-            house.Type = type;
-            house.MinFloors = minFloor;
-            house.MaxFloors = maxFloor;
-            house.MinShift = minShift;
-            house.MaxShift = maxShift;
-            house.LevelDifference = levelDifference;
+            house.Floors = floors;
+            house.Thickness = thickness;
             house.LevelHeight = levelHeight;
-            house.HouseGeom = houseGeom;
             house.GardenBound = garden.ToPolyline();
             house.AccessPoint = accessPt;
 
-            //Set data
-            DA.SetData(0, house);
+            //Create geometry
+            Brep[] b = Engine.Geometry.Compute.Sweep(centreCrv, thickness);
+
+            //Join all brep edges
+            Curve[] boundary = Curve.JoinCurves(b[0].Curves3D);
+            List<Brep> brepList = new List<Brep>();
+
+            for (int i = 0; i < boundary.Length; i++)
+            {
+                Brep br = Extrusion.CreateExtrusion(boundary[i], Vector3d.ZAxis * levelHeight * floors).ToBrep().CapPlanarHoles(ObjectModel.Tolerance.Distance);
+                brepList.Add(br);
+            }
+
+            house.Geometry = brepList[0];
+
+           //Set data
+           DA.SetData(0, house);
         }
 
         #endregion

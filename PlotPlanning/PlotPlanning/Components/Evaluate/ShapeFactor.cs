@@ -33,7 +33,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Empty;
+                return Properties.Resources.ShapeFactor;
             }
         }
 
@@ -96,7 +96,7 @@ namespace PlotPlanning.Components
                 };
             }
 
-            double shapefactor = envelopArea / (floorArea * MFH.MaxFloors); //Should be the actual number of floors. 
+            double shapefactor = envelopArea / (floorArea * MFH.Floors); //Should be the actual number of floors. 
 
 
             //Set data

@@ -67,7 +67,9 @@
     <Compile Include="Base\EqualityComparer.cs" />
     <Compile Include="Base\GetClosestValue.cs" />
     <Compile Include="Base\ReadGeometry.cs" />
+    <Compile Include="Base\MirrorList.cs" />
     <Compile Include="Base\Shuffle.cs" />
+    <Compile Include="Geometry\Sweep.cs" />
     <Compile Include="Geometry\MoveInside.cs" />
     <Compile Include="Geometry\SurfaceGrid.cs" />
     <Compile Include="Geometry\IsInside.cs" />

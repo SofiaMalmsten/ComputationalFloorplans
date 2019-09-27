@@ -35,7 +35,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Empty;
+                return Properties.Resources.Stair;
             }
         }
 
@@ -57,9 +57,12 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("footprint", "F", "footprint", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Floors", "Fl", "Floors", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "P", "AccessPoint", GH_ParamAccess.list);
+            pManager.AddNumberParameter("StairAlong", "sA", "Stair dimention along building backbone", GH_ParamAccess.item);
+            pManager.AddNumberParameter("StairPerp", "sP", "Stair dimention perpendiculat to the building backbone", GH_ParamAccess.item);
+            pManager.AddNumberParameter("LandingAlong", "lA", "Landing dimention along building backbone", GH_ParamAccess.item);
+            pManager.AddNumberParameter("LandingPerp", "lP", "Landing dimention perpendicular to the building backbone", GH_ParamAccess.item);
+            pManager.AddPlaneParameter("plane", "P", "Plane", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("flip", "f", "Flip direction", GH_ParamAccess.item, true);
         }
 
         /// <summary>
@@ -81,24 +84,35 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            Curve footprint = new PolylineCurve();
-            List<Point3d> accessPoint = new List<Point3d>();
-            int floors = 0;
+            double landingPerp = 0;
+            double landingAlong = 0;
+            double stairAlong = 0;
+            double stairPerp = 0;
+            Plane pl = new Plane();
+            bool flip = false;
 
             //Get Data
-            if (!DA.GetData(0, ref footprint))
+            if (!DA.GetData(0, ref stairAlong))
                 return;
-            if (!DA.GetData(1, ref floors))
+            if (!DA.GetData(1, ref stairPerp))
                 return;
-            if (!DA.GetDataList(2, accessPoint))
+            if (!DA.GetData(2, ref landingAlong))
+                return;
+            if (!DA.GetData(3, ref landingPerp))
+                return;
+            if (!DA.GetData(4, ref pl))
+                return;
+            if(!DA.GetData(5, ref flip))
                 return;
 
 
-            //Set properties
-            PlotPlanning.ObjectModel.Staircase staircase = new ObjectModel.Staircase();
-            staircase.AccessPoints = accessPoint;
-            staircase.Footprint = footprint;
-            staircase.Floors = floors;
+            //Create intervals from dimensions
+            Interval widthStair = new Interval(-stairAlong / 2, stairAlong / 2);
+            Interval heightStair = new Interval(-stairPerp / 2, stairPerp / 2);
+            Interval widhthLanding = new Interval(-landingAlong / 2, landingAlong / 2);
+            Interval heightLanding = new Interval(-landingPerp / 2, landingPerp / 2);
+
+            ObjectModel.Staircase staircase = new ObjectModel.Staircase(pl, widthStair, heightStair, widhthLanding, heightLanding, flip);
 
             //Set data
             DA.SetData(0, staircase);

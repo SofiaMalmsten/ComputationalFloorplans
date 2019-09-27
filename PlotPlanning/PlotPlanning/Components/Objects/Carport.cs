@@ -35,7 +35,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.CarPort;
+                return Properties.Resources.Carport;
             }
         }
 

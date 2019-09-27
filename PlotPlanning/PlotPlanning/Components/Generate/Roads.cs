@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -36,7 +36,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.roads;
+                return Properties.Resources.Street;
             }
         }
 
@@ -104,3 +104,4 @@ namespace PlotPlanning.Components
         #endregion
     }
 }
+*/

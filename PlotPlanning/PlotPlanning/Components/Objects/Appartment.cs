@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -99,7 +99,7 @@ namespace PlotPlanning.Components
             //Set properties
             PlotPlanning.ObjectModel.Appartment appartment = new ObjectModel.Appartment();
             appartment.AccessPoint = accessPoint;
-            appartment.Footprint = footprint;
+            appartment.Perimeter = footprint;
             appartment.Rooms = rooms;
 
             //Set data
@@ -109,3 +109,4 @@ namespace PlotPlanning.Components
         #endregion
     }
 }
+*/

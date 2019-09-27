@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -35,7 +35,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.ParkingLot;
+                return Properties.Resources.Empty;
             }
         }
 
@@ -106,3 +106,4 @@ namespace PlotPlanning.Components
         #endregion
     }
 }
+*/

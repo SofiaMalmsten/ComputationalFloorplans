@@ -7,7 +7,7 @@ namespace PlotPlanning.ObjectModel
     public class Appartment
     {
         #region Properties
-        public Curve Footprint { get; set; } = new PolylineCurve();
+        public Curve Perimeter { get; set; } = new PolylineCurve();
         public Point3d AccessPoint { get; set; } = new Point3d();
         public int Rooms { get; set; } = 1;
         #endregion
