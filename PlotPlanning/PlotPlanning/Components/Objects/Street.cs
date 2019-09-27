@@ -100,14 +100,7 @@ namespace PlotPlanning.Components
             street.Width = thickness;
             street.CornerFillet = fillet;
 
-            Vector3d tan = centreCrv.TangentAtStart;
-            Vector3d projTan = new Vector3d(tan.X, tan.Y, 0);
-            Vector3d norm = Engine.Geometry.Compute.CrossProduct(projTan / projTan.Length, Vector3d.ZAxis);
-
-            Line crossSection = new Line(centreCrv.PointAtStart - norm * thickness / 2, norm * thickness);
-
-            Rhino.Geometry.SweepOneRail sweepOne = new SweepOneRail();
-            Brep[] b = sweepOne.PerformSweep(centreCrv, crossSection.ToNurbsCurve());
+            Brep [] b = Engine.Geometry.Compute.Sweep(centreCrv, thickness);
 
             //TODO: in order to merge all of the streets we need to change to list item and run the method on the list....
             Brep[] bUnion = Brep.CreateBooleanUnion(b, ObjectModel.Tolerance.Distance);
