@@ -62,7 +62,7 @@ namespace PlotPlanning.Components
             pManager.AddNumberParameter("LandingAlong", "lA", "Landing dimention along building backbone", GH_ParamAccess.item);
             pManager.AddNumberParameter("LandingPerp", "lP", "Landing dimention perpendicular to the building backbone", GH_ParamAccess.item);
             pManager.AddPlaneParameter("plane", "P", "Plane", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("flip", "f", "Flip direction", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("flip", "f", "Flip direction", GH_ParamAccess.item, true);
         }
 
         /// <summary>
