@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -28,7 +28,7 @@ namespace PlotPlanning.Components
               "PlotPlanningTool", "Adjust")
         {
         }
- /// <summary>
+        /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
         /// Icons need to be 24x24 pixels.
         /// </summary>
@@ -97,7 +97,7 @@ namespace PlotPlanning.Components
 
             //Calculate
             List<Point3d> projectedPts = Adjust.AttractTo(topoPts, planePts, possibleValues);
-           
+
             //Set data
             DA.SetDataList(0, projectedPts);
         }
@@ -105,3 +105,4 @@ namespace PlotPlanning.Components
         #endregion
     }
 }
+*/

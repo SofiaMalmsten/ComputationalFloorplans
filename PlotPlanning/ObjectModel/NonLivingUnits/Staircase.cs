@@ -18,11 +18,12 @@ namespace PlotPlanning.ObjectModel
 
         //==================================================
 
+        /// <summary>
+        /// The staircase consists of the landing geometry and the shaft for the starir + evelvator.
+        /// These are represented by rectangles and are created by dimensions widht and height. width is along backbone, height is perpedicular.
+        /// </summary>
         public Staircase(Plane pl, Interval widthStair, Interval heightStarir, Interval widthLanding, Interval heightLanding, bool flip = true)
         {
-            //The staircase consists of the landing geometry and the shaft for the starir + evelvator.
-            //These are represented by rectangles and are created by dimensions widht and height. width is along backbone, height is perpedicular.
-
             StairCasePerimeter = (new Rectangle3d(pl, widthStair, heightStarir)).ToNurbsCurve();
 
             double factor = (heightStarir.Length + heightLanding.Length) / 2;
@@ -33,8 +34,9 @@ namespace PlotPlanning.ObjectModel
             p.Translate(pl.YAxis * factor);
 
             LandingPerimeter = (new Rectangle3d(p, widthLanding, heightLanding)).ToNurbsCurve();
-
         }
+
+        //==================================================
         #endregion
 
         #region Public methods
