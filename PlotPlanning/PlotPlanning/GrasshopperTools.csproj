@@ -66,6 +66,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Adjust\Translate.cs" />
     <Compile Include="Components\Adjust\Move.cs" />
     <Compile Include="Components\Adjust\ProjectToTopo.cs" />
     <Compile Include="Components\Evaluate\StreetInclination.cs" />
