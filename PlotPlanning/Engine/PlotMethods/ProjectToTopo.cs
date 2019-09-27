@@ -40,9 +40,12 @@ namespace PlotPlanning.Methods
                     Point3d planePt = pt.Clone();
                     planePt.Z = firstZ;
                     planePts.Add(planePt); 
-                }               
+                }
 
-                List<Point3d> projectPts = Engine.Geometry.Adjust.AttractTo(surfacePts, planePts, possibleValues);
+                
+                //If 1 m is a possible displacement we want to move the house either -1 or 1 depending on the topography
+                List<double> possibleVals = Modify.MirrorList(possibleValues);
+                List<Point3d> projectPts = Engine.Geometry.Adjust.AttractTo(surfacePts, planePts, possibleVals);
 
                 for (int k = 0; k < currList.Count; k++)
                 {
