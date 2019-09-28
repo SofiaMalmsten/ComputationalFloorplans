@@ -119,17 +119,14 @@ namespace PlotPlanning.Components
             //Create geometry
             Brep[] b = Engine.Geometry.Compute.Sweep(centreCrv, thickness);
 
-            //Join all brep edges
-            Curve[] boundary = Curve.JoinCurves(b[0].Curves3D);
-            List<Brep> brepList = new List<Brep>();
+            //Join all brep edgesb
+            Curve[] En = b[0].DuplicateNakedEdgeCurves(true, false);
+            Curve[] bound = Curve.JoinCurves(En);
+            Brep br = Extrusion.Create(bound[0].ToNurbsCurve(), levelHeight * floors, true).ToBrep();
 
-            for (int i = 0; i < boundary.Length; i++)
-            {
-                Brep br = Extrusion.CreateExtrusion(boundary[i], Vector3d.ZAxis * levelHeight * floors).ToBrep().CapPlanarHoles(ObjectModel.Tolerance.Distance);
-                brepList.Add(br);
-            }
+            //Brep br = Extrusion.CreateExtrusion(bound[0].ToNurbsCurve(), Vector3d.ZAxis * levelHeight * floors).ToBrep().CapPlanarHoles(ObjectModel.Tolerance.Distance);
 
-            house.Geometry = brepList[0];
+            house.Geometry = br;
 
            //Set data
            DA.SetData(0, house);
