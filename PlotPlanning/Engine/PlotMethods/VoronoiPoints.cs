@@ -20,6 +20,7 @@ namespace PlotPlanning.Methods
 
             List<Point3d> voroni_pts = new List<Point3d>();
             List<Curve> remove_crvs = new List<Curve>();
+
             foreach (Point3d p in accessPoints)
             {
                 Curve c = new ArcCurve(new Circle(Plane.WorldXY, p, radius));
@@ -33,7 +34,10 @@ namespace PlotPlanning.Methods
                 }
             }
 
-            Curve trimed_crv = Curve.CreateBooleanDifference(offset_crv, remove_crvs, tol)[0];
+            Curve trimed_crv = new PolylineCurve();
+            try { trimed_crv = Curve.CreateBooleanDifference(offset_crv, remove_crvs, tol)[0]; }
+            catch { trimed_crv = offset_crv; }
+
             Polyline mesh_pl = new Polyline();
             trimed_crv.ToPolyline(tol, 1, 5, double.PositiveInfinity).TryGetPolyline(out mesh_pl);
             if (!mesh_pl.IsClosed) mesh_pl.Add(mesh_pl.First);
@@ -42,8 +46,8 @@ namespace PlotPlanning.Methods
             voroni_pts.AddRange(PopulateGeometry(population_mesh, voroni_pts, density, seed));
 
 
-            return (voroni_pts, offset_crv); 
-        }
+            return (voroni_pts, offset_crv);
+            }
 
         //====================================================================//
 

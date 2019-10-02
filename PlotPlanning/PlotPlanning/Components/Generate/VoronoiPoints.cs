@@ -102,7 +102,7 @@ namespace PlotPlanning.Components
             if (!DA.GetData(0, ref SiteBoundary))
                 return;
             if (!DA.GetDataList(1, accessPoints))
-                return;
+               
             if (!DA.GetData(2, ref density))
                 return;
             if (!DA.GetData(3, ref offset))
