@@ -4,12 +4,14 @@ using System.Collections.Generic;
 
 namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Compute
+    public static partial class Adjust
     {
         public static void Reparametrize(Curve c)
         {
             c.Domain = new Interval(0, 1);
         }
+
+        //====================================================================//
 
         public static void Reparametrize(List<Curve> crvs)
         {
