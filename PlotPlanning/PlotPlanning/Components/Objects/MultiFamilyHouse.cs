@@ -134,12 +134,11 @@ namespace PlotPlanning.Components
                 Curve innerCrv = bound.ToList().OrderBy(x => x.GetLength()).First();
                 Extrusion exInner = Extrusion.Create(innerCrv, levelHeight * floors, true);
                 Brep[] diff = Brep.CreateBooleanDifference(ex.ToBrep(), exInner.ToBrep(), ObjectModel.Tolerance.Distance);
-                house.Geometry = diff[0];
+                house.HouseGeom = diff[0];
             }
             else
-                house.Geometry = ex.ToBrep();
+                house.HouseGeom = ex.ToBrep();
 
-            
 
             //Set data
             DA.SetData(0, house);

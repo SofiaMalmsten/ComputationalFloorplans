@@ -35,7 +35,6 @@ namespace PlotPlanning.Engine.Geometry
             crvList.AddRange(offsetCrv1.ToList());
             crvList.AddRange(offsetCrv2.ToList());
 
-            //Brep[] b = Brep.CreateDevelopableLoft(offsetCrv1[0], offsetCrv2[0], false, false, 1);
             Brep[] b = Brep.CreateFromLoft(crvList, Point3d.Unset, Point3d.Unset, LoftType.Normal, false);
 
             return b;
