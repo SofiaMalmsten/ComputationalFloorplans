@@ -7,98 +7,42 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-        public static List<Line> FindEndSegments(List<Line> streetSegments)
+        public static List<List<Curve>> FindEndSegments(List<Line> streetSegments)
         {
-            List<Line> connectedGraph = subgraphs.SelectMany(x => x).ToList();
-            double tol = PlotPlanning.ObjectModel.Tolerance.Distance; 
-            int nrBranches = subgraphs.Count;
+            List<Line> endLines = new List<Line>();
+            List<Line> midLines = new List<Line>();
 
-            if (nrBranches == 2)
+            double tol = 0.01;
+
+            for (int i = 0; i < streetSegments.Count; i++)
             {
-                for (int i = 0; i < nrBranches - 1; i++)
-                {
-                    List<Line> branch_1 = subgraphs[i];
-                    List<Line> branch_2 = subgraphs[i + 1]; 
-                    List<Point3d> pts_1 = EndPointSet(branch_1, tol);
-                    List<Point3d> pts_2 = EndPointSet(branch_2, tol);
+                Line this_line = streetSegments[i];
+                List<Line> this_list = new List<Line>(streetSegments);
+                this_list.RemoveAt(i);
+                List<Point3d> endPoints = EndPointSet(this_list, 0.01);
 
-                    List<Point3d> closest_pair = ClosestPair(pts_1, pts_2);
+                bool EndLine = !(Engine.Geometry.Query.ContainsWithinTolerance(endPoints, this_line.To, tol) && Engine.Geometry.Query.ContainsWithinTolerance(endPoints, this_line.From, tol));
 
-                    connectedGraph.Add(new Line(closest_pair[0], closest_pair[1]));
-                }
+                if (EndLine)
+                    endLines.Add(this_line);
+                else
+                    midLines.Add(this_line);
             }
 
-            else if (nrBranches > 2)
-            {
-                for (int i = 0; i < nrBranches; i++)
-                {
-                    List<Line> branch_1 = subgraphs[i];
-                    List<double> dists = new List<double>();
-                    List<List<Point3d>> possible_pairs = new List<List<Point3d>>();
+            List<Curve> out_endCurves = endLines.Select(l => (Curve)l.ToNurbsCurve()).ToList();
 
-                    for (int j = 0; j < nrBranches; j++)
-                    {
-                        if (i != j)
-                        {
-                            List<Line> branch_2 = subgraphs[j];
-                            List<Point3d> pts_1 = EndPointSet(branch_1, tol);
-                            List<Point3d> pts_2 = EndPointSet(branch_2, tol);
-                            List<Point3d> possible_closest_pair = ClosestPair(pts_1, pts_2);
+            List<Curve> midCurves = midLines.Select(l => (Curve)l.ToNurbsCurve()).ToList();
+            List<Curve> out_midCurves = Curve.JoinCurves(midCurves).ToList();
 
-                            dists.Add(possible_closest_pair[0].DistanceTo(possible_closest_pair[1]));
-                            int current_Nr_Branches = possible_pairs.Count;
-                            possible_pairs.Add(possible_closest_pair);
-                        }
-                    }
-                    List<Point3d> closest_pair = possible_pairs[dists.IndexOf(dists.Min())];
+            List<List<Curve>> dividedStreetSegments = new List<List<Curve>>();
+            dividedStreetSegments.Add(out_midCurves);
+            dividedStreetSegments.Add(out_endCurves);
 
-                    connectedGraph.Add(new Line(closest_pair[0], closest_pair[1]));
-
-                }
-            }
-
-            return connectedGraph;
+            return dividedStreetSegments;           
 
         }
 
-        //====================================================================//
-
-        private static List<Point3d> EndPointSet(List<Line> lines, double tol)
-        {
-            List<Point3d> pts = new List<Point3d>();
-            foreach (Line l in lines)
-            {
-                pts.Add(l.From);
-                pts.Add(l.To);
-            }
-            return Point3d.CullDuplicates(pts, tol).ToList();
-        }
-
-        //====================================================================//
-
-        private static List<Point3d> ClosestPair(List<Point3d> list_1, List<Point3d> list_2)
-        {
-
-            PointCloud p = new PointCloud(list_2);
-            List<double> distances = new List<double>();
-            List<Point3d> possible_points = new List<Point3d>();
-
-            for (int i = 0; i < list_1.Count; i++)
-            {
-                Point3d this_point = list_1[i];
-                int idx = p.ClosestPoint(this_point);
-                distances.Add(this_point.DistanceTo(p.PointAt(idx)));
-                possible_points.Add(p.PointAt(idx));
-            }
-
-
-            int minIndex = distances.IndexOf(distances.Min());
-
-            return new List<Point3d>() { list_1[minIndex], possible_points[minIndex] };
-
-        }
-
-
+        //====================================================================//  
 
     }
 }
