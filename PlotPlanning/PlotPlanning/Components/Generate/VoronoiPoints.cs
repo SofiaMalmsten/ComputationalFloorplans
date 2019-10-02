@@ -13,7 +13,7 @@ using Grasshopper.Kernel.Parameters;
 
 namespace PlotPlanning.Components
 {
-    public class PopulateSite : GH_Component
+    public class VoronoiPoints : GH_Component
     {
         #region Register node
         /// <summary>
@@ -23,9 +23,9 @@ namespace PlotPlanning.Components
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public PopulateSite()
-          : base("PopulateSite", "PopSt",
-              "Populates a site in 2D with either single family houses or multi family houses",
+        public VoronoiPoints()
+          : base("VoronoiPoints", "VPts",
+              "Generates a number of points on a site that can be used to create a street network with the GenerateStreetNetwork component.",
               "PlotPlanningTool", "Generate")
         {
         }
@@ -38,7 +38,7 @@ namespace PlotPlanning.Components
         {
             get
             {
-                return Properties.Resources.Populate;
+                return Properties.Resources.Empty;
             }
         }
 
@@ -49,7 +49,7 @@ namespace PlotPlanning.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("874a8451-aa5e-4c5d-90fb-5e2158862b5d"); }
+            get { return new Guid("e9f418d8-a484-4cc6-b8f4-30d869c3b2fc"); }
         }
 
         #endregion
@@ -60,22 +60,16 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("houses", "H", "rectangles that should be places on lines", GH_ParamAccess.list);
-            pManager.AddCurveParameter("bound", "B", "base positipon for the rectangles", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("itts", "I", "itts", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("seed", "S", "seed", GH_ParamAccess.item, 1);
-            pManager.AddIntegerParameter("method", "M", "random, shortest or longest", GH_ParamAccess.item, 1);
-            pManager.AddCurveParameter("roads", "R", "roads", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.item);
+            pManager.AddCurveParameter("SiteBoundary", "C", "The boundary of the site for which you want to generate Voronoi points. Has to be closed and planar", GH_ParamAccess.item);
+            pManager.AddPointParameter("AccessPoints", "P", "The points from where you want the street network to be accessible from the outside. " +
+                "These points should ideally be on the site boundary.", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("density", "d", "The density of the points, i.e. how many points are generated. " +
+                "A more dense point distribution will result in a denser street network as well.", GH_ParamAccess.item, 10);
+            pManager.AddNumberParameter("Offset", "o", "The offet from the boundary where the points will be created and later where the street network will be formed." +
+                "A higher offset will result in more streets in the center region of the plot.", GH_ParamAccess.item, 5);
+            pManager.AddIntegerParameter("Seed", "s", "A seed for the random generation. Equal seeds will generate equal results.", GH_ParamAccess.item, 1);
 
-            //add dropdown list for method input
-            Param_Integer param = pManager[4] as Param_Integer;
-            param.AddNamedValue("random", 0);
-            param.AddNamedValue("roads", 1);
-            param.AddNamedValue("boundary", 2);
-            param.AddNamedValue("shortest", 3);
-            param.AddNamedValue("longest", 4);
-            param.AddNamedValue("boundary first", 5);
+            pManager[1].Optional = true; //making accessPoints optional
         }
 
 
@@ -84,9 +78,8 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("house", "H", "placed house footprints", GH_ParamAccess.list);
-            pManager.AddCurveParameter("cell", "C", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.list);
+            pManager.AddPointParameter("VoronoiPoints", "VPts", "The points generated. Use these as an input to GenerareStreetNetwork component.", GH_ParamAccess.list);
+            pManager.AddCurveParameter("Offsetde boundary curve", "C", "The offsed boundary curve. Use these as an input to GenerareStreetNetwork component.", GH_ParamAccess.item);
         }
 
         #endregion
@@ -99,71 +92,29 @@ namespace PlotPlanning.Components
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            //List<SingleFamily> houses = new List<SingleFamily>();
-            List<IHouse> houses = new List<IHouse>();
-            Curve bound = new PolylineCurve();
-            int itts = 1;
+            Curve SiteBoundary = new PolylineCurve();
+            List<Point3d> accessPoints = new List<Point3d>();
+            int density = 10;
+            double offset = 5; 
             int seed = 1;
-            int methodIdx = 1;
-            List<Curve> roads = new List<Curve>();
-            ObjectModel.Carport carport = new ObjectModel.Carport();
 
             //Get Data
-            if (!DA.GetDataList(0, houses))
+            if (!DA.GetData(0, ref SiteBoundary))
                 return;
-            if (!DA.GetData(1, ref bound))
+            if (!DA.GetDataList(1, accessPoints))
                 return;
-            if (!DA.GetData(2, ref itts))
+            if (!DA.GetData(2, ref density))
                 return;
-            if (!DA.GetData(3, ref seed))
+            if (!DA.GetData(3, ref offset))
                 return;
-            if (!DA.GetData(4, ref methodIdx))
-                return;
-            if (!DA.GetDataList(5, roads))
-                return;
-            if (!DA.GetData(6, ref carport))
+            if (!DA.GetData(4, ref seed))
                 return;
 
-            //set the method to the correct string
-            string method = "";
-            if (methodIdx == 0) method = "random";
-            else if (methodIdx == 1) method = "roads";
-            else if (methodIdx == 2) method = "boundary";
-            else if (methodIdx == 3) method = "shortest";
-            else if (methodIdx == 4) method = "longest";
-            else if (methodIdx == 5) method = "boundary first";
-            else method = "random";
-
-
-            List<IHouse> houseList = new List<IHouse>();
-            List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
-            Random random = new Random(seed);
-            Curve originalBound = bound;
-
-
-            List<Curve> boundList = new List<Curve>() { bound };
-
-
-            for (int i = 0; i < itts; i++)
-            {
-                int idx = random.Next(boundList.Count);
-                Curve c = boundList[idx];
-                boundList.RemoveAt(idx);
-
-                (List<IHouse>, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = Methods.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random, method, carport);
-
-                houseList.AddRange(objectTuple.Item1);
-                boundList.AddRange(objectTuple.Item2);
-                carports.AddRange(objectTuple.Item3);
-                if (boundList.Count == 0) break;
-            }
-
-            List<Curve> newRegions = boundList;
+            (List<Point3d>, Curve) objTuple = PlotPlanning.Methods.Generate.VoronoiPoints(SiteBoundary, accessPoints, offset, density, seed); 
 
             //Set data for the outputs
-            DA.SetDataList(0, houseList);
-            DA.SetDataList(1, newRegions);
-            DA.SetDataList(2, carports);
+            DA.SetDataList(0, objTuple.Item1);
+            DA.SetData(1, objTuple.Item2);
         }
 
         #endregion
