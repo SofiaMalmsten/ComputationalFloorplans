@@ -94,6 +94,7 @@
     <Compile Include="Geometry\IsClockwise.cs" />
     <Compile Include="PlotMethods\Street\VoronoiNetwork.cs" />
     <Compile Include="PlotMethods\Street\FindSubgraphs.cs" />
+    <Compile Include="PlotMethods\Street\ConnectSubgraphs.cs" />
     <Compile Include="PlotMethods\Street\VoronoiPoints.cs" />
     <Compile Include="PlotMethods\Move.cs" />
     <Compile Include="Geometry\Normalize.cs" />
