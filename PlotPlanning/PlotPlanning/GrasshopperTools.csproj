@@ -74,6 +74,7 @@
     <Compile Include="Components\Evaluate\Orientation.cs" />
     <Compile Include="Components\Evaluate\ShapeFactor.cs" />
     <Compile Include="Components\Evaluate\NumberOfHouses.cs" />
+    <Compile Include="Components\Generate\GenerateStreetNetwork.cs" />
     <Compile Include="Components\Generate\VoronoiPoints.cs" />
     <Compile Include="Components\Generate\Roads.cs" />
     <Compile Include="Components\Objects\Street.cs" />
