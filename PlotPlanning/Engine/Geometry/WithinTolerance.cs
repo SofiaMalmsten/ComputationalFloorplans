@@ -13,5 +13,12 @@ namespace PlotPlanning.Engine.Geometry
 
         //====================================================================//
 
+        public static bool ContainsWithinTolerance(List<Point3d> pts, Point3d pt, double tol)
+        {
+            return pts.Any(x => WithinTol(x, pt, tol));
+        }
+
+        //====================================================================//
+
     }
 }
