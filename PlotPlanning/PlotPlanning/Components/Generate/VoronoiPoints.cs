@@ -78,7 +78,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("VoronoiPoints", "VPts", "The points generated. Use these as an input to GenerareStreetNetwork component.", GH_ParamAccess.list);
+            pManager.AddPointParameter("VoronoiPoints", "P", "The points generated. Use these as an input to GenerareStreetNetwork component.", GH_ParamAccess.list);
             pManager.AddCurveParameter("Offsetde boundary curve", "C", "The offsed boundary curve. Use these as an input to GenerareStreetNetwork component.", GH_ParamAccess.item);
         }
 

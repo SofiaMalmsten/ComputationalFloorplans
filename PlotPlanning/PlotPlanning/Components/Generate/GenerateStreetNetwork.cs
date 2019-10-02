@@ -89,10 +89,10 @@ namespace PlotPlanning.Components
             List<Point3d> voronoiPoints = new List<Point3d>();
 
             //Get Data
-            if (!DA.GetData(0, ref SiteBoundary))
+            if (!DA.GetDataList(0, voronoiPoints))
                 return;
-            if (!DA.GetDataList(1, voronoiPoints))
-                return; 
+            if (!DA.GetData(1, ref SiteBoundary))
+                return;            
 
             List<Line> networkLines = Methods.Generate.VoronoiNetwork(voronoiPoints, SiteBoundary); 
 
