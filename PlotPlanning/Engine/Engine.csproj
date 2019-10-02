@@ -69,6 +69,7 @@
     <Compile Include="Base\ReadGeometry.cs" />
     <Compile Include="Base\MirrorList.cs" />
     <Compile Include="Base\Shuffle.cs" />
+    <Compile Include="Geometry\Reparametrize.cs" />
     <Compile Include="Geometry\Sweep.cs" />
     <Compile Include="Geometry\MoveInside.cs" />
     <Compile Include="Geometry\SurfaceGrid.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Geometry\DotProduct.cs" />
     <Compile Include="Geometry\ClosestSegmentToPoint.cs" />
     <Compile Include="Geometry\IsClockwise.cs" />
+    <Compile Include="PlotMethods\VoronoiNetwork.cs" />
     <Compile Include="PlotMethods\VoronoiPoints.cs" />
     <Compile Include="PlotMethods\Move.cs" />
     <Compile Include="Geometry\Normalize.cs" />
