@@ -1,51 +1,38 @@
 ﻿using System;
 using Rhino.Geometry;
-using System.Collections.Generic; 
 
 namespace PlotPlanning.Engine.Geometry
 {
-    public static partial class Adjust
+    public static partial class Compute
     {
-        public static List<Line> CullDuplicates(List<Line> lines)
+        public static double SignedAngle(this Vector3d v1, Vector3d v2, Vector3d normal)
         {
-            List<Line> culledList = new List<Line>();
-            double tol = 0.01;
+            double angle = Angle(v1, v2);
 
-            if (lines.Count > 0)
-            {
-                culledList.Add(lines[0]);
-
-                foreach (Line check_line in lines)
-                {
-                    bool addLine = true;
-                    foreach (Line added_line in culledList)
-                    {
-                        if (WithinTol(check_line.To, added_line.To, tol) && WithinTol(check_line.From, added_line.From, tol))
-                        {
-                            addLine = false;
-                            break;
-                        }
-
-                        else if (WithinTol(check_line.From, added_line.To, tol) && WithinTol(check_line.To, added_line.From, tol))
-                        {
-                            addLine = false;
-                            break;
-                        }
-                    }
-                    if (addLine) culledList.Add(check_line);
-                }
-            }
-            return culledList;
+            Vector3d crossproduct = v1.CrossProduct(v2);
+            if (crossproduct.DotProduct(normal) < 0)
+                return -angle;
+            else
+                return angle;
         }
 
         //====================================================================//
 
-        private static bool WithinTol(Point3d pt1, Point3d pt2, double tol)
+        public static double SignedAngle(this Vector3d v1, Vector3d v2, Plane plane)
         {
-            return pt1.DistanceTo(pt2) < tol;
+            Vector3d normal = plane.Normal;
+            return v1.SignedAngle(v2, normal);
         }
 
         //====================================================================//
+        public static double Angle(this Vector3d v1, Vector3d v2)
+        {
+            double dotProduct = v1.DotProduct(v2);
+            double length = v1.Length * v2.Length;
 
+            return (Math.Abs(dotProduct) < length) ? Math.Acos(dotProduct / length) : (dotProduct < 0) ? Math.PI : 0;
+        }
+
+        //====================================================================//
     }
 }

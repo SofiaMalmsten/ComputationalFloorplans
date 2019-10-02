@@ -69,13 +69,14 @@
     <Compile Include="Base\ReadGeometry.cs" />
     <Compile Include="Base\MirrorList.cs" />
     <Compile Include="Base\Shuffle.cs" />
-    <Compile Include="Geometry\CullDuplicates.cs" />
+    <Compile Include="Geometry\Angle.cs" />
+    <Compile Include="Geometry\WithinTolerance.cs" />
     <Compile Include="Geometry\Reparametrize.cs" />
     <Compile Include="Geometry\Sweep.cs" />
     <Compile Include="Geometry\MoveInside.cs" />
     <Compile Include="Geometry\SurfaceGrid.cs" />
     <Compile Include="Geometry\IsInside.cs" />
-    <Compile Include="Geometry\Angle.cs" />
+    <Compile Include="Geometry\CullDuplicates.cs" />
     <Compile Include="Geometry\BoundingRect.cs" />
     <Compile Include="Geometry\ClosePolyline.cs" />
     <Compile Include="Geometry\ConcaveHull.cs" />
@@ -90,8 +91,8 @@
     <Compile Include="Geometry\DotProduct.cs" />
     <Compile Include="Geometry\ClosestSegmentToPoint.cs" />
     <Compile Include="Geometry\IsClockwise.cs" />
-    <Compile Include="PlotMethods\VoronoiNetwork.cs" />
-    <Compile Include="PlotMethods\VoronoiPoints.cs" />
+    <Compile Include="PlotMethods\Street\VoronoiNetwork.cs" />
+    <Compile Include="PlotMethods\Street\VoronoiPoints.cs" />
     <Compile Include="PlotMethods\Move.cs" />
     <Compile Include="Geometry\Normalize.cs" />
     <Compile Include="Geometry\OffsetOut.cs" />
