@@ -16,7 +16,7 @@ namespace PlotPlanning.Methods
             for (int i = 0; i < voronoiNetwork.Count; i++)
             {
                 if (nrCheckedLines != voronoiNetwork.Count)
-                {
+                {   
                     List<Line> connectedLines = new List<Line>();
                     List<Line> lines_to_check = new List<Line>();
 

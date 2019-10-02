@@ -72,7 +72,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("l", "l", "l", GH_ParamAccess.list);
+            pManager.AddLineParameter("l", "l", "l", GH_ParamAccess.tree);
         }
 
         #endregion
@@ -94,10 +94,16 @@ namespace PlotPlanning.Components
             if (!DA.GetData(1, ref SiteBoundary))
                 return;            
 
-            List<Line> networkLines = Methods.Generate.VoronoiNetwork(voronoiPoints, SiteBoundary); 
+            List<Line> networkLines = Methods.Generate.VoronoiNetwork(voronoiPoints, SiteBoundary);
+            List<List<Line>> subgraphs = Methods.Generate.FindSubgraphs(networkLines);
+            Grasshopper.DataTree<Line> tree = new Grasshopper.DataTree<Line>();
+
+            for (int i = 0; i < subgraphs.Count; i++)            
+                tree.AddRange(subgraphs[i], new Grasshopper.Kernel.Data.GH_Path(i));
+
 
             //Set data for the outputs
-            DA.SetDataList(0, networkLines);
+            DA.SetDataTree(0, tree); 
         }
 
         #endregion
