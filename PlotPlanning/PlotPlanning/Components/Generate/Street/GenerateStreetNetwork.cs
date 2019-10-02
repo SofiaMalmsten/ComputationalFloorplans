@@ -63,7 +63,11 @@ namespace PlotPlanning.Components
             pManager.AddPointParameter("VoronoiPoints", "P", "The points from which the street network is generated." +
                 "Try plugging in the points from the VoronoiPoints component.", GH_ParamAccess.list);
             pManager.AddCurveParameter("OffsetSiteBoundary", "C", "The region in which you whish the streets to be created." +
-                "Try plugging in the offset boundary from the VoronoiPoints component.", GH_ParamAccess.item); 
+                "Try plugging in the offset boundary from the VoronoiPoints component.", GH_ParamAccess.item);
+            pManager.AddIntervalParameter("End Segment length", "i", "An interval that determines if free end segments of the street network should be taken away." +
+                "All values in the interval is said to be accepted.", GH_ParamAccess.item, new Interval(0, double.PositiveInfinity));
+
+            pManager[2].Optional = true; 
         }
 
 
@@ -72,7 +76,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("l", "l", "l", GH_ParamAccess.tree);
+            pManager.AddCurveParameter("c", "c", "c", GH_ParamAccess.tree);
         }
 
         #endregion
@@ -87,19 +91,26 @@ namespace PlotPlanning.Components
         {
             Curve SiteBoundary = new PolylineCurve();
             List<Point3d> voronoiPoints = new List<Point3d>();
+            Interval acceptedInterval = new Interval(0, double.PositiveInfinity); 
 
             //Get Data
             if (!DA.GetDataList(0, voronoiPoints))
                 return;
             if (!DA.GetData(1, ref SiteBoundary))
-                return;            
+                return;
+            if (!DA.GetData(2, ref acceptedInterval))
+                return; 
 
             List<Line> networkLines = Methods.Generate.VoronoiNetwork(voronoiPoints, SiteBoundary);
             List<List<Line>> subgraphs = Methods.Generate.FindSubgraphs(networkLines);
-            Grasshopper.DataTree<Line> tree = new Grasshopper.DataTree<Line>();
+            List<Line> connectedSegments = Methods.Generate.ConnectSubgraphs(subgraphs);
+            List<Line> truncatedGraph = Methods.Generate.CullSegments(connectedSegments, acceptedInterval);
+            List<List<Curve>> dividedGraph = Methods.Generate.FindEndSegments(truncatedGraph); 
 
-            for (int i = 0; i < subgraphs.Count; i++)            
-                tree.AddRange(subgraphs[i], new Grasshopper.Kernel.Data.GH_Path(i));
+            Grasshopper.DataTree<Curve> tree = new Grasshopper.DataTree<Curve>();
+
+            for (int i = 0; i < dividedGraph.Count; i++)            
+                tree.AddRange(dividedGraph[i], new Grasshopper.Kernel.Data.GH_Path(i));
 
 
             //Set data for the outputs

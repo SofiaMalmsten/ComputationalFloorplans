@@ -1,6 +1,7 @@
 ﻿using System;
 using Rhino.Geometry;
 using System.Collections.Generic;
+using System.Linq; 
 
 namespace PlotPlanning.Engine.Geometry
 {
@@ -15,7 +16,7 @@ namespace PlotPlanning.Engine.Geometry
 
         public static bool ContainsWithinTolerance(List<Point3d> pts, Point3d pt, double tol)
         {
-            return pts.Any(x => WithinTol(x, pt, tol));
+            return pts.Any(x => WithinTolerance(x, pt, tol));
         }
 
         //====================================================================//
