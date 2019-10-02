@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\ListEqualIgnoreOrder.cs" />
     <Compile Include="Base\Clone.cs" />
     <Compile Include="Base\EqualityComparer.cs" />
     <Compile Include="Base\GetClosestValue.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Geometry\ClosestSegmentToPoint.cs" />
     <Compile Include="Geometry\IsClockwise.cs" />
     <Compile Include="PlotMethods\Street\VoronoiNetwork.cs" />
+    <Compile Include="PlotMethods\Street\FindSubgraphs.cs" />
     <Compile Include="PlotMethods\Street\VoronoiPoints.cs" />
     <Compile Include="PlotMethods\Move.cs" />
     <Compile Include="Geometry\Normalize.cs" />
