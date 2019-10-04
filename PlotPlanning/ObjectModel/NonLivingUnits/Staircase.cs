@@ -37,6 +37,20 @@ namespace PlotPlanning.ObjectModel
         }
 
         //==================================================
+
+        public Staircase(Plane pl, Interval widthStair, Interval heightStarir, Interval widthLanding, Interval heightLanding, Vector3d dir)
+        {
+            StairCasePerimeter = (new Rectangle3d(pl, widthStair, heightStarir)).ToNurbsCurve();
+
+            double factor = (heightStarir.Length + heightLanding.Length) / 2;
+            if (dir == null || dir.IsZero)
+                dir = pl.YAxis;
+
+            Plane p = pl.Clone();
+            p.Translate(dir/dir.Length * factor);
+
+            LandingPerimeter = (new Rectangle3d(p, widthLanding, heightLanding)).ToNurbsCurve();
+        }
         #endregion
 
         #region Public methods
