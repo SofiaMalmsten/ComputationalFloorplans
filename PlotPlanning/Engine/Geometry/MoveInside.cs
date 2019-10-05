@@ -1,5 +1,6 @@
 ﻿using System;
 using Rhino.Geometry;
+using Grasshopper.Kernel;
 
 namespace PlotPlanning.Engine.Geometry
 {
@@ -9,7 +10,6 @@ namespace PlotPlanning.Engine.Geometry
         public static Point3d MoveInside(this Point3d point, Vector3d vector, Curve bound) //Change the name of this method to something like MoveWithin or MovePointInsideCurve.
         {
             Point3d testPt = point + vector;
-            Line testLine = new Line(point, point + vector);
             Point3d movedPt = new Point3d();
 
             //Check wheter the point is inside the building boundary
@@ -20,11 +20,10 @@ namespace PlotPlanning.Engine.Geometry
             }
             else
             {
-                //Rhino.Geometry.Intersect.CurveIntersections intSec = Rhino.Geometry.Intersect.Intersection.CurveLine(bound, testLine, 0.001, 0.001);
-                //movedPt = intSec[0].PointA;
+                Line l = new Line(point, testPt);
+                Point3d boundPt = Rhino.Geometry.Intersect.Intersection.CurveCurve(bound, l.ToNurbsCurve(), ObjectModel.Tolerance.Distance, ObjectModel.Tolerance.Distance)[0].PointA;
 
-                bound.ClosestPoint(testPt, out double t);
-                movedPt = bound.PointAt(t);
+                movedPt = boundPt;
             }
 
             return movedPt;
