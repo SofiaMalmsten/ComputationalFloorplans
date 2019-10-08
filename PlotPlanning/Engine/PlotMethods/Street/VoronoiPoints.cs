@@ -23,8 +23,9 @@ namespace PlotPlanning.Methods
 
             foreach (Point3d p in accessPoints)
             {
-                double t; 
-                offset_crv.ClosestPoint(p, out t);
+                double t;
+                Engine.Geometry.Adjust.Reparametrize(offset_crv);
+                offset_crv.ClosestPoint(p, out t);                
                 Point3d closestPoint = offset_crv.PointAt(t); 
 
                 Curve c = new ArcCurve(new Circle(Plane.WorldXY, closestPoint, radius));
@@ -39,7 +40,7 @@ namespace PlotPlanning.Methods
             }
 
             Curve trimed_crv = new PolylineCurve();
-            try { trimed_crv = Curve.CreateBooleanDifference(offset_crv, remove_crvs, tol)[0]; }
+            try { trimed_crv = Curve.CreateBooleanDifference(offset_crv, remove_crvs, tol).OrderByDescending(x => x.GetLength()).First(); }
             catch { trimed_crv = offset_crv; }
 
             Polyline mesh_pl = new Polyline();
