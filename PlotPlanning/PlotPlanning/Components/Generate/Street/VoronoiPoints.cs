@@ -62,7 +62,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddCurveParameter("SiteBoundary", "C", "The boundary of the site for which you want to generate Voronoi points. Has to be closed and planar", GH_ParamAccess.item);
             pManager.AddPointParameter("AccessPoints", "P", "The points from where you want the street network to be accessible from the outside. " +
-                "These points should ideally be on the site boundary.", GH_ParamAccess.list);
+                "These points should ideally be on the site boundary.", GH_ParamAccess.list, new List<Point3d>());
             pManager.AddIntegerParameter("density", "d", "The density of the points, i.e. how many points are generated. " +
                 "A more dense point distribution will result in a denser street network as well.", GH_ParamAccess.item, 10);
             pManager.AddNumberParameter("Offset", "o", "The offet from the boundary where the points will be created and later where the street network will be formed." +
@@ -101,8 +101,8 @@ namespace PlotPlanning.Components
             //Get Data
             if (!DA.GetData(0, ref SiteBoundary))
                 return;
-            if (!DA.GetDataList(1, accessPoints))
-               
+            DA.GetDataList(1, accessPoints); 
+               // return;
             if (!DA.GetData(2, ref density))
                 return;
             if (!DA.GetData(3, ref offset))

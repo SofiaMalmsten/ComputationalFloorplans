@@ -23,7 +23,11 @@ namespace PlotPlanning.Methods
 
             foreach (Point3d p in accessPoints)
             {
-                Curve c = new ArcCurve(new Circle(Plane.WorldXY, p, radius));
+                double t; 
+                offset_crv.ClosestPoint(p, out t);
+                Point3d closestPoint = offset_crv.PointAt(t); 
+
+                Curve c = new ArcCurve(new Circle(Plane.WorldXY, closestPoint, radius));
                 remove_crvs.Add(c);
                 CurveIntersections crv_intersections = Intersection.CurveCurve(offset_crv, c, tol, tol);
 
