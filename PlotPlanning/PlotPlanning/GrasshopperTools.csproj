@@ -79,6 +79,7 @@
     <Compile Include="Components\Generate\Roads.cs" />
     <Compile Include="Components\Objects\Staircase - Copy.cs" />
     <Compile Include="Components\Objects\Street.cs" />
+    <Compile Include="Components\Testing\GetClosestValue.cs" />
     <Compile Include="Components\Testing\PointsOnCurve.cs" />
     <Compile Include="Components\Testing\AttractTo.cs" />
     <Compile Include="Components\Testing\MoveInside.cs" />
