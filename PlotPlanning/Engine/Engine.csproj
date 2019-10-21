@@ -70,6 +70,7 @@
     <Compile Include="Base\ReadGeometry.cs" />
     <Compile Include="Base\MirrorList.cs" />
     <Compile Include="Base\Shuffle.cs" />
+    <Compile Include="Geometry\ExpandRectangle.cs" />
     <Compile Include="Geometry\Angle.cs" />
     <Compile Include="Geometry\WithinTolerance.cs" />
     <Compile Include="Geometry\Reparametrize.cs" />
