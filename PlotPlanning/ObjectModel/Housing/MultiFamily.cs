@@ -8,7 +8,6 @@ namespace PlotPlanning.ObjectModel
     {
 
         #region Properties
-        public Brep Geometry { get; set; } = new Brep();
         public int Floors { get; set; } = 1;
         public double Thickness { get; set; } = 0;
         public double LevelHeight { get; set; } = 3;

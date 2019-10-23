@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using System.Linq;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -116,23 +117,31 @@ namespace PlotPlanning.Components
             house.GardenBound = garden.ToPolyline();
             house.AccessPoint = accessPt;
 
-            //Create geometry
-            Brep[] b = Engine.Geometry.Compute.Sweep(centreCrv, thickness);
+            //Create geometry. 
+            Brep[] b = Engine.Geometry.Compute.Sweep(centreCrv, thickness, 2);
 
-            //Join all brep edges
-            Curve[] boundary = Curve.JoinCurves(b[0].Curves3D);
-            List<Brep> brepList = new List<Brep>();
+            //Get and join all brep edges
+            Curve[] En = b[0].DuplicateNakedEdgeCurves(true, true);
+            Curve[] bound = Curve.JoinCurves(En);
 
-            for (int i = 0; i < boundary.Length; i++)
+            // TODO: make sure all the bounding curves are clockwise. This is to ensure extrution in the correct diection
+           // For now I used a neg sign before extrution height.... 
+            Extrusion ex = Extrusion.Create(bound[0], -levelHeight * floors, true);
+
+            if (centreCrv.IsClosed)
             {
-                Brep br = Extrusion.CreateExtrusion(boundary[i], Vector3d.ZAxis * levelHeight * floors).ToBrep().CapPlanarHoles(ObjectModel.Tolerance.Distance);
-                brepList.Add(br);
+                //Sort profiles by length. The longer curve will be the outer profile. The shorter the inner.
+                Curve innerCrv = bound.ToList().OrderBy(x => x.GetLength()).First();
+                Extrusion exInner = Extrusion.Create(innerCrv, levelHeight * floors, true);
+                Brep[] diff = Brep.CreateBooleanDifference(ex.ToBrep(), exInner.ToBrep(), ObjectModel.Tolerance.Distance);
+                house.HouseGeom = diff[0];
             }
+            else
+                house.HouseGeom = ex.ToBrep();
 
-            house.Geometry = brepList[0];
 
-           //Set data
-           DA.SetData(0, house);
+            //Set data
+            DA.SetData(0, house);
         }
 
         #endregion
