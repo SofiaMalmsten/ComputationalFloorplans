@@ -66,8 +66,10 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Adjust\Translate.cs" />
     <Compile Include="Components\Adjust\Move.cs" />
     <Compile Include="Components\Adjust\ProjectToTopo.cs" />
+    <Compile Include="Components\Evaluate\StreetInclination.cs" />
     <Compile Include="Components\Evaluate\GreenArea.cs" />
     <Compile Include="Components\Evaluate\StreetArea.cs" />
     <Compile Include="Components\Evaluate\MassCalculations.cs" />
@@ -77,7 +79,11 @@
     <Compile Include="Components\Generate\Street\GenerateStreetNetwork.cs" />
     <Compile Include="Components\Generate\Street\Roads.cs" />
     <Compile Include="Components\Generate\Street\VoronoiPoints.cs" />
+    <Compile Include="Components\Generate\Roads.cs" />
+    <Compile Include="Components\Objects\Staircase - Copy.cs" />
     <Compile Include="Components\Objects\Street.cs" />
+    <Compile Include="Components\Testing\GetClosestValue.cs" />
+    <Compile Include="Components\Testing\PointsOnCurve.cs" />
     <Compile Include="Components\Testing\AttractTo.cs" />
     <Compile Include="Components\Testing\MoveInside.cs" />
     <Compile Include="Components\Testing\ConcaveHull2D.cs" />

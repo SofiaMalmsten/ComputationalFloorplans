@@ -21,7 +21,9 @@ namespace PlotPlanning.Engine.Base
             {
                 for (int i = 0; i < possibleValues.Count - 1; i++)
                 {
-                    if (valueToCheck > possibleValues[i] && valueToCheck < possibleValues[i + 1])
+                    if (valueToCheck == possibleValues[i])
+                        displacement = possibleValues[i];
+                    else if (valueToCheck > possibleValues[i] && valueToCheck < possibleValues[i + 1])
                     {
                         double halfDistance = (possibleValues[i + 1] - possibleValues[i]) / 2;
                         double difference = possibleValues[i] + halfDistance;

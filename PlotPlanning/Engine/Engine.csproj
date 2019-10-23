@@ -99,6 +99,7 @@
     <Compile Include="PlotMethods\Street\ConnectSubgraphs.cs" />
     <Compile Include="PlotMethods\Street\CullSegments.cs" />
     <Compile Include="PlotMethods\Street\VoronoiPoints.cs" />
+    <Compile Include="PlotMethods\StreetInclination.cs" />
     <Compile Include="PlotMethods\Move.cs" />
     <Compile Include="Geometry\Normalize.cs" />
     <Compile Include="Geometry\OffsetOut.cs" />
