@@ -11,6 +11,8 @@ namespace PlotPlanning.ObjectModel
         public bool HasCarPort { get; set; } = false;
         public Vector3d Orientation { get; set; } = new Vector3d();
         public string RowPosition { get; set; } = "";
+        public double Front { get; set; } = 0;
+        public double Back { get; set; } = 0; 
 
         #endregion
 

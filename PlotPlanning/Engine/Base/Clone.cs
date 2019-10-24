@@ -44,6 +44,8 @@ namespace PlotPlanning.Engine.Base
                 Offset = house.Offset,
                 RowPosition = house.RowPosition,
                 MidPoint = house.MidPoint.Clone(),
+                Front = house.Front,
+                Back = house.Back            
             };
         }
 

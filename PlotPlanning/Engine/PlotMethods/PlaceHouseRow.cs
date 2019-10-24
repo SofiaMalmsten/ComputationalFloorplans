@@ -4,6 +4,7 @@ using Rhino.Geometry;
 using System.Linq;
 using PlotPlanning.ObjectModel;
 using PlotPlanning.Engine.Geometry;
+using PlotPlanning.Engine.Base; 
 
 
 namespace PlotPlanning.Methods
@@ -43,13 +44,45 @@ namespace PlotPlanning.Methods
             //3. Place houses for each position
             for (int i = 0; i < possiblePts.Count; i++)
             {
-                SingleFamily movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
-                if (i == 0) movedHouse.RowPosition = "left";
+                SingleFamily movedHouse = new SingleFamily(); 
+                if (houseList.Count == 0)
+                {
+                    SingleFamily rightHouse = baseHouse.Clone(); 
+                    string type = baseHouse.Type.Replace("M", "R");
+                    (Brep newHouseGeometry, Point3d referencePoint, Rectangle3d garden) = ReadGeometry.ReadAllHouseGeometry(type);
+                    garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, baseHouse.Front, baseHouse.Back);
+                    rightHouse.GardenBound = garden.ToPolyline();
+                    rightHouse.AccessPoint = garden.Corner(1);
+                    rightHouse.HouseGeom = newHouseGeometry;
+                    rightHouse.RowPosition = "right";
+                    rightHouse.Type = type;
+                    movedHouse = Adjust.Translate(rightHouse, possiblePts[i], currLine.Direction);
+                }
+                else
+                {
+                    movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
+                }
 
                 if (Query.IsInside(movedHouse, bound)) //TODO: Include carport
                     houseList.Add(movedHouse);
-                else if (houseList.Count != 0) //already places houses
+                if (houseList.Count != 0 && (!Query.IsInside(movedHouse, bound) || i == possiblePts.Count-1)) //already places houses
+                {
+                    if (!Query.IsInside(movedHouse, bound))
+                        houseList.RemoveAt(i - 1); 
+                    SingleFamily leftHouse = baseHouse.Clone();
+                    string type = baseHouse.Type.Replace("M", "L");
+                    (Brep newHouseGeometry, Point3d referencePoint, Rectangle3d garden) = ReadGeometry.ReadAllHouseGeometry(type);
+                    garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, baseHouse.Front, baseHouse.Back);
+                    leftHouse.GardenBound = garden.ToPolyline();
+                    leftHouse.AccessPoint = garden.Corner(1);
+                    leftHouse.HouseGeom = newHouseGeometry;
+                    leftHouse.RowPosition = "left";
+                    leftHouse.Type = type;
+                    movedHouse = Adjust.Translate(leftHouse, possiblePts[i], currLine.Direction);
+                    houseList.Add(movedHouse); 
                     break;
+                }
+                    
 
                 if (movedHouse.HasCarPort)
                 {

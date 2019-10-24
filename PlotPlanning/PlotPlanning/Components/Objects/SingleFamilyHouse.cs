@@ -59,14 +59,12 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("type", "T", "house type", GH_ParamAccess.item, "");
-            pManager.AddBooleanParameter("carport", "C", "has car port", GH_ParamAccess.item, false);
-            pManager.AddRectangleParameter("gardenBound", "G", "gardenBound", GH_ParamAccess.item);
-            pManager.AddBrepParameter("houseGeom", "H", "houseGeom", GH_ParamAccess.item);
-            pManager[3].Optional = true;
-            pManager.AddPointParameter("accessPoint", "P", "accessPoint", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("carport", "C", "has car port", GH_ParamAccess.item, false); 
             pManager.AddIntegerParameter("minAmount", "minA", "minAmount in a row of houses", GH_ParamAccess.item, 1);
             pManager.AddIntegerParameter("maxAmount", "maxA", "max amount in a row of houses (1 means free standing)", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("offset", "O", "buffer distance", GH_ParamAccess.item, 1); 
+            pManager.AddIntegerParameter("offset", "O", "buffer distance", GH_ParamAccess.item, 1);
+            pManager.AddNumberParameter("frontyard", "f", "front yard", GH_ParamAccess.item, 0);
+            pManager.AddNumberParameter("backyard", "b", "back yard", GH_ParamAccess.item, 0);
 
         }
 
@@ -75,7 +73,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SingleFamilyHouse", "S", "SFH", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SingleFamilyHouse", "S", "SFH", GH_ParamAccess.list);
         }
 
         #endregion
@@ -92,38 +90,51 @@ namespace PlotPlanning.Components
             //Create class instances
             string type = "";
             bool carport = false;
-            Rectangle3d gardenBound = new Rectangle3d();
-            Brep houseGeom = null; 
-            Point3d accessPoint = new Point3d();
             int minAmount = 1;
-            int maxAmount = 999;
+            int maxAmount = int.MaxValue;
             int offset = 1;
+            double front = 0;
+            double back = 0; 
            
             //Get Data
             if (!DA.GetData(0, ref type))
                 return;
             if (!DA.GetData(1, ref carport))
                 return;
-            if (!DA.GetData(2, ref gardenBound))
+            if (!DA.GetData(2, ref minAmount))
                 return;
-            DA.GetData(3, ref houseGeom); 
-               // return;
-            if (!DA.GetData(4, ref accessPoint))
+            if (!DA.GetData(3, ref maxAmount))
                 return;
-            if (!DA.GetData(5, ref minAmount))
+            if (!DA.GetData(4, ref offset))
                 return;
-            if (!DA.GetData(6, ref maxAmount))
+            if (!DA.GetData(5, ref front))
                 return;
-            if (!DA.GetData(7, ref offset))
+            if (!DA.GetData(6, ref back))
                 return;
 
             //Set properties
-            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily(type, carport, gardenBound.ToPolyline(), houseGeom, accessPoint, minAmount, maxAmount, offset);
-            if (house.HouseGeom == null) house.HouseGeom = ReadGeometry.ReadHouseGeometry(type); 
-            
+            List<PlotPlanning.ObjectModel.SingleFamily> houses = new List<ObjectModel.SingleFamily>(); 
+            if(minAmount == 1 || minAmount == 0)
+            {                
+                (Brep houseGeometry, Point3d referencePoint, Rectangle3d garden) = PlotPlanning.Engine.Base.ReadGeometry.ReadAllHouseGeometry(type + "S");
+                garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back); 
+                PlotPlanning.ObjectModel.SingleFamily freestanding = new PlotPlanning.ObjectModel.SingleFamily(type + "S", carport, garden.ToPolyline(), houseGeometry, garden.Corner(1), 1, 1, offset);
+                freestanding.Front = front; 
+                freestanding.Back = back; 
+                houses.Add(freestanding); 
+            }
+            if(maxAmount > 1)
+            {
+                (Brep houseGeometry, Point3d referencePoint, Rectangle3d garden) = PlotPlanning.Engine.Base.ReadGeometry.ReadAllHouseGeometry(type + "M");
+                garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
+                PlotPlanning.ObjectModel.SingleFamily rowHouse = new PlotPlanning.ObjectModel.SingleFamily(type + "M", carport, garden.ToPolyline(), houseGeometry, garden.Corner(1), 3, maxAmount, offset);
+                rowHouse.Front = front;
+                rowHouse.Back = back; 
+                houses.Add(rowHouse); 
+            }       
 
             //Set data
-            DA.SetData(0, house);
+            DA.SetDataList(0, houses);
         }
 
         #endregion
