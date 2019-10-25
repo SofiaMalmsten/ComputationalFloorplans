@@ -135,7 +135,7 @@ namespace PlotPlanning.Components
             else method = "random";
 
 
-            HouseRow outRow = new HouseRow();
+            List<HouseRow> outRows = new List<HouseRow>(); 
             List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
             Random random = new Random(seed);
             Curve originalBound = bound;
@@ -152,7 +152,7 @@ namespace PlotPlanning.Components
 
                 (HouseRow, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = Methods.Generate.PlaceHouseRow(rows, c, originalBound, roads, random, method, carport);
 
-                outRow = objectTuple.Item1;
+                outRows.Add(objectTuple.Item1);
                 boundList.AddRange(objectTuple.Item2);
                 carports.AddRange(objectTuple.Item3);
                 if (boundList.Count == 0) break;
@@ -160,8 +160,9 @@ namespace PlotPlanning.Components
 
             List<Curve> newRegions = boundList;
 
+            outRows = outRows.Where(x => x.Houses.Count != 0).ToList(); 
             //Set data for the outputs
-            DA.SetData(0, outRow);
+            DA.SetDataList(0, outRows);
             DA.SetDataList(1, newRegions);
             DA.SetDataList(2, carports);
         }

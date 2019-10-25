@@ -122,7 +122,7 @@ namespace PlotPlanning.Components
             {
                 (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(type);
                 garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
-                ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, carport, garden, garden.PointAt(0),referencePoint, b, Vector3d.XAxis);
+                ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, carport, garden,referencePoint, garden.PointAt(1), b, Vector3d.YAxis);
                 row.Houses.Add(freestandingHouse); 
             }
 
@@ -133,7 +133,7 @@ namespace PlotPlanning.Components
                 {
                     (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(t);
                     garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
-                    ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, carport, garden, garden.PointAt(0), referencePoint, b, Vector3d.XAxis);
+                    ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, carport, garden, referencePoint, garden.PointAt(1), b, Vector3d.YAxis);
                     row.Houses.Add(rowHouse); 
                 }             
             }
