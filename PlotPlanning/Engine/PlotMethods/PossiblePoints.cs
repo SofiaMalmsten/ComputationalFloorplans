@@ -10,7 +10,7 @@ namespace PlotPlanning.Methods
     {
         public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random, Carport carport) //TODO: we want to have carport as an optional parameter later
         {
-            Polyline houseGardenBoundary = house.GardenBound;
+            Polyline houseGardenBoundary = house.Garden;
             Point3d houseAccessPt = house.AccessPoint;
             bool hasCarPort = house.HasCarPort;
             double lineLength = line.Length;

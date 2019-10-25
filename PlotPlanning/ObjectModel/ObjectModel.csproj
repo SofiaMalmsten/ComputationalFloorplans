@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Base\Tolerance.cs" />
     <Compile Include="Housing\Appartment.cs" />
+    <Compile Include="Housing\HouseRow.cs" />
     <Compile Include="NonLivingUnits\Carport.cs" />
     <Compile Include="Site\Cell.cs" />
     <Compile Include="Housing\House.cs" />

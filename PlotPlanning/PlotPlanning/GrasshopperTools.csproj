@@ -79,7 +79,7 @@
     <Compile Include="Components\Generate\Street\GenerateStreetNetwork.cs" />
     <Compile Include="Components\Generate\Street\Roads.cs" />
     <Compile Include="Components\Generate\Street\VoronoiPoints.cs" />
-    <Compile Include="Components\Generate\Roads.cs" />
+    <Compile Include="Components\Objects\HouseRow.cs" />
     <Compile Include="Components\Objects\Staircase - Copy.cs" />
     <Compile Include="Components\Objects\Street.cs" />
     <Compile Include="Components\Testing\GetClosestValue.cs" />

@@ -14,7 +14,7 @@ namespace PlotPlanning.Methods
         public static Dictionary<string, double> MassBalance(SingleFamily house, Surface site, int divisions)
         {
             double tol = Tolerance.Distance;
-            Brep gardenBrep = Brep.CreatePlanarBreps(new[] { house.GardenBound.ToPolylineCurve() }, tol)[0];
+            Brep gardenBrep = Brep.CreatePlanarBreps(new[] { house.Garden.ToPolylineCurve() }, tol)[0];
             Surface gardenSrf = gardenBrep.Surfaces[0];
             double stackArea = AreaMassProperties.Compute(gardenSrf, true, false, false, false).Area/(divisions * divisions); 
             

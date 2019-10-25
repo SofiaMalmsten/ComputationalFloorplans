@@ -15,10 +15,9 @@ namespace PlotPlanning.Methods
             SingleFamily movedHouse = house.Clone();
             Transform t = Transform.Translation(vector); 
 
-            movedHouse.GardenBound.Transform(t);
-            movedHouse.HouseGeom.Transform(t);
+            movedHouse.Garden.Transform(t);
+            movedHouse.HouseGeometry.Transform(t);
             movedHouse.AccessPoint +=  new Point3d(vector);
-            movedHouse.MidPoint += new Point3d(vector);
 
             return movedHouse;
         }

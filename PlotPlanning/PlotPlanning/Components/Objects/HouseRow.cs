@@ -1,6 +1,4 @@
-﻿/*
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -24,8 +22,8 @@ namespace PlotPlanning.Components
         /// new tabs/panels will automatically be created.
         /// </summary>
         public HouseComponent()
-          : base("SingleFamilyHouse", "SFH",
-              "SingleFamilyHouse",
+          : base("HouseRow", "HouseRow",
+              "HouseRow",
               "PlotPlanningTool", "1.Objects")
         {
         }
@@ -62,13 +60,11 @@ namespace PlotPlanning.Components
         {
             pManager.AddTextParameter("type", "T", "house type", GH_ParamAccess.item, "");
             pManager.AddBooleanParameter("carport", "C", "has car port", GH_ParamAccess.item, false);
-            pManager.AddRectangleParameter("gardenBound", "G", "gardenBound", GH_ParamAccess.item);
-            pManager.AddBrepParameter("houseGeom", "H", "houseGeom", GH_ParamAccess.item);
-            pManager[3].Optional = true;
-            pManager.AddPointParameter("accessPoint", "P", "accessPoint", GH_ParamAccess.item);
             pManager.AddIntegerParameter("minAmount", "minA", "minAmount in a row of houses", GH_ParamAccess.item, 1);
             pManager.AddIntegerParameter("maxAmount", "maxA", "max amount in a row of houses (1 means free standing)", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("offset", "O", "buffer distance", GH_ParamAccess.item, 1); 
+            pManager.AddIntegerParameter("offset", "O", "buffer distance", GH_ParamAccess.item, 1);
+            pManager.AddNumberParameter("front", "f", "frontyard", GH_ParamAccess.item, 0);
+            pManager.AddNumberParameter("back", "b", "backyard", GH_ParamAccess.item, 0); 
 
         }
 
@@ -77,7 +73,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SingleFamilyHouse", "S", "SFH", GH_ParamAccess.item);
+            pManager.AddGenericParameter("houseRow", "R", "HouseRow", GH_ParamAccess.item);
         }
 
         #endregion
@@ -94,41 +90,61 @@ namespace PlotPlanning.Components
             //Create class instances
             string type = "";
             bool carport = false;
-            Rectangle3d gardenBound = new Rectangle3d();
-            Brep houseGeom = null; 
-            Point3d accessPoint = new Point3d();
             int minAmount = 1;
-            int maxAmount = 999;
-            int offset = 1;
+            int maxAmount = int.MaxValue;
+            int offset = 0;
+            int front = 0;
+            int back = 0; 
            
             //Get Data
             if (!DA.GetData(0, ref type))
                 return;
             if (!DA.GetData(1, ref carport))
                 return;
-            if (!DA.GetData(2, ref gardenBound))
+            if (!DA.GetData(2, ref minAmount))
                 return;
-            DA.GetData(3, ref houseGeom); 
-               // return;
-            if (!DA.GetData(4, ref accessPoint))
+            if (!DA.GetData(3, ref maxAmount))
                 return;
-            if (!DA.GetData(5, ref minAmount))
+            if (!DA.GetData(4, ref offset))
                 return;
-            if (!DA.GetData(6, ref maxAmount))
+            if (!DA.GetData(5, ref front))
                 return;
-            if (!DA.GetData(7, ref offset))
+            if (!DA.GetData(6, ref back))
                 return;
 
             //Set properties
-            PlotPlanning.ObjectModel.SingleFamily house = new ObjectModel.SingleFamily(type, carport, gardenBound.ToPolyline(), houseGeom, accessPoint, minAmount, maxAmount, offset);
-            if (house.HouseGeom == null) house.HouseGeom = ReadGeometry.ReadHouseGeometry(type); 
-            
+            ObjectModel.HouseRow row = new ObjectModel.HouseRow();
+            Brep b = new Brep();
+            Point3d referencePoint = new Point3d();
+            Rectangle3d garden = new Rectangle3d(); 
+
+            if (type.Contains("S"))
+            {
+                (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(type);
+                garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
+                ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, carport, garden.ToPolyline(), garden.PointAt(1),referencePoint, b, Vector3d.XAxis);
+                row.Houses.Add(freestandingHouse); 
+            }
+
+            else if(type.Contains("R"))
+            {
+                String[] types = { type.Remove(type.Length - 1) + "R", type.Remove(type.Length - 1) + "M", type.Remove(type.Length - 1) + "L" };
+                foreach (string t in types)
+                {
+                    (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(t);
+                    garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
+                    ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, carport, garden.ToPolyline(), garden.PointAt(1), referencePoint, b, Vector3d.XAxis);
+                    row.Houses.Add(rowHouse); 
+                }             
+            }
+            row.MaxAmount = maxAmount;
+            row.MinAmount = minAmount;
+            row.Offset = offset;  
 
             //Set data
-            DA.SetData(0, house);
+            DA.SetData(0, row);
         }
 
         #endregion
     }
 }
-*/

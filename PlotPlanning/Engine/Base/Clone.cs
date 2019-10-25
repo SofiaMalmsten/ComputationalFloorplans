@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Rhino.Geometry;
+using System.Linq; 
 
 
 namespace PlotPlanning.Engine.Base
@@ -35,15 +36,24 @@ namespace PlotPlanning.Engine.Base
             {
                 Type = house.Type,
                 HasCarPort = house.HasCarPort,
-                GardenBound = house.GardenBound.Duplicate(),
-                HouseGeom = house.HouseGeom.Clone(),
+                Garden = house.Garden.Duplicate(),
+                HouseGeometry = house.HouseGeometry.Clone(),
                 Orientation = new Vector3d(house.Orientation),
                 AccessPoint = house.AccessPoint.Clone(),
-                MinAmount = house.MinAmount,
-                MaxAmount = house.MaxAmount,
-                Offset = house.Offset,
-                RowPosition = house.RowPosition,
-                MidPoint = house.MidPoint.Clone(),
+                ReferencePoint = house.ReferencePoint.Clone()
+            };
+        }
+
+        //====================================================================//
+
+        public static ObjectModel.HouseRow Clone(this ObjectModel.HouseRow row)
+        {
+            return new ObjectModel.HouseRow
+            {
+                Houses = row.Houses.Select(x => x.Clone()).ToList(),
+                Offset = row.Offset,
+                MinAmount = row.MinAmount, 
+                MaxAmount = row.MaxAmount
             };
         }
 
