@@ -41,7 +41,7 @@ namespace PlotPlanning.Methods
         public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = house.AccessPoint;
-            Line accessLine = Query.ClosestSegmentToPoint(basePt, house.GardenBound);
+            Line accessLine = Query.ClosestSegmentToPoint(basePt, house.Garden);
             Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
             SingleFamily movedHouse = house.Clone();
@@ -49,15 +49,16 @@ namespace PlotPlanning.Methods
             Transform t = Transform.Translation(Compute.CreateVector(basePt, boundPt));
             Transform r = Transform.Rotation(accessVec, tan, boundPt);
 
-            movedHouse.GardenBound.Transform(t);
-            movedHouse.GardenBound.Transform(r);
+            movedHouse.Garden.Transform(t);
+            movedHouse.Garden.Transform(r);
 
-            movedHouse.HouseGeom.Transform(t);
-            movedHouse.HouseGeom.Transform(r);
+            movedHouse.HouseGeometry.Transform(t);
+            movedHouse.HouseGeometry.Transform(r);
+
+            movedHouse.ReferencePoint.Transform(t);
+            movedHouse.ReferencePoint.Transform(r); 
 
             movedHouse.Orientation = Compute.CrossProduct(Vector3d.ZAxis, tan);
-
-            movedHouse.MidPoint = movedHouse.GardenBound.CenterPoint(); // add a real translation here maybe? 
             movedHouse.AccessPoint = boundPt;
 
             return movedHouse;

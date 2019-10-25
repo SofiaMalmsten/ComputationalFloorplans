@@ -100,7 +100,7 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //List<SingleFamily> houses = new List<SingleFamily>();
-            List<IHouse> houses = new List<IHouse>();
+            List<HouseRow> rows = new List<HouseRow>();
             Curve bound = new PolylineCurve();
             int itts = 1;
             int seed = 1;
@@ -109,7 +109,7 @@ namespace PlotPlanning.Components
             ObjectModel.Carport carport = new ObjectModel.Carport();
 
             //Get Data
-            if (!DA.GetDataList(0, houses))
+            if (!DA.GetDataList(0, rows))
                 return;
             if (!DA.GetData(1, ref bound))
                 return;
@@ -135,7 +135,7 @@ namespace PlotPlanning.Components
             else method = "random";
 
 
-            List<IHouse> houseList = new List<IHouse>();
+            HouseRow outRow = new HouseRow();
             List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
             Random random = new Random(seed);
             Curve originalBound = bound;
@@ -150,9 +150,9 @@ namespace PlotPlanning.Components
                 Curve c = boundList[idx];
                 boundList.RemoveAt(idx);
 
-                (List<IHouse>, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = Methods.Generate.IPlaceHouseRow(houses, c, originalBound, roads, random, method, carport);
+                (HouseRow, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = Methods.Generate.PlaceHouseRow(rows, c, originalBound, roads, random, method, carport);
 
-                houseList.AddRange(objectTuple.Item1);
+                outRow = objectTuple.Item1;
                 boundList.AddRange(objectTuple.Item2);
                 carports.AddRange(objectTuple.Item3);
                 if (boundList.Count == 0) break;
@@ -161,7 +161,7 @@ namespace PlotPlanning.Components
             List<Curve> newRegions = boundList;
 
             //Set data for the outputs
-            DA.SetDataList(0, houseList);
+            DA.SetData(0, outRow);
             DA.SetDataList(1, newRegions);
             DA.SetDataList(2, carports);
         }

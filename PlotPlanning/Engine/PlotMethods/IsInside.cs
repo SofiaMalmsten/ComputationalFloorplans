@@ -9,7 +9,7 @@ namespace PlotPlanning.Engine.Geometry
     {
         public static bool IsInside(ObjectModel.SingleFamily sfh, Curve bound)
         {
-            Curve garden = Curve.CreateControlPointCurve(sfh.GardenBound.ToList(), 1);
+            Curve garden = Curve.CreateControlPointCurve(sfh.Garden.ToList(), 1);
             return IsInside(garden, bound);
         }
 

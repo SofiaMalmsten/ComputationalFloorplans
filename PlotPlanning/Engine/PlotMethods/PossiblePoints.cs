@@ -8,11 +8,11 @@ namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
-        public static List<Point3d> PossiblePoints(Line line, SingleFamily house, Random random, Carport carport) //TODO: we want to have carport as an optional parameter later
+        public static List<Point3d> PossiblePoints(Line line, HouseRow row, Random random, Carport carport) //TODO: we want to have carport as an optional parameter later
         {
-            Polyline houseGardenBoundary = house.Garden;
-            Point3d houseAccessPt = house.AccessPoint;
-            bool hasCarPort = house.HasCarPort;
+            Polyline houseGardenBoundary = row.Houses[0].Garden;
+            Point3d houseAccessPt = row.Houses[0].AccessPoint;
+            bool hasCarPort = row.Houses[0].HasCarPort;
             double lineLength = line.Length;
 
             double houseWidth = Query.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
@@ -52,7 +52,7 @@ namespace PlotPlanning.Methods
                     currLength += cpWidth;
                 }
 
-                if (i == house.MaxAmount)
+                if (i == row.MaxAmount)
                     break;
             }
 
@@ -106,9 +106,10 @@ namespace PlotPlanning.Methods
         //============
 
         //Test for curves
-        public static List<Point3d> PossiblePoints(Curve crv, SingleFamily house)
+        public static List<Point3d> PossiblePoints(Curve crv, HouseRow row)
         {
-            Polyline houseGardenBoundary = house.GardenBound;
+            SingleFamily house = row.Houses[0]; 
+            Polyline houseGardenBoundary = house.Garden;
             Point3d houseAccessPt = house.AccessPoint;
             double crvLength = crv.GetLength();
             double houseWidth = Query.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
@@ -129,8 +130,8 @@ namespace PlotPlanning.Methods
                 //if the garden overlaps the previous garden the loop will break.
                 if (i != 0)
                 {
-                    Polyline prevGarden = Methods.Adjust.Translate(house, pointPos[i - 1], crv.TangentAt(tParam[i - 1])).GardenBound;
-                    Polyline currGarden = Methods.Adjust.Translate(house, pointPos[i], crv.TangentAt(tParam[i])).GardenBound;
+                    Polyline prevGarden = Methods.Adjust.Translate(house, pointPos[i - 1], crv.TangentAt(tParam[i - 1])).Garden;
+                    Polyline currGarden = Methods.Adjust.Translate(house, pointPos[i], crv.TangentAt(tParam[i])).Garden;
                     Curve[] overlap = Curve.CreateBooleanIntersection(prevGarden.ToPolylineCurve(), currGarden.ToPolylineCurve(), ObjectModel.Tolerance.Distance);
 
                     if (overlap != null && overlap.Length != 0 && AreaMassProperties.Compute(overlap[0]).Area >= 10)
@@ -142,7 +143,7 @@ namespace PlotPlanning.Methods
 
                 i++;
 
-                if (i == house.MaxAmount)
+                if (i == row.MaxAmount)
                     break;
 
 

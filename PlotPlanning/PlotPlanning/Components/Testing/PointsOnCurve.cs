@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Rhino.Geometry;
 using Grasshopper.Kernel;
+using PlotPlanning.ObjectModel; 
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -84,18 +85,18 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             List<Point3d> pts = new List<Point3d>();
-            ObjectModel.SingleFamily sfh = new ObjectModel.SingleFamily();
+            HouseRow row = new HouseRow(); 
             Curve crv = new PolylineCurve();
 
             //Get Data
-            if (!DA.GetData(0, ref sfh))
+            if (!DA.GetData(0, ref row))
                 return;
             if (!DA.GetData(1, ref crv))
                 return;
 
 
             //Calculate
-            pts = PlotPlanning.Methods.Generate.PossiblePoints(crv, sfh);
+            pts = PlotPlanning.Methods.Generate.PossiblePoints(crv, row);
 
             //Set data
             DA.SetDataList(0, pts);

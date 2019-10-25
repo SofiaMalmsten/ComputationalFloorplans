@@ -93,8 +93,8 @@ namespace PlotPlanning.Components
             int minAmount = 1;
             int maxAmount = int.MaxValue;
             int offset = 0;
-            int front = 0;
-            int back = 0; 
+            double front = 0;
+            double back = 0; 
            
             //Get Data
             if (!DA.GetData(0, ref type))
@@ -122,7 +122,7 @@ namespace PlotPlanning.Components
             {
                 (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(type);
                 garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
-                ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, carport, garden.ToPolyline(), garden.PointAt(1),referencePoint, b, Vector3d.XAxis);
+                ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, carport, garden, garden.PointAt(0),referencePoint, b, Vector3d.XAxis);
                 row.Houses.Add(freestandingHouse); 
             }
 
@@ -133,7 +133,7 @@ namespace PlotPlanning.Components
                 {
                     (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(t);
                     garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
-                    ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, carport, garden.ToPolyline(), garden.PointAt(1), referencePoint, b, Vector3d.XAxis);
+                    ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, carport, garden, garden.PointAt(0), referencePoint, b, Vector3d.XAxis);
                     row.Houses.Add(rowHouse); 
                 }             
             }

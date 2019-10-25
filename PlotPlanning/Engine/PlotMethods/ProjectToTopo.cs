@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using Rhino.Geometry;
 using PlotPlanning.ObjectModel;
@@ -12,24 +13,25 @@ namespace PlotPlanning.Methods
 {
     public static partial class Adjust
     {
-        public static List<SingleFamily> ProjectToTopo(List<SingleFamily> houseList, List<Brep> plot, List<double> possibleValues)
+        public static List<SingleFamily> ProjectToTopo(HouseRow row, List<Brep> plot, List<double> possibleValues)
         {
             
             List<SingleFamily> projectedHuses = new List<SingleFamily>();
             
-            for (int j = -1; j < houseList.Count-1;)
+            for (int j = -1; j < row.Houses.Count-1;)
             {
                 List<Point3d> accessPts = new List<Point3d>();
                 List<Point3d> planePts = new List<Point3d>();
                 List<Point3d> surfacePts = new List<Point3d>();
                 List<SingleFamily> currList = new List<SingleFamily>();
 
-                while (j < houseList.Count-1)
+                while (j < row.Houses.Count-1)
                 {
                     j++;
                     currList.Add(houseList[j]);                    
                     if (houseList[j].RowPosition == "right" || houseList[j].RowPosition == "freestanding") break;
                 }
+
                 accessPts = currList.Select(x => x.AccessPoint).ToList();
                 planePts = new List<Point3d>();
                 surfacePts = Intersection.ProjectPointsToBreps(plot, accessPts, Vector3d.ZAxis, Tolerance.Distance).ToList();
@@ -41,7 +43,6 @@ namespace PlotPlanning.Methods
                     planePt.Z = firstZ;
                     planePts.Add(planePt); 
                 }
-
                 
                 //If 1 m is a possible displacement we want to move the house either -1 or 1 depending on the topography
                 List<double> possibleVals = Modify.MirrorList(possibleValues);
@@ -60,5 +61,6 @@ namespace PlotPlanning.Methods
 
     }
 }
+*/
 
 

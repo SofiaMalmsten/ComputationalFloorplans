@@ -8,7 +8,7 @@ namespace PlotPlanning.Engine.Geometry
         public static Rectangle3d ExpandRectangle(Rectangle3d rec, double front, double back)
         {
             rec.MakeIncreasing();
-            Point3d pt1 = rec.Corner(0);
+            Point3d pt1 = rec.Corner(1);
             pt1 = new Point3d(pt1.X, pt1.Y - front, pt1.Z);
             Point3d pt2 = rec.Corner(3);
             pt2 = new Point3d(pt2.X, pt2.Y + back, pt2.Z);

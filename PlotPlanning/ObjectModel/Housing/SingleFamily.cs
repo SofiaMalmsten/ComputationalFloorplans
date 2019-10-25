@@ -14,7 +14,8 @@ namespace PlotPlanning.ObjectModel
         public Polyline Garden { get; set; } = new Polyline();
         public Point3d ReferencePoint { get; set; } = new Point3d();
         public Point3d AccessPoint { get; set; } = new Point3d();
-        public Brep HouseGeometry { get; set; } = new Brep(); 
+        public Brep HouseGeometry { get; set; } = new Brep();
+        public double Width { get; set; } = 0; 
 
         #endregion
 
@@ -23,15 +24,16 @@ namespace PlotPlanning.ObjectModel
 
         //====================================================================//
 
-        public SingleFamily(string type, bool hasCarPort, Polyline garden, Point3d referencePoint, Point3d accessPoint, Brep houseGeometry, Vector3d orientation)
+        public SingleFamily(string type, bool hasCarPort, Rectangle3d garden, Point3d referencePoint, Point3d accessPoint, Brep houseGeometry, Vector3d orientation)
         {
             Type = type;
             HasCarPort = hasCarPort;
-            Garden = garden;
+            Garden = garden.ToPolyline(); 
             ReferencePoint = referencePoint;
             AccessPoint = accessPoint;
             HouseGeometry = houseGeometry;
             Orientation = orientation;
+            Width = Math.Abs(garden.Corner(0).DistanceTo(garden.Corner(1))); 
         }
 
         #endregion
