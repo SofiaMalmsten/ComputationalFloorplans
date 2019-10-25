@@ -44,6 +44,7 @@ namespace PlotPlanning.Methods
             //3. Place houses for each position
             for (int i = 0; i < possiblePts.Count; i++)
             {
+                bool breakLoop = false; 
                 SingleFamily movedHouse = new SingleFamily(); 
                 if (houseList.Count == 0)
                 {
@@ -57,18 +58,20 @@ namespace PlotPlanning.Methods
                     rightHouse.RowPosition = "right";
                     rightHouse.Type = type;
                     movedHouse = Adjust.Translate(rightHouse, possiblePts[i], currLine.Direction);
+                    //houseList.Add(movedHouse);
+                     
                 }
                 else
-                {
                     movedHouse = Adjust.Translate(baseHouse, possiblePts[i], currLine.Direction);
-                }
 
-                if (Query.IsInside(movedHouse, bound)) //TODO: Include carport
-                    houseList.Add(movedHouse);
-                if (houseList.Count != 0 && (!Query.IsInside(movedHouse, bound) || i == possiblePts.Count-1)) //already places houses
+                bool inside = Query.IsInside(movedHouse, bound);
+
+                if (inside && i != possiblePts.Count - 1)
                 {
-                    if (!Query.IsInside(movedHouse, bound))
-                        houseList.RemoveAt(i - 1); 
+                    houseList.Add(movedHouse);                    
+                }
+                else if (inside && i == possiblePts.Count - 1)
+                {
                     SingleFamily leftHouse = baseHouse.Clone();
                     string type = baseHouse.Type.Replace("M", "L");
                     (Brep newHouseGeometry, Point3d referencePoint, Rectangle3d garden) = ReadGeometry.ReadAllHouseGeometry(type);
@@ -79,17 +82,34 @@ namespace PlotPlanning.Methods
                     leftHouse.RowPosition = "left";
                     leftHouse.Type = type;
                     movedHouse = Adjust.Translate(leftHouse, possiblePts[i], currLine.Direction);
-                    houseList.Add(movedHouse); 
-                    break;
+                    breakLoop = true; 
                 }
-                    
+                else
+                {
+                    if (houseList.Count != 0) houseList.RemoveAt(i - 1); 
+                    SingleFamily leftHouse = baseHouse.Clone();
+                    string type = baseHouse.Type.Replace("M", "L");
+                    (Brep newHouseGeometry, Point3d referencePoint, Rectangle3d garden) = ReadGeometry.ReadAllHouseGeometry(type);
+                    garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, baseHouse.Front, baseHouse.Back);
+                    leftHouse.GardenBound = garden.ToPolyline();
+                    leftHouse.AccessPoint = garden.Corner(1);
+                    leftHouse.HouseGeom = newHouseGeometry;
+                    leftHouse.RowPosition = "left";
+                    leftHouse.Type = type;
+                    movedHouse = Adjust.Translate(leftHouse, possiblePts[i - System.Convert.ToInt32(houseList.Count != 0)], currLine.Direction);
+                    breakLoop = true;
+                }
+                houseList.Add(movedHouse);
+                if (breakLoop) break; 
 
+                /*
                 if (movedHouse.HasCarPort)
                 {
                     i++;
                     Carport movedCarport = Adjust.Translate(carport, possiblePts[i], currLine.Direction);
                     carportList.Add(movedCarport);
                 }
+                */
             }
 
         end:
