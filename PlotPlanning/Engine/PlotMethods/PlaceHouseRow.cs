@@ -56,7 +56,8 @@ namespace PlotPlanning.Methods
                 {
                     createdHouseRow.Houses.RemoveAt(createdHouseRow.Houses.Count - 1);
                     movedHouse = Adjust.Translate(baseRow.Houses[2].Clone(), possiblePts[i - 1], currLine.Direction);
-                    createdHouseRow.Houses.Add(movedHouse);
+                    createdHouseRow.Houses.Add(Adjust.Translate(baseRow.Houses[2].Clone(), possiblePts[i-1], currLine.Direction));
+                    break; 
                 }
                 if (baseRow.Houses.Count == 1) break;
             }

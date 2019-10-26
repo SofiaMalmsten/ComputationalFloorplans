@@ -40,7 +40,8 @@ namespace PlotPlanning.Engine.Base
                 HouseGeometry = house.HouseGeometry.Clone(),
                 Orientation = new Vector3d(house.Orientation),
                 AccessPoint = house.AccessPoint.Clone(),
-                ReferencePoint = house.ReferencePoint.Clone()
+                ReferencePoint = house.ReferencePoint.Clone(),
+                Width = house.Width
             };
         }
 

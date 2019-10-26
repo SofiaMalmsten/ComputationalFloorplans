@@ -18,6 +18,7 @@ namespace PlotPlanning.Methods
             movedHouse.Garden.Transform(t);
             movedHouse.HouseGeometry.Transform(t);
             movedHouse.AccessPoint +=  new Point3d(vector);
+            movedHouse.ReferencePoint += new Point3d(vector); 
 
             return movedHouse;
         }

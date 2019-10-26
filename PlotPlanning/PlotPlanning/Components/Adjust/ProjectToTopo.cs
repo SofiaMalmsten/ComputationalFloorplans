@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
@@ -60,7 +60,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Houses", "H", "Houses that will be projected", GH_ParamAccess.list);
+            pManager.AddGenericParameter("House Row", "R", "Houses that will be projected", GH_ParamAccess.item);
             pManager.AddBrepParameter("Topography", "T", "Topography that the houses will be projected onto", GH_ParamAccess.list);
             pManager.AddNumberParameter("PossibleValues", "V", "Allowed values for vertical displacement between houses", GH_ParamAccess.list, new List<double>() { 0 });
         }
@@ -71,7 +71,7 @@ namespace PlotPlanning.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Houses", "H", "Projected houses", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Projected House row", "R", "The projected houes row on the topography", GH_ParamAccess.list);
         }
 
         #endregion
@@ -85,12 +85,12 @@ namespace PlotPlanning.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Create class instances
-            List<SingleFamily> houses = new List<SingleFamily>();
+            HouseRow row = new HouseRow(); 
             List<Brep> plot = new List<Brep>();
             List<double> possibleValues = new List<double>();
 
             //Get Data
-            if (!DA.GetDataList(0, houses))
+            if (!DA.GetData(0, ref row))
                 return;
             if (!DA.GetDataList(1, plot))
                 return;
@@ -98,10 +98,10 @@ namespace PlotPlanning.Components
                 return;
 
             //Calculate
-            List<SingleFamily> projectedHouses = Methods.Adjust.ProjectToTopo(houses, plot, possibleValues);
+            HouseRow projectedRow = Methods.Adjust.ProjectToTopo(row, plot, possibleValues);
            
             //Set data
-            DA.SetDataList(0, projectedHouses);
+            DA.SetData(0, projectedRow);
         }
 
         #endregion
@@ -110,4 +110,3 @@ namespace PlotPlanning.Components
 
 
 }
-*/
