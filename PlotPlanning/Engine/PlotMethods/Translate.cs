@@ -45,9 +45,15 @@ namespace PlotPlanning.Methods
             Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
             SingleFamily movedHouse = house.Clone();
+            Vector3d refVec = house.ReferencePoint - house.AccessPoint; 
 
             Transform t = Transform.Translation(Compute.CreateVector(basePt, boundPt));
             Transform r = Transform.Rotation(accessVec, tan, boundPt);
+
+            Point3d refPt = movedHouse.ReferencePoint.Clone(); 
+            refPt += Compute.CreateVector(basePt, boundPt);
+            refPt.Transform(r);
+            movedHouse.ReferencePoint = refPt; 
 
             movedHouse.Garden.Transform(t);
             movedHouse.Garden.Transform(r);
@@ -55,10 +61,7 @@ namespace PlotPlanning.Methods
             movedHouse.HouseGeometry.Transform(t);
             movedHouse.HouseGeometry.Transform(r);
 
-            movedHouse.ReferencePoint.Transform(t);
-            movedHouse.ReferencePoint.Transform(r); 
-
-            movedHouse.Orientation = Compute.CrossProduct(Vector3d.ZAxis, tan);
+            movedHouse.Orientation = Compute.CrossProduct(Vector3d.ZAxis, tan).Normalise();
             movedHouse.AccessPoint = boundPt;
 
             return movedHouse;
