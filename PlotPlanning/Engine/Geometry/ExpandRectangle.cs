@@ -16,6 +16,18 @@ namespace PlotPlanning.Engine.Geometry
 
             return expandedRectangle;
         }
+        //====================================================================//
+
+        public static Rectangle3d ExpandRectangleWidth(Rectangle3d rec, double width)
+        {
+            rec.MakeIncreasing();
+            Point3d pt1 = rec.Corner(1);
+            pt1 = new Point3d(pt1.X+width, pt1.Y, pt1.Z);
+            Point3d pt2 = rec.Corner(3);
+            Rectangle3d expandedRectangle = new Rectangle3d(new Plane(rec.Center, Vector3d.ZAxis), pt1, pt2);
+
+            return expandedRectangle;
+        }
 
         //====================================================================//
     }

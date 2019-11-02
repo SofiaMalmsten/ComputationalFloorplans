@@ -41,7 +41,8 @@ namespace PlotPlanning.Engine.Base
                 Orientation = new Vector3d(house.Orientation),
                 AccessPoint = house.AccessPoint.Clone(),
                 ReferencePoint = house.ReferencePoint.Clone(),
-                Width = house.Width
+                Width = house.Width,
+                Carport = house.Carport.Clone()
             };
         }
 
@@ -80,11 +81,15 @@ namespace PlotPlanning.Engine.Base
 
         public static ObjectModel.Carport Clone(this ObjectModel.Carport carport)
         {
+            if (carport == null) return null; 
             return new ObjectModel.Carport
             {
                 AccessPoint = carport.AccessPoint,
-                GardenBound = carport.GardenBound.Duplicate(),
-                CarportGeom = carport.CarportGeom.Clone(),
+                Garden = carport.Garden.Duplicate(),
+                CarportGeometry = carport.CarportGeometry.Clone(),
+                ReferencePoint = carport.ReferencePoint.Clone(),
+                Width = carport.Width
+                
             };
         }
 

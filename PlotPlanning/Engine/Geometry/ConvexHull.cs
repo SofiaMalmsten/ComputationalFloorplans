@@ -23,7 +23,7 @@ namespace PlotPlanning.Engine.Geometry
         }
 
         //====================================================================//
-        public static Polyline ConvexHull(List<Point3d> points)
+        public static Polyline ConvexHull(this List<Point3d> points)
         {
             List<Point3d> hull = new List<Point3d>();
             hull.Add(points[0]);

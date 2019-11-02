@@ -15,9 +15,9 @@ namespace PlotPlanning.Engine.Geometry
 
         //====================================================================//
 
-        public static bool IsInside(ObjectModel.Carport sfh, Curve bound)
+        public static bool IsInside(ObjectModel.Carport carport, Curve bound)
         {
-            Curve garden = Curve.CreateControlPointCurve(sfh.GardenBound.ToList(), 1);
+            Curve garden = Curve.CreateControlPointCurve(carport.Garden.ToList(), 1);
             return IsInside(garden, bound);
         }
 

@@ -18,7 +18,8 @@ namespace PlotPlanning.Methods
             movedHouse.Garden.Transform(t);
             movedHouse.HouseGeometry.Transform(t);
             movedHouse.AccessPoint +=  new Point3d(vector);
-            movedHouse.ReferencePoint += new Point3d(vector); 
+            movedHouse.ReferencePoint += new Point3d(vector);
+            movedHouse.Carport = Move(house.Carport, vector); 
 
             return movedHouse;
         }
@@ -40,14 +41,16 @@ namespace PlotPlanning.Methods
         }
 
         //====================================================================//
-        public static ObjectModel.Carport Move(Carport carport, Vector3d vector)
+        public static Carport Move(Carport carport, Vector3d vector)
         {
+            if (carport == null) return null; 
             Carport movedCarport = carport.Clone();
             Transform t = Transform.Translation(vector);
 
-            movedCarport.GardenBound.Transform(t);
-            movedCarport.CarportGeom.Transform(t);
+            movedCarport.Garden.Transform(t);
+            movedCarport.CarportGeometry.Transform(t);
             movedCarport.AccessPoint +=  new Point3d(vector);
+            movedCarport.ReferencePoint += new Point3d(vector); 
 
             return movedCarport;
         }

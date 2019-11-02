@@ -130,4 +130,7 @@
   <data name="A1S" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\A1S.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="carport1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\carport1.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

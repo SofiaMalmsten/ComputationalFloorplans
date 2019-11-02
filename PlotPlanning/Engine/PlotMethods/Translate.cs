@@ -38,14 +38,17 @@ namespace PlotPlanning.Methods
 
         //====================================================================//
 
-        public static ObjectModel.SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
+        public static SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
         {
             Point3d basePt = house.AccessPoint;
             Line accessLine = Query.ClosestSegmentToPoint(basePt, house.Garden);
             Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
             SingleFamily movedHouse = house.Clone();
-            Vector3d refVec = house.ReferencePoint - house.AccessPoint; 
+            Vector3d refVec = house.ReferencePoint - house.AccessPoint;
+
+            if (house.Carport != null)
+                movedHouse.Carport = Translate(house.Carport, boundPt, tan); 
 
             Transform t = Transform.Translation(Compute.CreateVector(basePt, boundPt));
             Transform r = Transform.Rotation(accessVec, tan, boundPt);
@@ -69,10 +72,11 @@ namespace PlotPlanning.Methods
 
         //====================================================================//
 
-        public static ObjectModel.Carport Translate(Carport carport, Point3d boundPt, Vector3d tan)
+        public static Carport Translate(Carport carport, Point3d boundPt, Vector3d tan)
         {
+            if (carport == null) return null; 
             Point3d basePt = carport.AccessPoint;
-            Line accessLine = Query.ClosestSegmentToPoint(basePt, carport.GardenBound);
+            Line accessLine = Query.ClosestSegmentToPoint(basePt, carport.Garden);
             Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
             Carport movedCarport = carport.Clone();
@@ -80,11 +84,16 @@ namespace PlotPlanning.Methods
             Transform t = Transform.Translation(Compute.CreateVector(basePt, boundPt));
             Transform r = Transform.Rotation(accessVec, tan, boundPt);
 
-            movedCarport.GardenBound.Transform(t);
-            movedCarport.GardenBound.Transform(r);
+            Point3d refPt = movedCarport.ReferencePoint.Clone();
+            refPt += Compute.CreateVector(basePt, boundPt);
+            refPt.Transform(r);
+            movedCarport.ReferencePoint = refPt;
 
-            movedCarport.CarportGeom.Transform(t);
-            movedCarport.CarportGeom.Transform(r);
+            movedCarport.Garden.Transform(t);
+            movedCarport.Garden.Transform(r);
+
+            movedCarport.CarportGeometry.Transform(t);
+            movedCarport.CarportGeometry.Transform(r);
 
             movedCarport.AccessPoint = boundPt;
 

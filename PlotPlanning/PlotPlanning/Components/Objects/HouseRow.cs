@@ -64,7 +64,7 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("maxAmount", "maxA", "max amount in a row of houses (1 means free standing)", GH_ParamAccess.item, 10);
             pManager.AddIntegerParameter("offset", "O", "buffer distance", GH_ParamAccess.item, 1);
             pManager.AddNumberParameter("front", "f", "frontyard", GH_ParamAccess.item, 0);
-            pManager.AddNumberParameter("back", "b", "backyard", GH_ParamAccess.item, 0); 
+            pManager.AddNumberParameter("back", "b", "backyard", GH_ParamAccess.item, 0);
 
         }
 
@@ -89,17 +89,17 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             string type = "";
-            bool carport = false;
+            bool hasCarport = false;
             int minAmount = 1;
             int maxAmount = int.MaxValue;
             int offset = 0;
             double front = 0;
-            double back = 0; 
+            double back = 0;
            
             //Get Data
             if (!DA.GetData(0, ref type))
                 return;
-            if (!DA.GetData(1, ref carport))
+            if (!DA.GetData(1, ref hasCarport))
                 return;
             if (!DA.GetData(2, ref minAmount))
                 return;
@@ -114,15 +114,27 @@ namespace PlotPlanning.Components
 
             //Set properties
             ObjectModel.HouseRow row = new ObjectModel.HouseRow();
-            Brep b = new Brep();
+            Brep houseGeometry = new Brep();
+            Brep carportGeometry = new Brep(); 
             Point3d referencePoint = new Point3d();
-            Rectangle3d garden = new Rectangle3d(); 
+            Rectangle3d houseGarden = new Rectangle3d();
+            Rectangle3d carportGarden = new Rectangle3d();
+            
+            ObjectModel.Carport carport = null;
+
+            if (hasCarport)
+            {
+                (carportGeometry, referencePoint, carportGarden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry("carport1");
+                carport = new ObjectModel.Carport(carportGarden, carportGeometry, referencePoint.Clone());
+            }
+            else carport = null; 
+
 
             if (type.Contains("S"))
             {
-                (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(type);
-                garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
-                ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, carport, garden,referencePoint, garden.PointAt(1), b, Vector3d.YAxis);
+                (houseGeometry, referencePoint, houseGarden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(type);
+                houseGarden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(houseGarden, front, back);
+                ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, hasCarport, houseGarden,referencePoint, houseGarden.PointAt(1), houseGeometry, Vector3d.YAxis, carport);
                 row.Houses.Add(freestandingHouse); 
             }
 
@@ -131,9 +143,9 @@ namespace PlotPlanning.Components
                 String[] types = { type.Remove(type.Length - 1) + "R", type.Remove(type.Length - 1) + "M", type.Remove(type.Length - 1) + "L" };
                 foreach (string t in types)
                 {
-                    (b, referencePoint, garden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(t);
-                    garden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(garden, front, back);
-                    ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, carport, garden, referencePoint, garden.PointAt(1), b, Vector3d.YAxis);
+                    (houseGeometry, referencePoint, houseGarden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(t);
+                    houseGarden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(houseGarden, front, back);
+                    ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, hasCarport, houseGarden, referencePoint, houseGarden.PointAt(1), houseGeometry, Vector3d.YAxis, carport);
                     row.Houses.Add(rowHouse); 
                 }             
             }

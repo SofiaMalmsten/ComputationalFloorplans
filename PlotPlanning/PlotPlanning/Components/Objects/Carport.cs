@@ -59,7 +59,7 @@ namespace PlotPlanning.Components
         {
             pManager.AddRectangleParameter("gardenBound", "G", "gardenBOund", GH_ParamAccess.item);
             pManager.AddBrepParameter("carportGeom", "C", "carportGeom", GH_ParamAccess.item);
-            pManager.AddPointParameter("accessPoint", "P", "accessPoint", GH_ParamAccess.item);
+            pManager.AddPointParameter("referencePoint", "P", "referencePoint", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -82,23 +82,20 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             Rectangle3d gardenBound = new Rectangle3d();
-            Brep carportGeom = new Brep();
-            Point3d accessPoint = new Point3d();
+            Brep carportGeometry = new Brep();
+            Point3d referencePoint = new Point3d();
 
             //Get Data
             if (!DA.GetData(0, ref gardenBound))
                 return;
-            if (!DA.GetData(1, ref carportGeom))
+            if (!DA.GetData(1, ref carportGeometry))
                 return;
-            if (!DA.GetData(2, ref accessPoint))
+            if (!DA.GetData(2, ref referencePoint))
                 return;
 
 
             //Set properties
-            PlotPlanning.ObjectModel.Carport carport = new ObjectModel.Carport();
-            carport.AccessPoint = accessPoint;
-            carport.CarportGeom = carportGeom;
-            carport.GardenBound = gardenBound.ToPolyline();
+            PlotPlanning.ObjectModel.Carport carport = new ObjectModel.Carport(gardenBound, carportGeometry, referencePoint); 
 
             //Set data
             DA.SetData(0, carport);

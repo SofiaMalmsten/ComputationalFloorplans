@@ -10,24 +10,25 @@ namespace PlotPlanning.Methods
     {
         public static List<Point3d> PossiblePoints(Line line, HouseRow row, Random random, Carport carport) //TODO: we want to have carport as an optional parameter later
         {
+
             Polyline houseGardenBoundary = row.Houses[0].Garden;
             Point3d houseAccessPt = row.Houses[0].AccessPoint;
             bool hasCarPort = row.Houses[0].HasCarPort;
             double lineLength = line.Length;
 
-            double houseWidth = Query.ClosestSegmentToPoint(houseAccessPt, houseGardenBoundary).Length;
+            double houseWidth = row.Houses[0].Width;
 
             Point3d startPt = line.From;
             Vector3d vec = (line.Direction) / lineLength;
             Vector3d husVec = vec * houseWidth;
 
-            Vector3d cpVec = new Vector3d();
-            double cpWidth = 0;
+            /*
             if (hasCarPort)
             {
-                cpWidth = Query.ClosestSegmentToPoint(carport.AccessPoint, carport.GardenBound).Length;
+                cpWidth = Query.ClosestSegmentToPoint(carport.AccessPoint, carport.Garden).Length;
                 cpVec = vec * cpWidth;
             }
+            */
 
             List<Point3d> pointPos = new List<Point3d>();
 
@@ -43,7 +44,7 @@ namespace PlotPlanning.Methods
                 pointPos.Add(currPt);
                 currLength += houseWidth;
                 i++;
-
+                /*
                 if (hasCarPort)
                 {
                     currLine = new Line(currPt, cpVec);
@@ -51,6 +52,7 @@ namespace PlotPlanning.Methods
                     pointPos.Add(currPt);
                     currLength += cpWidth;
                 }
+                */
 
                 if (i == row.MaxAmount)
                     break;
@@ -108,7 +110,7 @@ namespace PlotPlanning.Methods
         //Test for curves
         public static List<Point3d> PossiblePoints(Curve crv, HouseRow row)
         {
-            SingleFamily house = row.Houses[0]; 
+            SingleFamily house = row.Houses[0];
             Polyline houseGardenBoundary = house.Garden;
             Point3d houseAccessPt = house.AccessPoint;
             double crvLength = crv.GetLength();
