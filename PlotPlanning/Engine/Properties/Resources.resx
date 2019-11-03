@@ -130,6 +130,48 @@
   <data name="A1S" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\A1S.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="A2L" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\A2L.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="A2M" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\A2M.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="A2R" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\A2R.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="A2S" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\A2S.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="A3S" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\A3S.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B1L" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B1L.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B1M" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B1M.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B1R" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B1R.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B1S" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B1S.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B2L" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B2L.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B2M" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B2M.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B2R" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B2R.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B2S" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B2S.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="B3S" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B3S.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="carport1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\carport1.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
