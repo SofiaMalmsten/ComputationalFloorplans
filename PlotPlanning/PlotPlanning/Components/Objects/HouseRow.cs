@@ -136,7 +136,9 @@ namespace PlotPlanning.Components
                 (houseGeometry, referencePoint, houseGarden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(type);
                 houseGarden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(houseGarden, front, back);
                 ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, hasCarport, houseGarden,referencePoint, houseGarden.PointAt(1), houseGeometry, Vector3d.YAxis, carport);
-                houses.Add(freestandingHouse); 
+                houses.Add(freestandingHouse);
+                minAmount = 1;
+                maxAmount = 1;
             }
 
             else if(type.Contains("R"))
