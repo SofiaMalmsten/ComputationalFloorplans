@@ -66,7 +66,6 @@ namespace PlotPlanning.Components
             pManager.AddIntegerParameter("seed", "S", "seed", GH_ParamAccess.item, 1);
             pManager.AddIntegerParameter("method", "M", "random, shortest or longest", GH_ParamAccess.item, 1);
             pManager.AddCurveParameter("roads", "R", "roads", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.item);
 
             //add dropdown list for method input
             Param_Integer param = pManager[4] as Param_Integer;
@@ -86,7 +85,6 @@ namespace PlotPlanning.Components
         {
             pManager.AddGenericParameter("house", "H", "placed house footprints", GH_ParamAccess.list);
             pManager.AddCurveParameter("cell", "C", "region that's left after placing houses", GH_ParamAccess.list);
-            pManager.AddGenericParameter("carport", "C", "carport object", GH_ParamAccess.list);
         }
 
         #endregion
@@ -121,8 +119,7 @@ namespace PlotPlanning.Components
                 return;
             if (!DA.GetDataList(5, roads))
                 return;
-            if (!DA.GetData(6, ref carport))
-                return;
+            
 
             //set the method to the correct string
             string method = "";
@@ -136,7 +133,6 @@ namespace PlotPlanning.Components
 
 
             List<HouseRow> outRows = new List<HouseRow>(); 
-            List<ObjectModel.Carport> carports = new List<ObjectModel.Carport>();
             Random random = new Random(seed);
             Curve originalBound = bound;
 
@@ -150,11 +146,10 @@ namespace PlotPlanning.Components
                 Curve c = boundList[idx];
                 boundList.RemoveAt(idx);
 
-                (HouseRow, List<PolylineCurve>, List<ObjectModel.Carport>) objectTuple = Methods.Generate.PlaceHouseRow(rows, c, originalBound, roads, random, method, carport);
+                (HouseRow, List<PolylineCurve>) objectTuple = Methods.Generate.PlaceHouseRow(rows, c, originalBound, roads, random, method);
 
                 outRows.Add(objectTuple.Item1);
                 boundList.AddRange(objectTuple.Item2);
-                carports.AddRange(objectTuple.Item3);
                 if (boundList.Count == 0) break;
             }
 
@@ -164,7 +159,6 @@ namespace PlotPlanning.Components
             //Set data for the outputs
             DA.SetDataList(0, outRows);
             DA.SetDataList(1, newRegions);
-            DA.SetDataList(2, carports);
         }
 
         #endregion

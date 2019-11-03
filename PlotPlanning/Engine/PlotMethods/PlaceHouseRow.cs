@@ -12,9 +12,8 @@ namespace PlotPlanning.Methods
     public static partial class Generate
     {
 
-        public static (HouseRow, List<PolylineCurve>, List<Carport>) PlaceHouseRow(List<HouseRow> baseRows, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
-        {
-            List<Carport> carportList = new List<Carport>();
+        public static (HouseRow, List<PolylineCurve>) PlaceHouseRow(List<HouseRow> baseRows, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method)        {
+           
             List<PolylineCurve> cutBound = new List<PolylineCurve>();
 
             HouseRow baseRow = baseRows[random.Next(baseRows.Count)]; //1. pick house type to place
@@ -71,9 +70,8 @@ namespace PlotPlanning.Methods
 
                 cutBound = new List<PolylineCurve>() { bound.ToPolylineCurve() };
                 createdHouseRow = new HouseRow();
-                carportList = new List<Carport>();
             }
-            return (createdHouseRow, cutBound, carportList);
+            return (createdHouseRow, cutBound);
         }
 
         //====================================================================//
