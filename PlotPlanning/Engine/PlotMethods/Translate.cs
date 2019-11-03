@@ -40,7 +40,7 @@ namespace PlotPlanning.Methods
 
         public static SingleFamily Translate(SingleFamily house, Point3d boundPt, Vector3d tan)
         {
-            Point3d basePt = house.AccessPoint;
+            Point3d basePt = house.AccessPoint.Clone();
             Line accessLine = Query.ClosestSegmentToPoint(basePt, house.Garden);
             Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
@@ -65,7 +65,7 @@ namespace PlotPlanning.Methods
             movedHouse.HouseGeometry.Transform(r);
 
             movedHouse.Orientation = Compute.CrossProduct(Vector3d.ZAxis, tan).Normalise();
-            movedHouse.AccessPoint = boundPt;
+            movedHouse.AccessPoint = boundPt.Clone();
 
             return movedHouse;
         }
@@ -75,7 +75,7 @@ namespace PlotPlanning.Methods
         public static Carport Translate(Carport carport, Point3d boundPt, Vector3d tan)
         {
             if (carport == null) return null; 
-            Point3d basePt = carport.AccessPoint;
+            Point3d basePt = carport.AccessPoint.Clone();
             Line accessLine = Query.ClosestSegmentToPoint(basePt, carport.Garden);
             Vector3d accessVec = Compute.CreateVector(accessLine.To, accessLine.From);
 
@@ -95,7 +95,7 @@ namespace PlotPlanning.Methods
             movedCarport.CarportGeometry.Transform(t);
             movedCarport.CarportGeometry.Transform(r);
 
-            movedCarport.AccessPoint = boundPt;
+            movedCarport.AccessPoint = boundPt.Clone();
 
             return movedCarport;
         }

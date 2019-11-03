@@ -3,11 +3,40 @@ using System.Collections.Generic;
 using Rhino.Geometry;
 using PlotPlanning.ObjectModel;
 using PlotPlanning.Engine.Geometry;
+using System.Linq; 
 
 namespace PlotPlanning.Methods
 {
     public static partial class Generate
     {
+        public static List<Point3d> PossiblePoints(Line line, HouseRow row, Random random)
+        {
+            List<double> houseWidths = row.Houses.Select(x => x.Width).ToList();
+            if (houseWidths.Count > 1) houseWidths.RemoveAt(houseWidths.Count - 1); 
+            Point3d startPoint = line.From;
+            Vector3d direction = line.Direction.Normalise();            
+            double lineLength = line.Length;
+            double houseWidth = houseWidths.First();
+            double accumulatedLength = houseWidth; 
+
+            List<Point3d> accessPoints = new List<Point3d>() { startPoint };
+            
+            while (accumulatedLength < lineLength)
+            {
+                Point3d nextPoint = new Point3d(accessPoints.Last() + direction * houseWidth); 
+                accessPoints.Add(new Point3d(nextPoint));                
+                houseWidth = houseWidths.Last();
+                accumulatedLength += houseWidth;
+            }          
+
+            Vector3d move_vec = random.NextDouble() * (lineLength - accumulatedLength) * direction;
+            List<Point3d> move_pts = new List<Point3d>();
+            foreach (Point3d p in accessPoints) move_pts.Add(Point3d.Add(p, move_vec));
+
+            return move_pts;
+        }
+
+        //LEGACY CODE//
         public static List<Point3d> PossiblePoints(Line line, HouseRow row, Random random, Carport carport) //TODO: we want to have carport as an optional parameter later
         {
 
@@ -17,6 +46,9 @@ namespace PlotPlanning.Methods
             double lineLength = line.Length;
 
             double houseWidth = row.Houses[0].Width;
+            if (row.Houses.Count > 1)
+                houseWidth = row.Houses[1].Width;
+
 
             Point3d startPt = line.From;
             Vector3d vec = (line.Direction) / lineLength;
@@ -39,7 +71,11 @@ namespace PlotPlanning.Methods
 
             while (currLength < lineLength)
             {
-                currLine = new Line(currPt, husVec);
+                if (i == 0)
+                    currLine = new Line(currPt, (husVec / husVec.Length) * row.Houses[0].Width);
+                else
+                    currLine = new Line(currPt, husVec);
+
                 currPt = currLine.To;
                 pointPos.Add(currPt);
                 currLength += houseWidth;

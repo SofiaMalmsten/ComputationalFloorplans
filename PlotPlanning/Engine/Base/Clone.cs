@@ -50,12 +50,14 @@ namespace PlotPlanning.Engine.Base
 
         public static ObjectModel.HouseRow Clone(this ObjectModel.HouseRow row)
         {
+            if (row == null) return null; 
             return new ObjectModel.HouseRow
             {
                 Houses = row.Houses.Select(x => x.Clone()).ToList(),
                 Offset = row.Offset,
                 MinAmount = row.MinAmount, 
-                MaxAmount = row.MaxAmount
+                MaxAmount = row.MaxAmount,
+                widthDiff = row.widthDiff                
             };
         }
 

@@ -11,7 +11,8 @@ namespace PlotPlanning.ObjectModel
         public List<SingleFamily> Houses { get; set; } = new List<SingleFamily>();
         public int MinAmount { get; set; } = 1;
         public int MaxAmount { get; set; } = int.MaxValue;
-        public double Offset { get; set; } = 0; 
+        public double Offset { get; set; } = 0;
+        public double widthDiff { get; set; } = 0; 
         #endregion
 
         #region Constructors
@@ -25,6 +26,8 @@ namespace PlotPlanning.ObjectModel
             MinAmount = minAmount;
             MaxAmount = maxAmount;
             Offset = offset;
+            if (houses.Count > 1)
+                widthDiff = houses[1].Width - houses[0].Width; 
         }
 
         #endregion

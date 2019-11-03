@@ -119,6 +119,7 @@ namespace PlotPlanning.Components
             Point3d referencePoint = new Point3d();
             Rectangle3d houseGarden = new Rectangle3d();
             Rectangle3d carportGarden = new Rectangle3d();
+            List<ObjectModel.SingleFamily> houses = new List<ObjectModel.SingleFamily>(); 
             
             ObjectModel.Carport carport = null;
 
@@ -135,7 +136,7 @@ namespace PlotPlanning.Components
                 (houseGeometry, referencePoint, houseGarden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(type);
                 houseGarden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(houseGarden, front, back);
                 ObjectModel.SingleFamily freestandingHouse = new ObjectModel.SingleFamily(type, hasCarport, houseGarden,referencePoint, houseGarden.PointAt(1), houseGeometry, Vector3d.YAxis, carport);
-                row.Houses.Add(freestandingHouse); 
+                houses.Add(freestandingHouse); 
             }
 
             else if(type.Contains("R"))
@@ -146,12 +147,11 @@ namespace PlotPlanning.Components
                     (houseGeometry, referencePoint, houseGarden) = Engine.Base.ReadGeometry.ReadAllHouseGeometry(t);
                     houseGarden = PlotPlanning.Engine.Geometry.Convert.ExpandRectangle(houseGarden, front, back);
                     ObjectModel.SingleFamily rowHouse = new ObjectModel.SingleFamily(t, hasCarport, houseGarden, referencePoint, houseGarden.PointAt(1), houseGeometry, Vector3d.YAxis, carport);
-                    row.Houses.Add(rowHouse); 
+                    houses.Add(rowHouse); 
                 }             
             }
-            row.MaxAmount = maxAmount;
-            row.MinAmount = minAmount;
-            row.Offset = offset;  
+
+            row = new ObjectModel.HouseRow(houses, minAmount, maxAmount, offset); 
 
             //Set data
             DA.SetData(0, row);

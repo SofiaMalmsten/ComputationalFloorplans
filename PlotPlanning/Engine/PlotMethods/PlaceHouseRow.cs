@@ -14,7 +14,6 @@ namespace PlotPlanning.Methods
 
         public static (HouseRow, List<PolylineCurve>, List<Carport>) PlaceHouseRow(List<HouseRow> baseRows, Curve bound, Curve originalBound, List<Curve> roads, Random random, string method, Carport carport)
         {
-
             List<Carport> carportList = new List<Carport>();
             List<PolylineCurve> cutBound = new List<PolylineCurve>();
 
@@ -31,7 +30,8 @@ namespace PlotPlanning.Methods
 
             Line currLine = lines.PickLine(method, random, roads, originalBound);
             currLine.Extend(-Tolerance.FilletOffset, -Tolerance.FilletOffset);
-            List<Point3d> possiblePts = PossiblePoints(currLine, baseRow, random, carport);
+            List<Point3d> possiblePts = PossiblePoints(currLine, baseRow, random);          
+            
 
             //3. Place houses for each position
             for (int i = 0; i < possiblePts.Count; i++)
@@ -56,9 +56,10 @@ namespace PlotPlanning.Methods
                 {
                     createdHouseRow.Houses.RemoveAt(createdHouseRow.Houses.Count - 1);
                     movedHouse = Adjust.Translate(baseRow.Houses[2].Clone(), possiblePts[i - 1], currLine.Direction);
-                    createdHouseRow.Houses.Add(Adjust.Translate(baseRow.Houses[2].Clone(), possiblePts[i-1], currLine.Direction));
-                    break; 
+                    createdHouseRow.Houses.Add(movedHouse);
+                    break;
                 }
+                else if(i <possiblePts.Count-1) possiblePts[i + 1] += baseRow.widthDiff * currLine.Direction.Normalise(); 
                 if (baseRow.Houses.Count == 1) break;
             }
 
