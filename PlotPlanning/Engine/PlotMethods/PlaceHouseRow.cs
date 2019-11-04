@@ -40,7 +40,7 @@ namespace PlotPlanning.Methods
                 {
                     movedHouse = Adjust.Translate(baseRow.Houses[0].Clone(), possiblePts[i], currLine.Direction);
                 }
-                else if (i < possiblePts.Count - 1)
+                else if (i < possiblePts.Count - 1 && i < baseRow.MaxAmount)
                 {
                     movedHouse = Adjust.Translate(baseRow.Houses[1].Clone(), possiblePts[i], currLine.Direction);
                 }
@@ -49,9 +49,9 @@ namespace PlotPlanning.Methods
                     movedHouse = Adjust.Translate(baseRow.Houses[2].Clone(), possiblePts[i], currLine.Direction);
                 }
 
-                if (Query.IsInside(movedHouse, bound)) //TODO: Include carport
+                if (Query.IsInside(movedHouse, bound) && i < baseRow.MaxAmount) //TODO: Include carport
                     createdHouseRow.Houses.Add(movedHouse);
-                else if (createdHouseRow.Houses.Count != 0) //already places houses
+                else if (createdHouseRow.Houses.Count != 0 && i <= baseRow.MaxAmount) //already places houses
                 {
                     createdHouseRow.Houses.RemoveAt(createdHouseRow.Houses.Count - 1);
                     movedHouse = Adjust.Translate(baseRow.Houses[2].Clone(), possiblePts[i - 1], currLine.Direction);
