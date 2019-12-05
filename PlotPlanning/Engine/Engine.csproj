@@ -153,21 +153,6 @@
     <EmbeddedResource Include="Resources\A1S.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\A2L.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\A2M.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\A2R.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\A2S.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\A3S.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\B1L.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -178,33 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\B1S.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\B2L.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\B2M.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\B2R.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\B2S.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\B3S.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\C2M.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\C2R.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\C2S.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\C3S.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\C1L.txt" />
@@ -219,22 +177,7 @@
     <EmbeddedResource Include="Resources\C1S.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\C2L.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\carport1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\D2M.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\D2R.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\D2S.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\D3S.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\D1L.txt" />
@@ -249,12 +192,6 @@
     <EmbeddedResource Include="Resources\D1S.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\D2L.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\D31S.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\D31L.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -264,22 +201,16 @@
     <EmbeddedResource Include="Resources\D31R.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\E2L.txt" />
+    <EmbeddedResource Include="Resources\D31S.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\E2M.txt" />
+    <EmbeddedResource Include="Resources\F1L.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\E2R.txt" />
+    <EmbeddedResource Include="Resources\F1M.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\E1L.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\E1M.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\E1R.txt" />
+    <EmbeddedResource Include="Resources\F1R.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets')" />
