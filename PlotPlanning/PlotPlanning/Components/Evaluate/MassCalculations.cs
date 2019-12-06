@@ -59,7 +59,7 @@ namespace PlotPlanning.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("House", "H", "The house to evaluate.", GH_ParamAccess.item);
-            pManager.AddSurfaceParameter("Topography", "T", "The topography of the site to evaluate.", GH_ParamAccess.item);
+            pManager.AddMeshParameter("Topography", "T", "The topography of the site to evaluate. The mesh should have >10k faces to make it quick.", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Divisions", "D", "The resolution with which the calculation is made", GH_ParamAccess.item, 10); 
         }
 
@@ -84,7 +84,7 @@ namespace PlotPlanning.Components
         {
             //Create class instances
             ObjectModel.SingleFamily house = new ObjectModel.SingleFamily();
-            Surface site = null;
+            Mesh site = null;
             int divisions = 0; 
             
 
