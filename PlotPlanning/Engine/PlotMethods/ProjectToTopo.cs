@@ -45,8 +45,9 @@ namespace PlotPlanning.Methods
                 projectedHuses.Add(Move(currList[k], moveVec));
             }
 
-            row.Houses = projectedHuses;
-            return row;
+            HouseRow projectedHouseRow = row.Clone();
+            projectedHouseRow.Houses = projectedHuses;
+            return projectedHouseRow;
         }
 
         //====================================================================//

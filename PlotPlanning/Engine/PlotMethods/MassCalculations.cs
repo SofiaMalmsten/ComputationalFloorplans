@@ -43,7 +43,7 @@ namespace PlotPlanning.Methods
                 if (projectedPt != new Point3d())
                 {
                     if ((pt.Z - projectedPt.Z) > 0)
-                        fill += (pt.Z - projectedPt.Z);
+                        fill += (pt.Z - projectedPt.Z); 
                     else
                         cut += (projectedPt.Z - pt.Z);
                 }
